@@ -1,4 +1,4 @@
-# TesloShop
+# e-commerce
 
 1. Clonar el respoistorio
 2. Clonar el archivo .env.temaplte y renombrarlo a .env
