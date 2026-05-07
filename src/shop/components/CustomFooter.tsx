@@ -8,7 +8,7 @@ export const CustomFooter = () => {
           <div>
             <CustomLogo />
             <p className="text-sm text-muted-foreground">
-              Ropa inspirada en el diseño minimalista y la innovación de Tesla.
+              Unlock Worlds Beyond Imagination
             </p>
           </div>
           
@@ -44,7 +44,7 @@ export const CustomFooter = () => {
         </div>
         
         <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2026 Teslo Style. Todos los derechos reservados.</p>
+          <p>&copy; 2026 LoreVault Style. All rights reserved.</p>
         </div>
       </div>
     </footer>

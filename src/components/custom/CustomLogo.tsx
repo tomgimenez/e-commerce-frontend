@@ -4,11 +4,11 @@ interface Props {
   subtitle?: string;
 }
 
-export const CustomLogo = ({ subtitle = 'Shop' }: Props) => {
+export const CustomLogo = ({ subtitle = 'Market' }: Props) => {
   return (
     <Link to="/" className="flex items-center whitespace-nowrap align-middle">
       <span className="font-montserrat font-bold text-xl m-0 whitespace-nowrap">
-        Teslo |
+        LoreVault |
       </span>
       <p className="text-muted-foreground m-0 px-2 whitespace-nowrap">
         {subtitle}
