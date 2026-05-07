@@ -200,10 +200,6 @@ After deployment, verify your application:
 - `npm run preview` - Preview production build locally
 - `npm run lint` - Run ESLint
 
-## 📄 License
-
-This project is licensed under the MIT License.
-
 ## 🤝 Contributing
 
 For feature requests or bug reports, please create an issue in the repository.
