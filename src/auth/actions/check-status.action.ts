@@ -1,4 +1,4 @@
-import { tesloApi } from "@/api/tesloApi";
+import { backendApi } from "@/api/backendApi";
 import type { AuthResponse } from "../interfaces/auth.reponse";
 
 export const checkStatusAction = async (): Promise<AuthResponse> => {
@@ -7,7 +7,7 @@ export const checkStatusAction = async (): Promise<AuthResponse> => {
   if (!token) throw new Error('no token found');
 
   try {
-    const { data } = await tesloApi.get<AuthResponse>('/auth/check-status')
+    const { data } = await backendApi.get<AuthResponse>('/auth/check-status')
 
     localStorage.setItem('token', data.token);
 

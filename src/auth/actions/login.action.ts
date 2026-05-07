@@ -1,4 +1,4 @@
-import { tesloApi } from "@/api/tesloApi"
+import { backendApi } from "@/api/backendApi"
 import type { AuthResponse } from "../interfaces/auth.reponse";
 
 export const loginAction = async (
@@ -6,7 +6,7 @@ export const loginAction = async (
   password: string
 ): Promise<AuthResponse> => {
   try {
-    const { data } = await tesloApi.post<AuthResponse>('/auth/login', {
+    const { data } = await backendApi.post<AuthResponse>('/auth/login', {
       email,
       password
     });

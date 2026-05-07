@@ -1,5 +1,5 @@
 import { adaptProduct } from "@/adapters/product.adapter";
-import { tesloApi } from "@/api/tesloApi";
+import { backendApi } from "@/api/backendApi";
 import type { Product, ProductUI } from "@/interfaces/product.interface";
 
 export const getProductByIdAction = async (id: string): Promise<ProductUI> => {
@@ -21,7 +21,7 @@ export const getProductByIdAction = async (id: string): Promise<ProductUI> => {
     } as unknown as ProductUI;
   }
 
-  const { data } = await tesloApi.get<Product>(`/products/${id}`);
+  const { data } = await backendApi.get<Product>(`/products/${id}`);
   
   return adaptProduct(data);
 }

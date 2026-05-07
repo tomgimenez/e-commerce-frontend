@@ -1,5 +1,5 @@
 import { adaptProduct } from "@/adapters/product.adapter";
-import { tesloApi } from "@/api/tesloApi"
+import { backendApi } from "@/api/backendApi"
 import type { ProductsResponse, ProductsResponseUI } from "@/interfaces/products.response";
 
 interface Options {
@@ -16,7 +16,7 @@ export const getProductsAction = async (options: Options): Promise<ProductsRespo
 
   const { limit, offset, gender, sizes, minPrice, maxPrice, q } = options;
 
-  const { data } = await tesloApi.get<ProductsResponse>('/products', {
+  const { data } = await backendApi.get<ProductsResponse>('/products', {
     params: {
       limit, offset, gender, sizes, minPrice, maxPrice, q
     }

@@ -1,5 +1,5 @@
 import { adaptProduct } from "@/adapters/product.adapter";
-import { tesloApi } from "@/api/tesloApi";
+import { backendApi } from "@/api/backendApi";
 import type { Product, ProductUI } from "@/interfaces/product.interface";
 
 export const createUpdateProductAction = async (
@@ -21,7 +21,7 @@ export const createUpdateProductAction = async (
     imagesToSave.push(...newImagesNames);
   }
 
-  const { data } = await tesloApi<Product>({
+  const { data } = await backendApi<Product>({
     url: isCreating ? '/products' : `/products/${ id }`,
     method: isCreating ? 'POST' : 'PATCH',
     data: {
@@ -43,7 +43,7 @@ const uploadFiles = async (files: File[]) => {
     const formData = new FormData();
     formData.append('file', file);
 
-    const { data } = await tesloApi<FileUploadResponse>({
+    const { data } = await backendApi<FileUploadResponse>({
       url: '/files/product',
       method: 'POST',
       data: formData
