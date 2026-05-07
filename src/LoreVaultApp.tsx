@@ -25,7 +25,7 @@ const CheckAuthProvider = ({children}: PropsWithChildren) => {
   return children;
 }
 
-export const TesloShopApp = () => {
+export const LoreVaultApp = () => {
 
 
   return (

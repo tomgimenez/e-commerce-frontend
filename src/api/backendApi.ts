@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const tesloApi = axios.create({
+const backendApi = axios.create({
   baseURL: import.meta.env.VITE_API_URL
 });
 
-tesloApi.interceptors.request.use((config) => {
+backendApi.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
 
   if (token) {
@@ -14,4 +14,4 @@ tesloApi.interceptors.request.use((config) => {
   return config;
 })
 
-export { tesloApi }
+export { backendApi }
