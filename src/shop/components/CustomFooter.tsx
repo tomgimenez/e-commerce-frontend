@@ -4,7 +4,8 @@ export const CustomFooter = () => {
   return (
     <footer className="border-t py-12 px-4 lg:px-8 mt-16">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-8"> */}
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
           <div>
             <CustomLogo />
             <p className="text-sm text-muted-foreground">
@@ -12,7 +13,7 @@ export const CustomFooter = () => {
             </p>
           </div>
           
-          <div>
+          {/* <div>
             <h4 className="font-medium mb-4">Productos</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="#" className="hover:text-foreground">Camisetas</a></li>
@@ -40,12 +41,17 @@ export const CustomFooter = () => {
               <li><a href="#" className="hover:text-foreground">Carreras</a></li>
               <li><a href="#" className="hover:text-foreground">Prensa</a></li>
             </ul>
+          </div> */}
+
+          <div className="text-center text-sm text-muted-foreground flex items-center justify-end">
+            <p>&copy; 2026 LoreVault Style. All rights reserved.</p>
           </div>
+
         </div>
         
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+        {/* <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
           <p>&copy; 2026 LoreVault Style. All rights reserved.</p>
-        </div>
+        </div> */}
       </div>
     </footer>
   )

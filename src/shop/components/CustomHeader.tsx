@@ -1,18 +1,19 @@
-import { Search } from "lucide-react";
+import { useRef, useState, type KeyboardEvent } from "react";
+import { Link, useSearchParams } from "react-router";
+import { Gauge, LogOut, Search, ShoppingCart, User, X } from "lucide-react";
+
+import { useAuthStore } from "@/auth/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRef, type KeyboardEvent } from "react";
-import { Link, useParams, useSearchParams } from "react-router";
-import { cn } from "@/lib/utils";
 import { CustomLogo } from "@/components/custom/CustomLogo";
-import { useAuthStore } from "@/auth/store/auth.store";
 
 export const CustomHeader = () => {
 
   const [ searchParams, setSearchParams ] = useSearchParams();
-  const { gender } = useParams();
 
   const { authStatus, isAdmin, logout } = useAuthStore();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const query = searchParams.get('query') || '';
@@ -29,104 +30,132 @@ export const CustomHeader = () => {
       newSearchParams.set('query', query);
     }
 
-
     setSearchParams(newSearchParams);
   }
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (isSearchOpen) {
+      searchParams.delete('query');
+    }
+  };
   
-  return <header className="sticky top-0 z-50 w-full border-b backdrop-blur bg-slate-50">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+  return (
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
 
-          {/* Logo */}
-          <CustomLogo />
+        {/* Logo */}
+        <CustomLogo />
 
-          {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className={
-              cn(`text-sm font-medium transition-colors hover:text-primary`,
-                !gender ? 'underline underline-offset-4' : ''
-              )
-            }>
-              Todos
-            </Link>
-            <Link to="/gender/men" className={
-              cn(`text-sm font-medium transition-colors hover:text-primary`,
-                gender === 'men' ? 'underline underline-offset-4' : ''
-              )
-            }>
-              Hombres
-            </Link>
-            <Link to="/gender/women" className={
-              cn(`text-sm font-medium transition-colors hover:text-primary`,
-                gender === 'women' ? 'underline underline-offset-4' : ''
-              )
-            }>
-              Mujeres
-            </Link>
-            <Link to="/gender/kid" className={
-              cn(`text-sm font-medium transition-colors hover:text-primary`,
-                gender === 'kid' ? 'underline underline-offset-4' : ''
-              )
-            }>
-              Niños
-            </Link>
-          </nav>
+        {/* Search Bar - Desktop */}
+        <div className="relative flex-1 max-w-xl hidden md:block">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+          ref={inputRef}
+            type="search"
+            placeholder="Search for enchanted tomes..."
+            className="w-full pl-10 bg-secondary border-border placeholder:text-muted-foreground focus-visible:ring-primary"
+            defaultValue={query}
+            onKeyDown={handleSearch}
+          />
+        </div>
 
-          {/* Search and Cart */}
-          <div className="flex items-center space-x-4">
-            <div className="hidden md:flex items-center space-x-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  ref={inputRef}
-                  placeholder="Buscar productos..."
-                  className="pl-9 w-64 h-9 bg-white"
-                  onKeyDown={handleSearch}
-                  defaultValue={query}
-                />
-              </div>
+        {/* Mobile Search Expanded */}
+        {isSearchOpen && (
+          <div className="absolute inset-x-0 top-0 z-50 flex h-16 items-center gap-2 bg-background px-4 md:hidden">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                ref={inputRef}
+                type="search"
+                placeholder="Search for enchanted tomes..."
+                className="w-full pl-10 bg-secondary border-border placeholder:text-muted-foreground focus-visible:ring-primary"
+                defaultValue={query}
+                onKeyDown={handleSearch}
+              />
             </div>
-            
-            <Button variant="ghost" size="icon" className="md:hidden">
-              <Search className="h-5 w-5" />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleSearchToggle}
+              className="shrink-0 text-foreground hover:bg-secondary hover:text-primary"
+            >
+              <X className="h-5 w-5" />
+              <span className="sr-only">Close search</span>
             </Button>
-            
-            {
-              authStatus === 'not-authenticated' ? (
-                <Link to='/auth/login'>
-                  <Button
-                    variant='default'
-                    size='sm'
-                    className='ml-2'
-                  >
-                    Login
-                  </Button>
-                </Link>
-              ) : (
+          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          {/* Mobile Search Button */}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleSearchToggle}
+            className="md:hidden text-foreground hover:bg-secondary hover:text-primary"
+          >
+            <Search className="h-5 w-5" />
+            <span className="sr-only">Search</span>
+          </Button>
+
+          {/* Login Button */}
+          {
+            authStatus === 'not-authenticated' ? (
+              <Link to='/auth/login'>
                 <Button
-                  variant='outline'
-                  size='sm'
-                  className='ml-2'
+                  variant="outline"
+                  className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="hidden md:inline">Login</span>
+                </Button>
+
+              </Link>
+            ) : (
+
+              <Button
+                  variant="outline"
+                  className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
                   onClick={logout}
                 >
-                  Logout
+                  <LogOut className="h-5 w-5" />
+                  <span className="hidden md:inline">Logout</span>
                 </Button>
-              )
-            }
+            )
+          }
 
-            {isAdmin() && (
+          {/* Admin Button */}
+          {
+            isAdmin() && (
               <Link to='/admin'>
                 <Button
-                  variant='destructive'
-                  size='sm'
-                  className='ml-2'
+                  variant='default'
+                  className='md:h-8 md:w-auto md:px-3'
                 >
-                  Admin
+                  <Gauge className="h-5 w-5" />
+                  <span className="hidden md:inline">Admin</span>
                 </Button>
               </Link>
-            )}
-          </div>
+            )
+          }
+
+          {/* Cart Button */}
+          <Button
+            variant="outline"
+            className="relative border-border text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
+          >
+            <ShoppingCart className="h-5 w-5" />
+            <span className="hidden md:inline">Cart</span>
+            {/* {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                {cartCount}
+              </span>
+            )} */}
+          </Button>
         </div>
+
       </div>
-    </header>;
+    </header>
+  );
 };
