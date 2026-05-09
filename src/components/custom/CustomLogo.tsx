@@ -1,18 +1,22 @@
 import { Link } from "react-router"
 
 interface Props {
+  to?: string;
   subtitle?: string;
 }
 
-export const CustomLogo = ({ subtitle = 'Market' }: Props) => {
+export const CustomLogo = ({ to = '/', subtitle = 'Market' }: Props) => {
   return (
-    <Link to="/" className="flex items-center whitespace-nowrap align-middle">
-      <span className="font-montserrat font-bold text-xl m-0 whitespace-nowrap">
-        LoreVault |
-      </span>
-      <p className="text-muted-foreground m-0 px-2 whitespace-nowrap">
-        {subtitle}
-      </p>
+    <Link to={to} className="flex items-center gap-2 shrink-0">
+      <img src="./public/logo.png" alt="logo" className="h-10 w-10" />
+      <div className="hidden sm:block">
+        <h1 className="text-lg font-semibold tracking-tight text-foreground">
+          The LoreVault
+        </h1>
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground -mt-1 font-cinzel">
+          {subtitle}
+        </p>
+      </div>
     </Link>
   )
 }
