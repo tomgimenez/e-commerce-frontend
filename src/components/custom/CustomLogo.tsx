@@ -8,7 +8,7 @@ interface Props {
 export const CustomLogo = ({ to = '/', subtitle = 'Market' }: Props) => {
   return (
     <Link to={to} className="flex items-center gap-2 shrink-0">
-      <img src={`${import.meta.env.VITE_API_URL}/public/logo.png`} alt="logo" className="h-10 w-10" />
+      <img src="/logo.png" alt="logo" className="h-10 w-10" />
       <div className="hidden sm:block">
         <h1 className="text-lg font-semibold tracking-tight text-foreground">
           The LoreVault
