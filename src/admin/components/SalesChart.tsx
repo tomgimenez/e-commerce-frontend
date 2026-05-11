@@ -50,20 +50,20 @@ export const SalesChart = () => {
             <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="salesGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis 
                 dataKey="name" 
-                stroke="hsl(var(--muted-foreground))" 
+                stroke="var(--muted-foreground)" 
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
               />
               <YAxis 
-                stroke="hsl(var(--muted-foreground))" 
+                stroke="var(--muted-foreground)" 
                 fontSize={12}
                 tickLine={false}
                 axisLine={false}
@@ -71,10 +71,10 @@ export const SalesChart = () => {
               />
               <Tooltip 
                 contentStyle={{
-                  backgroundColor: "hsl(var(--card))",
-                  border: "1px solid hsl(var(--border))",
+                  backgroundColor: "var(--card)",
+                  border: "1px solid var(--border)",
                   borderRadius: "8px",
-                  color: "hsl(var(--foreground))"
+                  color: "var(--foreground)"
                 }}
                 // formatter={(value: number, name: string) => [
                 //   name === "sales" ? `$${value.toLocaleString()}` : value,
@@ -84,7 +84,7 @@ export const SalesChart = () => {
               <Area
                 type="monotone"
                 dataKey="sales"
-                stroke="hsl(var(--primary))"
+                stroke="var(--primary)"
                 strokeWidth={2}
                 fill="url(#salesGradient)"
               />
