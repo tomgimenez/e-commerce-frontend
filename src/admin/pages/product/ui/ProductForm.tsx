@@ -113,50 +113,50 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
             <Button variant="outline">
               <Link to="/admin/products" className="flex items-center gap-2">
                 <X className="w-4 h-4" />
-                Cancelar
+                Cancel
               </Link>
             </Button>
 
             <Button type="submit" disabled={isPending}>
               <SaveAll className="w-4 h-4" />
-              Guardar cambios
+              Save
             </Button>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Form */}
             <div className="lg:col-span-2 space-y-6">
               {/* Basic Information */}
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-6">
-                  Información del producto
+              <div className="rounded-xl shadow-lg border p-6">
+                <h2 className="text-xl font-semibold mb-6">
+                  Product Information
                 </h2>
 
                 <div className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Título del producto
+                    <label className="block text-sm font-medium mb-2">
+                      Title
                     </label>
                     <input
                       type="text"
                       {...register('title', {required: true})}
                       className={
-                        cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
+                        cn("w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
                           {
                             'border-red-500': errors.title
                           }
                         )}
-                      placeholder="Título del producto"
+                      placeholder="Title"
                     />
                     { errors.title && <p className="text-red-500">El titulo es requerido</p>}
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Precio ($)
+                      <label className="block text-sm font-medium mb-2">
+                        Price ($)
                       </label>
                       <input
                         type="number"
@@ -165,19 +165,19 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                           min: 1
                         })}
                         className={
-                        cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
+                        cn("w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
                           {
                             'border-red-500': errors.price
                           }
                         )}
-                        placeholder="Precio del producto"
+                        placeholder="Price"
                       />
                       { errors.price && <p className="text-red-500">El precio es requerido</p>}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-700 mb-2">
-                        Stock del producto
+                      <label className="block text-sm font-medium mb-2">
+                        Stock
                       </label>
                       <input
                         type="number"
@@ -186,7 +186,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                           min: 0
                         })}
                         className={
-                        cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
+                        cn("w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
                           {
                             'border-red-500': errors.stock
                           }
@@ -198,8 +198,8 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Slug del producto
+                    <label className="block text-sm font-medium mb-2">
+                      Slug
                     </label>
                     <input
                       type="text"
@@ -208,23 +208,23 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                         validate: (value) => !/\s/.test(value) || 'El slug no puede contener espacios en blanco'
                       })}
                       className={
-                        cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
+                        cn("w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
                           {
                             'border-red-500': errors.slug
                           }
                         )}
-                      placeholder="Slug del producto"
+                      placeholder="Slug"
                     />
                      { errors.slug && <p className="text-red-500">{errors.slug.message || 'El slug es requerido'}</p>}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Género del producto
+                    <label className="block text-sm font-medium mb-2">
+                      Gender
                     </label>
                     <select
                       {...register('gender')}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                     >
                       <option value="men">Hombre</option>
                       <option value="women">Mujer</option>
@@ -234,19 +234,19 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Descripción del producto
+                    <label className="block text-sm font-medium mb-2">
+                      Description
                     </label>
                     <textarea
                       {...register('description', {required: true})}
                       rows={5}
                       className={
-                        cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
+                        cn("w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
                           {
                             'border-red-500': errors.description
                           }
                         )}
-                      placeholder="Descripción del producto"
+                      placeholder="Description"
                     />
                     { errors.description && <p className="text-red-500">La descripcion es requerida</p>}
                   </div>
@@ -254,9 +254,9 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
               </div>
 
               {/* Sizes */}
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-6">
-                  Tallas disponibles
+              <div className="rounded-xl shadow-lg border p-6">
+                <h2 className="text-xl font-semibold mb-6">
+                  Categories
                 </h2>
 
                 <div className="space-y-4">
@@ -278,9 +278,9 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                     ))}
                   </div>
 
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-200">
-                    <span className="text-sm text-slate-600 mr-2">
-                      Añadir tallas:
+                  <div className="flex flex-wrap gap-2 pt-2 border-t">
+                    <span className="text-sm mr-2">
+                      Add categories:
                     </span>
                     {availableSizes.map((size) => (
                       <button
@@ -302,9 +302,9 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
               </div>
 
               {/* Tags */}
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-6">
-                  Etiquetas
+              <div className="rounded-xl shadow-lg border p-6">
+                <h2 className="text-xl font-semibold mb-6">
+                  Tags
                 </h2>
 
                 <div className="space-y-4">
@@ -326,7 +326,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                     ))}
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 items-center">
                     <input
                       ref={inputTagRef}
                       type="text"
@@ -338,12 +338,12 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                         }
                       }}
 
-                      placeholder="Añadir nueva etiqueta..."
-                      className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                      placeholder="Add tag..."
+                      className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                     />
                     <Button
                       onClick={addTag}
-                      className="px-4 py-2rounded-lg "
+                      className="px-4 py-5 rounded-lg "
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -355,9 +355,9 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Product Images */}
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-6">
-                  Imágenes del producto
+              <div className="rounded-xl shadow-lg border p-6">
+                <h2 className="text-xl font-semibold mb-6">
+                  Images
                 </h2>
 
                 {/* Drag & Drop Zone */}
@@ -383,22 +383,22 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                     <Upload className="mx-auto h-12 w-12 text-slate-400" />
                     <div>
                       <p className="text-lg font-medium text-slate-700">
-                        Arrastra las imágenes aquí
+                        Drag images here
                       </p>
                       <p className="text-sm text-slate-500">
-                        o haz clic para buscar
+                        or click to upload
                       </p>
                     </div>
                     <p className="text-xs text-slate-400">
-                      PNG, JPG, WebP hasta 10MB cada una
+                      PNG, JPG, WebP up to 10MB each
                     </p>
                   </div>
                 </div>
 
                 {/* Current Images */}
                 <div className="mt-6 space-y-3">
-                  <h3 className="text-sm font-medium text-slate-700">
-                    Imágenes actuales
+                  <h3 className="text-sm font-medium">
+                    Current Images
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
                     {product.images.map((image, index) => (
@@ -421,12 +421,12 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                   </div>
                 </div>
 
-                {/* Images to Load */}
+                {/* Images to upLoad */}
                 {
                   selectedFiles && (
                     <div className="mt-6 space-y-3">
                       <h3 className="text-sm font-medium text-slate-700">
-                        Imágenes por cargar
+                        Images to upload
                       </h3>
                       <div className="grid grid-cols-2 gap-3">
                         {
@@ -456,24 +456,24 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
               </div>
 
               {/* Product Status */}
-              <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-6">
-                <h2 className="text-xl font-semibold text-slate-800 mb-6">
-                  Estado del producto
+              <div className="rounded-xl shadow-lg border p-6">
+                <h2 className="text-xl font-semibold mb-6">
+                  Product Status
                 </h2>
 
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                    <span className="text-sm font-medium text-slate-700">
-                      Estado
+                  <div className="flex items-center justify-between p-3 rounded-lg">
+                    <span className="text-sm font-medium">
+                      Status
                     </span>
                     <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                      Activo
+                      Active
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                    <span className="text-sm font-medium text-slate-700">
-                      Inventario
+                  <div className="flex items-center justify-between p-3 rounded-lg">
+                    <span className="text-sm font-medium">
+                      Stock
                     </span>
                     <span
                       className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -485,27 +485,27 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                       }`}
                     >
                       {selectedStock > 5
-                        ? 'En stock'
+                        ? 'In stock'
                         : selectedStock > 0
-                        ? 'Bajo stock'
-                        : 'Sin stock'}
+                        ? 'Low stock'
+                        : 'Out of stock'}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                    <span className="text-sm font-medium text-slate-700">
-                      Imágenes
+                  <div className="flex items-center justify-between p-3 rounded-lg">
+                    <span className="text-sm font-medium">
+                      Images
                     </span>
                     <span className="text-sm text-slate-600">
-                      {product.images.length} imágenes
+                      {product.images.length} imqges
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                    <span className="text-sm font-medium text-slate-700">
+                  <div className="flex items-center justify-between p-3 rounded-lg">
+                    <span className="text-sm font-medium">
                       Tallas disponibles
                     </span>
-                    <span className="text-sm text-slate-600">
+                    <span className="text-sm">
                       {selectedSizes.length} tallas
                     </span>
                   </div>
