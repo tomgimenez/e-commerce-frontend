@@ -160,8 +160,6 @@ export const ProductsGrid = ({ products }: Props) => {
   // TODO : TEMPORAL
   const [sortBy] = useState("featured");
 
-  console.log(products);
-
   return (
     <>
       {/* Header */}
@@ -219,11 +217,11 @@ export const ProductsGrid = ({ products }: Props) => {
           ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
           : "space-y-4"
       }>
-        {productsMock.map((product) => (
-          <ProductCard key={product.id} {...product} />
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
-
+p
       {/* Load More */}
       {/* <div className="mt-10 text-center">
         <button className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-primary text-primary font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
