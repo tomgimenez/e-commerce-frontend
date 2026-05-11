@@ -1,51 +1,32 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { Book } from "@/interfaces/book.interface";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
 
 interface ProductCardProps {
-  id: string;
-  title: string;
-  author: string;
-  price: number;
-  originalPrice?: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  category: string;
-  isNew?: boolean;
-  isBestseller?: boolean;
+  product: Book ;
 }
 
-export const ProductCard = ({
-  title,
-  author,
-  price,
-  originalPrice,
-  rating,
-  reviews,
-  image,
-  category,
-  isNew,
-  isBestseller,
-}: ProductCardProps) => {
+export const ProductCard = ({ product }: ProductCardProps) => {
 
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const originalPrice = 100;
 
   const discount = originalPrice
-    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+    ? Math.round(((originalPrice - product.price) / originalPrice) * 100)
     : 0;
 
   return (
     <div className="group relative flex flex-col rounded-lg border border-border bg-card overflow-hidden transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5">
       {/* Badges */}
       <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
-        {isNew && (
+        {/* {product.isNew && (
           <Badge className="bg-accent text-accent-foreground text-[10px] font-medium">
             New
           </Badge>
-        )}
-        {isBestseller && (
+        )} */}
+        {product.attributes.isBestseller && (
           <Badge className="bg-primary text-primary-foreground text-[10px] font-medium">
             Bestseller
           </Badge>
@@ -77,8 +58,8 @@ export const ProductCard = ({
       {/* Image */}
       <div className="relative aspect-3/4 bg-secondary overflow-hidden">
         <img
-          src={image}
-          alt={title}
+          src={product.images[0].url}
+          alt={product.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
       </div>
@@ -87,16 +68,16 @@ export const ProductCard = ({
       <div className="flex flex-col flex-1 p-4">
         {/* Category */}
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
-          {category}
+          {product.categories[0].name}
         </span>
 
         {/* Title */}
         <h3 className="font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
-          {title}
+          {product.title}
         </h3>
 
         {/* Author */}
-        <p className="text-sm text-muted-foreground mb-2">{author}</p>
+        <p className="text-sm text-muted-foreground mb-2">{product.attributes.author}</p>
 
         {/* Rating */}
         <div className="flex items-center gap-1 mb-3">
@@ -105,7 +86,7 @@ export const ProductCard = ({
               <Star
                 key={i}
                 className={`h-3 w-3 ${
-                  i < Math.floor(rating)
+                  i < Math.floor(product.rating)
                     ? "fill-primary text-primary"
                     : "text-muted-foreground"
                 }`}
@@ -113,7 +94,7 @@ export const ProductCard = ({
             ))}
           </div>
           <span className="text-xs text-muted-foreground">
-            ({reviews})
+            ({product.reviews})
           </span>
         </div>
 
@@ -121,7 +102,7 @@ export const ProductCard = ({
         <div className="mt-auto flex items-center justify-between gap-2">
           <div className="flex items-baseline gap-2">
             <span className="text-lg font-semibold text-primary">
-              ${price.toFixed(2)}
+              ${product.price.toFixed(2)}
             </span>
             {originalPrice && (
               <span className="text-sm text-muted-foreground line-through">
