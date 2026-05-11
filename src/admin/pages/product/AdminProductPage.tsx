@@ -5,16 +5,15 @@ import { Navigate, useParams } from 'react-router';
 import { useProduct } from '@/admin/hooks/useProduct';
 import { CustomLoading } from '@/components/custom/CustomLoading';
 import { ProductForm } from './ui/ProductForm';
-// import type { Product } from '@/interfaces/product.interface';
 
 export const AdminProductPage = () => {
   const { id } = useParams();
 
-  const title = id === 'new' ? 'Nuevo producto' : 'Editar producto';
+  const title = id === 'new' ? 'Add product' : 'Edit product';
   const subtitle =
     id === 'new'
-      ? 'Aquí puedes crear un nuevo producto.'
-      : 'Aquí puedes editar el producto.';
+      ? 'Add a new product to your inventory.'
+      : 'Edit the details of your product and save the changes.';
 
   const {
     isLoading,
