@@ -126,7 +126,7 @@ export const AdminProductsPage = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground hidden md:table-cell">{product.gender}</TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">{/* {product.gender} */}</TableCell>
                   <TableCell className="font-medium text-foreground">{currencyFormatter(product.price)}</TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <span className={cn(
