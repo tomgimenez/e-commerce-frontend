@@ -5,6 +5,7 @@ import { useSearchParams } from "react-router"
 import { useState } from "react"
 import type { ProductUI } from "@/interfaces/product.interface"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import type { Book } from "@/interfaces/book.interface"
 
 interface Props {
   products: ProductUI[]
@@ -218,7 +219,7 @@ export const ProductsGrid = ({ products }: Props) => {
           : "space-y-4"
       }>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <ProductCard key={product.id} product={product as Book} />
         ))}
       </div>
 p
