@@ -103,8 +103,8 @@ export function LoginPage() {
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              src="/src/assets/placeholder.svg"
-              alt="Image"
+              src="/login.jpg"
+              alt="Login image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
             />
           </div>
