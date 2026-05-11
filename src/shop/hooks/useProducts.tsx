@@ -7,7 +7,7 @@ export const useProducts = () => {
   const [ searchParams ] = useSearchParams();
   const { gender } = useParams();
 
-  const limit = searchParams.get('limit') || 9;
+  const limit = searchParams.get('limit') || 8;
   const page = searchParams.get('page') || 1;
   const sizes = searchParams.get('sizes') || '';
   const filterPrices = searchParams.get('price') || 'any';
@@ -39,7 +39,7 @@ export const useProducts = () => {
   return useQuery({
     queryKey: ['products', { offset, limit, gender, sizes, minPrice, maxPrice, q}],
     queryFn: () => getProductsAction({
-      limit: isNaN(+limit) ? 9 : limit,
+      limit: isNaN(+limit) ? 8 : limit,
       offset: isNaN(offset) ? 0 : offset,
       gender: gender,
       sizes: sizes,
