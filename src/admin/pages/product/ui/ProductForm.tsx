@@ -5,10 +5,8 @@ import { useForm } from 'react-hook-form';
 
 import { AdminTitle } from "@/admin/components/AdminTitle"
 import { Button } from "@/components/ui/button";
-import type { ProductUI, Size } from "@/interfaces/product.interface";
+import type { ProductUI } from "@/interfaces/product.interface";
 import { cn } from "@/lib/utils";
-
-const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 interface Props {
   title: string;
@@ -42,7 +40,6 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
   const inputTagRef = useRef<HTMLInputElement>(null);
 
   // eslint-disable-next-line react-hooks/incompatible-library
-  const selectedSizes = watch('sizes');
   const selectedTags = watch('tags');
   const selectedStock = watch('stock');
   const selectedFiles = watch('files');
@@ -59,18 +56,6 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
     const tagSet = new Set( getValues('tags') );
     tagSet.delete(tag);
     setValue('tags', Array.from(tagSet));
-  };
-
-  const addSize = (size: Size) => {
-    const sizeSet = new Set( getValues('sizes') );
-    sizeSet.add(size);
-    setValue('sizes', Array.from(sizeSet));
-  };
-
-  const removeSize = (size: Size) => {
-    const sizeSet = new Set(getValues('sizes'));
-    sizeSet.delete(size);
-    setValue('sizes', Array.from(sizeSet));
   };
 
   const handleDrag = (e: React.DragEvent) => {
@@ -223,7 +208,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                       Gender
                     </label>
                     <select
-                      {...register('gender')}
+                      // {...register('gender')}
                       className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
                     >
                       <option value="men">Hombre</option>
@@ -261,7 +246,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
 
                 <div className="space-y-4">
                   <div className="flex flex-wrap gap-2">
-                    {selectedSizes.map((size) => (
+                    {/* {selectedSizes.map((size) => (
                       <span
                         key={size}
                         className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200"
@@ -275,14 +260,14 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                           <X className="h-3 w-3" />
                         </button>
                       </span>
-                    ))}
+                    ))} */}
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-2 border-t">
                     <span className="text-sm mr-2">
                       Add categories:
                     </span>
-                    {availableSizes.map((size) => (
+                    {/* {availableSizes.map((size) => (
                       <button
                         type="button"
                         key={size}
@@ -296,7 +281,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                       >
                         {size}
                       </button>
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </div>
@@ -506,7 +491,7 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                       Tallas disponibles
                     </span>
                     <span className="text-sm">
-                      {selectedSizes.length} tallas
+                      {/* {selectedSizes.length} */} tallas
                     </span>
                   </div>
                 </div>
