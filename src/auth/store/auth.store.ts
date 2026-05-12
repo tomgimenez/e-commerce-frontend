@@ -1,4 +1,4 @@
-import type { User } from '@/interfaces/user.interface';
+import type { Role, User } from '@/interfaces/user.interface';
 import { create } from 'zustand';
 import { loginAction } from '../actions/login.action';
 import { checkStatusAction } from '../actions/check-status.action';
@@ -27,8 +27,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
   isAdmin: () => {
     const roles = get().user?.roles || [];
-
-    return roles.includes('admin');
+    
+    return roles.some((role: Role) => (role.name === 'admin'))
   },
 
   login: async (email: string, password: string) => {
