@@ -1,6 +1,6 @@
 import type { ProductUI } from "./product.interface";
 
-export interface Book extends ProductUI {
+export type Book = Omit<ProductUI, 'productType' | 'attributes'> & {
   productType: {
     slug: 'book';
     name: 'Book';
@@ -14,4 +14,6 @@ interface BookAttributes {
   rating: number;
   reviews: number;
   isBestseller: boolean;
+  pages: string;
+  publisher: string;
 }
