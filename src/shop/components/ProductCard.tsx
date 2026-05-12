@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { Book } from "@/interfaces/book.interface";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 interface ProductCardProps {
   product: Book ;
@@ -73,7 +74,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
         {/* Title */}
         <h3 className="font-medium text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors">
-          {product.title}
+          <Link to={`/product/${product.id}`}>
+            {product.title}
+          </Link>
         </h3>
 
         {/* Author */}
