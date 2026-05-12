@@ -222,13 +222,7 @@ export const ProductsGrid = ({ products }: Props) => {
           <ProductCard key={product.id} product={product as Book} />
         ))}
       </div>
-p
-      {/* Load More */}
-      {/* <div className="mt-10 text-center">
-        <button className="inline-flex items-center justify-center px-8 py-3 rounded-lg border border-primary text-primary font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
-          Discover More Tomes
-        </button>
-      </div> */}
+
     </>
   )
 }
