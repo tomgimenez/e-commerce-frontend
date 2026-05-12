@@ -3,5 +3,11 @@ export interface User {
   email:    string;
   fullName: string;
   isActive: boolean;
-  roles:    string[];
+  roles:    Role[];
+}
+
+export interface Role {
+  id: string;
+  name: string;
+  description: string;
 }
