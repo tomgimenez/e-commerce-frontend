@@ -7,6 +7,7 @@ import { AdminTitle } from "@/admin/components/AdminTitle"
 import { Button } from "@/components/ui/button";
 import type { ProductUI } from "@/interfaces/product.interface";
 import { cn } from "@/lib/utils";
+import { DynamicForm } from "./DynamicForm";
 
 interface Props {
   title: string;
@@ -17,10 +18,9 @@ interface Props {
   onSubmit: (productLike: Partial<ProductUI> & { files?: File[] }) => Promise<void>;
 }
 
-interface FormInputs extends ProductUI {
+export interface FormInputs extends ProductUI {
   files?: File[];
 }
-
 
 export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Props) => {
 
@@ -137,6 +137,14 @@ export const ProductForm = ({title, subtitle, product, isPending, onSubmit}: Pro
                     />
                     { errors.title && <p className="text-red-500">El titulo es requerido</p>}
                   </div>
+
+                  {/* DYNAMIC FIELDS */}
+                  <DynamicForm
+                    attributes={product.attributes}
+                    schema={product.productType.schema}
+                    register={register}
+                    errors={errors}
+                  />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
