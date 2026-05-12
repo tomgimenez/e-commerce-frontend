@@ -43,7 +43,7 @@ export const CustomPagination = ({ totalPages }: Props) => {
           size="icon"
           className={
             currentPage === index + 1
-            ? "bg-primary font-mono font-bold text-primary-foreground hover:bg-primary/90"
+            ? "bg-primary font-bold text-primary-foreground hover:bg-primary/90 font-cinzel"
             : "border-border text-muted-foreground hover:border-primary hover:text-primary font-cinzel" 
           }
           aria-label={"Page " + (index + 1)}
