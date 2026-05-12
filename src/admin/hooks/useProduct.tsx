@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getProductByIdAction } from "../actions/get-product-by-id.action";
+import { getProductByIdAction } from "../../actions/products/get-product-by-id.action";
 import type { ProductUI } from "@/interfaces/product.interface";
 import { createUpdateProductAction } from "../actions/create-update-product.action";
 import { toast } from "sonner";
@@ -23,6 +23,10 @@ export const useProduct = (id: string) => {
     onSuccess: (product: ProductUI) => {
       queryClient.invalidateQueries({queryKey: ['product', { id: product.id }]});
       queryClient.setQueryData(['product', {id: product.id}], product);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error('Error saving product. Please try again.');
     }
   });
 
@@ -32,7 +36,7 @@ export const useProduct = (id: string) => {
 
     await mutation.mutateAsync(productLike, {
       onSuccess: () => {
-        toast.success('Producto guardado correctamente');
+        toast.success('Product saved correctly');
         navigate('/admin/products')
       },
       onError: (error) => { console.log(error) }
