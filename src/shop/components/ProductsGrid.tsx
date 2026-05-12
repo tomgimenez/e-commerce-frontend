@@ -2,9 +2,9 @@ import { Button } from "@/components/ui/button"
 import { Grid, List } from "lucide-react"
 import { ProductCard } from "./ProductCard"
 import { useSearchParams } from "react-router"
-import { useState } from "react"
+// import { useState } from "react"
 import type { ProductUI } from "@/interfaces/product.interface"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { Book } from "@/interfaces/book.interface"
 
 interface Props {
@@ -158,8 +158,7 @@ export const ProductsGrid = ({ products }: Props) => {
     setSearchParams(searchParams);
   }
 
-  // TODO : TEMPORAL
-  const [sortBy] = useState("featured");
+  // const [sortBy] = useState("featured");
 
   return (
     <>
@@ -175,7 +174,7 @@ export const ProductsGrid = ({ products }: Props) => {
         </div>
 
         <div className="flex gap-2 items-center">
-          <Select value={sortBy} /* onValueChange={setSortBy} */>
+          {/* <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-45 bg-secondary border-border">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
@@ -186,7 +185,7 @@ export const ProductsGrid = ({ products }: Props) => {
               <SelectItem value="rating">Highest Rated</SelectItem>
               <SelectItem value="newest">Newest Arrivals</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
         
         <div className="hidden md:flex border rounded-md">
           <Button
