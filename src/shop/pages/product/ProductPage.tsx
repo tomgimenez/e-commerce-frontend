@@ -30,7 +30,7 @@ export const ProductPage = () => {
 
   const book = product as unknown as Book;
   
-  const originalPrice = book.price + 9.99;
+  const originalPrice = book.price + 6; // Mock original price for discount calculation
 
   const discount = originalPrice
     ? Math.round(((originalPrice - book.price) / originalPrice) * 100)

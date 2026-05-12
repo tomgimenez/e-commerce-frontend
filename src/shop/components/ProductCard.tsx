@@ -12,7 +12,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product }: ProductCardProps) => {
 
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const originalPrice = 100;
+  const originalPrice = product.price + 6; // Mock original price for discount calculation
 
   const discount = originalPrice
     ? Math.round(((originalPrice - product.price) / originalPrice) * 100)
