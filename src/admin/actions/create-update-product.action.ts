@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { adaptProduct } from "@/adapters/product.adapter";
 import { backendApi } from "@/api/backendApi";
 import type { Product, ProductUI } from "@/interfaces/product.interface";
@@ -5,8 +6,18 @@ import type { Product, ProductUI } from "@/interfaces/product.interface";
 export const createUpdateProductAction = async (
   productLike: Partial<ProductUI> & { files?: File[] }
 ): Promise<ProductUI> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, user, images = [], files = [], ...rest } = productLike;
+  const {
+    id,
+    user,
+    images = [],
+    files = [],
+    // TODO: need to check if this variables should be in the front at first place.
+    productType,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    ...rest 
+  } = productLike;
 
   const isCreating = id === 'new';
 
