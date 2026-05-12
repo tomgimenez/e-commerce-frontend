@@ -1,53 +1,16 @@
-import { useRef, type KeyboardEvent } from 'react';
-import { Search, Bell, User } from 'lucide-react';
-import { useSearchParams } from 'react-router';
+import { Bell, User } from 'lucide-react';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useAuthStore } from '@/auth/store/auth.store';
 
 export const AdminHeader = () => {
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
   const { logout } = useAuthStore();
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const query = searchParams.get('query') || '';
-
-  const handleSearch = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key !== 'Enter') return;
-
-    const query = inputRef.current?.value;
-    const newSearchParams = new URLSearchParams();
-
-    if (!query) {
-      newSearchParams.delete('query');
-    } else {
-      newSearchParams.set('query', query);
-    }
-
-    setSearchParams(newSearchParams);
-  }
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-background/95 backdrop-blur border-b border-border">
-      <div className="flex items-center justify-between h-full px-6">
-        {/* Search - offset for mobile menu button */}
-        <div className="flex-1 max-w-md pl-12 lg:pl-0">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              ref={inputRef}
-              type="search"
-              placeholder="Search products, orders..."
-              className="pl-9 bg-muted/50 border-transparent focus:border-primary"
-              defaultValue={query}
-              onKeyDown={handleSearch}
-            />
-          </div>
-        </div>
+      <div className="flex items-center justify-end h-full px-6">
 
         {/* Right side actions */}
         <div className="flex items-center gap-2">
