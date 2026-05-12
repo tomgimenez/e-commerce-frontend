@@ -219,7 +219,7 @@ export const ProductsGrid = ({ products }: Props) => {
           : "space-y-4"
       }>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product as Book} />
+          <ProductCard key={product.id} product={product as unknown as Book} />
         ))}
       </div>
 
