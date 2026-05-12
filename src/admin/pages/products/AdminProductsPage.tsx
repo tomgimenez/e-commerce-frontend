@@ -1,5 +1,6 @@
-import { Link } from "react-router";
-import { Eye, MoreHorizontal, Pencil, PlusIcon, Trash2 } from "lucide-react"
+import { useRef, type KeyboardEvent } from "react";
+import { Link, useSearchParams } from "react-router";
+import { Eye, MoreHorizontal, Pencil, PlusIcon, Search, Trash2 } from "lucide-react"
 
 import { AdminTitle } from "@/admin/components/AdminTitle"
 import { useAdminProducts } from "@/admin/hooks/useAdminProducts"
@@ -11,25 +12,34 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { currencyFormatter } from "@/lib/currency-formatter"
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
-
-/* const statusStyles = {
-  active: "bg-green-500/10 text-green-500 border-green-500/20",
-  low_stock: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
-  out_of_stock: "bg-red-500/10 text-red-500 border-red-500/20",
-  draft: "bg-gray-500/10 text-gray-500 border-gray-500/20",
-}
-
-const statusLabels = {
-  active: "Active",
-  low_stock: "Low Stock",
-  out_of_stock: "Out of Stock",
-  draft: "Draft",
-} */
+import { Input } from "@/components/ui/input";
+import type { Book } from "@/interfaces/book.interface";
 
 export const AdminProductsPage = () => {
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const { data, isLoading } = useAdminProducts() || [];
+
+  const books = data?.products as unknown as Book[];
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const query = searchParams.get('query') || '';
+
+  const handleSearch = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key !== 'Enter') return;
+
+    const query = inputRef.current?.value;
+    const newSearchParams = new URLSearchParams();
+
+    if (!query) {
+      newSearchParams.delete('query');
+    } else {
+      newSearchParams.set('query', query);
+    }
+
+    setSearchParams(newSearchParams);
+  }
 
   if (isLoading) return <CustomLoading />;
 
@@ -46,54 +56,19 @@ export const AdminProductsPage = () => {
         </Link>
       </div>
 
-      {/* <Table className="bg-white p-10 shadow-xs border border-gray-200 mb-10">
-        <TableCaption>A list of your products</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Imagen</TableHead>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Monto</TableHead>
-            <TableHead>Categoria</TableHead>
-            <TableHead>Cantidad</TableHead>
-            <TableHead>Talles</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {
-            data?.products.map((product) => 
-              (
-                <TableRow key={product.id}>
-                  <TableCell>
-                    <img
-                      src={product.images[0].url}
-                      alt={product.slug}
-                      className="w-20 h-20 object-cover rounded-md"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Link
-                      to={`/admin/products/${product.id}`}
-                      className="hover:underline"
-                    >
-                      {product.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell>{currencyFormatter(product.price)}</TableCell>
-                  <TableCell>{product.gender}</TableCell>
-                  <TableCell>{product.stock}</TableCell>
-                  <TableCell>{product.sizes.join(', ')}</TableCell>
-                  <TableCell>
-                    <Link to={`/admin/products/${product.id}`}>
-                      <PencilIcon className="w-4 h-4 text-blue-500" /> 
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              )
-            )
-          }
-        </TableBody>
-      </Table> */}
+      <div className="flex-1 max-w-md pl-12 lg:pl-0 mb-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            ref={inputRef}
+            type="search"
+            placeholder="Search products..."
+            className="pl-9 bg-muted/50 border-transparent focus:border-primary"
+            defaultValue={query}
+            onKeyDown={handleSearch}
+          />
+        </div>
+      </div>
 
       {/* Products Table */}
       <div className="bg-card border border-border rounded-xl overflow-hidden mb-5">
@@ -102,7 +77,7 @@ export const AdminProductsPage = () => {
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead className="text-muted-foreground">Product</TableHead>
-                <TableHead className="text-muted-foreground hidden md:table-cell">Category</TableHead>
+                <TableHead className="text-muted-foreground hidden md:table-cell">Categories</TableHead>
                 <TableHead className="text-muted-foreground">Price</TableHead>
                 <TableHead className="text-muted-foreground hidden sm:table-cell">Stock</TableHead>
                 <TableHead className="text-muted-foreground">Status</TableHead>
@@ -111,41 +86,42 @@ export const AdminProductsPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.products.map((product) => (
-                <TableRow key={product.id} className="hover:bg-muted/50">
+              {books.map((book) => (
+                <TableRow key={book.id} className="hover:bg-muted/50">
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-14 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">
-                        <img src={product.images[0].url} alt={product.slug} />
+                        <img src={book.images[0].url} alt={book.slug} />
                       </div>
                       <div>
-                        <Link to={`/admin/products/${product.id}`} className="hover:underline">
-                          <p className="font-medium text-foreground">{product.title}</p>
+                        <Link to={`/admin/products/${book.id}`} className="hover:underline">
+                          <p className="font-medium text-foreground">{book.title}</p>
                         </Link>
-                        <p className="text-sm text-muted-foreground">{/* {product.author} */}</p>
+                        <p className="text-sm text-muted-foreground">{book.attributes.author}</p>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground hidden md:table-cell">{/* {product.gender} */}</TableCell>
-                  <TableCell className="font-medium text-foreground">{currencyFormatter(product.price)}</TableCell>
+                  <TableCell className="text-muted-foreground hidden md:table-cell">{book.categories.map(cat => cat.name).join(', ')}</TableCell>
+                  <TableCell className="font-medium text-foreground">{currencyFormatter(book.price)}</TableCell>
                   <TableCell className="hidden sm:table-cell">
                     <span className={cn(
                       "font-medium",
-                      product.stock === 0 && "text-red-500",
-                      product.stock > 0 && product.stock <= 50 && "text-yellow-500",
-                      product.stock > 50 && "text-foreground"
+                      book.stock === 0 && "text-red-500",
+                      book.stock > 0 && book.stock <= 50 && "text-yellow-500",
+                      book.stock > 50 && "text-foreground"
                     )}>
-                      {product.stock}
+                      {book.stock}
                     </span>
                   </TableCell>
                   <TableCell>
                     <Badge 
                       variant="outline" 
-                      /* className={cn(
-                        statusStyles[product.status as keyof typeof statusStyles]
-                      )} */
+                      className={book.isActive ?
+                        "bg-green-500/10 text-green-500 border-green-500/20" :
+                        "bg-red-500/10 text-red-500 border-red-500/20"
+                       }
                     >
-                      {/* {statusLabels[product.status as keyof typeof statusLabels]} */}
+                      {book.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-muted-foreground hidden lg:table-cell">{/* {product.sales} */}</TableCell>
@@ -162,7 +138,7 @@ export const AdminProductsPage = () => {
                           View
                         </DropdownMenuItem>
 
-                        <Link to={`/admin/products/${product.id}`}>
+                        <Link to={`/admin/products/${book.id}`}>
                           <DropdownMenuItem>
                             <Pencil className="h-4 w-4 mr-2" />
                             Edit
@@ -182,20 +158,9 @@ export const AdminProductsPage = () => {
             </TableBody>
           </Table>
         </div>
-        </div>
+      </div>
         
-        {/* Pagination */}
-        {/* <div className="flex items-center justify-between px-6 py-4 border-t border-border">
-          <p className="text-sm text-muted-foreground">
-            Showing {filteredProducts.length} of {products.length} products
-          </p>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled>Previous</Button>
-            <Button variant="outline" size="sm">Next</Button>
-          </div>
-        </div>
-      </div> */}
-
+      {/* Pagination */}
       <CustomPagination totalPages={data?.pages || 0} />
     </>
   )
