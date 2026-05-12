@@ -14,8 +14,12 @@ export interface Product {
   tags:        string[];
   images:      string[];
   user:        User;
-  // productType: ProductType;
-  // attributes:  Record<string, unknown>;
+  productType: ProductType;
+  attributes:  Record<string, unknown>;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date;
 }
 
 interface Category {
@@ -33,6 +37,8 @@ export interface ProductType {
 export interface ProductSchemaField {
   type: string;
   required: boolean;
+  label: string;
+  options?: string[];
 }
 
 export type ProductSchema = Record<string, ProductSchemaField>;
