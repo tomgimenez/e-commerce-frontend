@@ -58,11 +58,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Image */}
       <div className="relative aspect-3/4 bg-secondary overflow-hidden">
+      <Link to={`/product/${product.id}`}>
         <img
           src={product.images[0].url}
           alt={product.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
+      </Link>
       </div>
 
       {/* Content */}
