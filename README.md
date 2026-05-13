@@ -39,6 +39,18 @@ password: Abc123
 
 ---
 
+## Demo Videos
+
+### Shop Experience
+
+![Shop Experience](./public/readme/shop.mp4)
+
+### Admin Panel Experience
+
+![Admin Panel Experience](./public/readme/admin.mp4)
+
+---
+
 ## Screenshots
 
 ### Home Page
