@@ -43,11 +43,11 @@ password: Abc123
 
 ### Shop Experience
 
-![Shop Experience](./public/readme/shop.mp4)
+https://github.com/user-attachments/assets/fbe5f60a-a739-4768-8e35-c798910e63be
 
 ### Admin Panel Experience
 
-![Admin Panel Experience](./public/readme/admin.mp4)
+https://github.com/user-attachments/assets/15d981d3-069f-4c0e-8325-013c391b07c7
 
 ---
 
