@@ -39,6 +39,8 @@ export const CustomHeader = () => {
       searchParams.delete('query');
     }
   };
+
+  const cartCount = 3; // Placeholder for cart item count
   
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -141,18 +143,20 @@ export const CustomHeader = () => {
           }
 
           {/* Cart Button */}
-          <Button
-            variant="outline"
-            className="relative border-border text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            <span className="hidden md:inline">Cart</span>
-            {/* {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-                {cartCount}
-              </span>
-            )} */}
-          </Button>
+          <Link to={'/checkout'}>
+            <Button
+              variant="outline"
+              className="relative border-border text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              <span className="hidden md:inline">Cart</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+          </Link>
         </div>
 
       </div>
