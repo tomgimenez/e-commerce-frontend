@@ -24,9 +24,9 @@ export const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
-  if (!product) return <Navigate to={'/'} />;
-
   if (isLoading) return <CustomLoading />;
+  
+  if (!product) return <Navigate to={'/'} />;
 
   const book = product as unknown as Book;
   
