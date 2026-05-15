@@ -10,15 +10,13 @@ interface FormInputs extends ProductUI {
 interface DynamicInputProps {
   fieldKey: string;
   field: ProductSchema[string];
-  value: unknown;
   register: UseFormRegister<FormInputs>;
   errors: FieldErrors<FormInputs>;
 }
 
 export const DynamicInput = ({ 
   fieldKey, 
-  field, 
-  value, 
+  field,  
   register, 
   errors 
 }: DynamicInputProps) => {
@@ -33,7 +31,6 @@ export const DynamicInput = ({
           <input
             type="checkbox"
             {...register(`attributes.${fieldKey}`, { required: !!field.required })}
-            defaultChecked={value as boolean}
             className="w-4 h-4 rounded border-gray-300"
           />
           {fieldError && (
@@ -49,7 +46,6 @@ export const DynamicInput = ({
           <input
             type="number"
             {...register(`attributes.${fieldKey}`, { required: !!field.required })}
-            defaultValue={value as number}
             className={cn(
               "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
               { 'border-red-500': fieldError }
@@ -70,7 +66,6 @@ export const DynamicInput = ({
             placeholder={field.label}
             type="text"
             {...register(`attributes.${fieldKey}`, { required: !!field.required })}
-            defaultValue={value as string}
             className={cn(
               "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
               { 'border-red-500': fieldError }
