@@ -33,10 +33,10 @@ export const AdminSidebar = (/* { isCollapsed, onToggle }: Props */) => {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: BookOpen },
     { name: "Categories", href: "/admin/categories", icon: FolderTree },
-    { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-    { name: "Customers", href: "/admin/customers", icon: Users },
-    { name: "Analytics", href: "/admin/analytics", icon: BarChart3 },
-    { name: "Settings", href: "/admin/settings", icon: Settings },
+    { name: "Orders", href: "", icon: ShoppingCart },
+    { name: "Customers", href: "", icon: Users },
+    { name: "Analytics", href: "", icon: BarChart3 },
+    { name: "Settings", href: "", icon: Settings },
   ]
 
   const isActiveRoute = (to: string) => {
@@ -156,9 +156,10 @@ export const AdminSidebar = (/* { isCollapsed, onToggle }: Props */) => {
           <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
             {navigation.map((item) => {
               return (
+                
                 <Link
                   key={item.name}
-                  to={item.href}
+                  to={item.href.length > 0 ? item.href : '#'}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
