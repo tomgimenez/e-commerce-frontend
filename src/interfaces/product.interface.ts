@@ -14,7 +14,7 @@ export interface Product {
   tags:        string[];
   images:      string[];
   user:        User;
-  productType: ProductType;
+  productType?: ProductType;
   attributes:  Record<string, unknown>;
   isActive: boolean;
   createdAt: Date;
@@ -22,7 +22,7 @@ export interface Product {
   deletedAt: Date;
 }
 
-interface Category {
+export interface Category {
   id: string;
   name: string;
 }
@@ -49,6 +49,8 @@ export type ProductUI = Omit<Product, 'images'> & {
     url: string;
   }[];
 };
+
+export type ProductTypesResponse = ProductType[];
 
 export type Size = "L" | "M" | "S" | "XL" | "XS" | "XXL";
 
