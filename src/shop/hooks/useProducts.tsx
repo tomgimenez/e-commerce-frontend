@@ -18,20 +18,20 @@ export const useProducts = () => {
   let maxPrice = undefined;
 
   switch (filterPrices) {
-    case '0-50':
+    case '0-10':
       minPrice = 0;
-      maxPrice = 50;
+      maxPrice = 10;
       break;
-    case '50-100':
-      minPrice = 50;
-      maxPrice = 100;
+    case '10-15':
+      minPrice = 10;
+      maxPrice = 15;
       break;
-    case '100-200':
-      minPrice = 100;
-      maxPrice = 200;
+    case '15-20':
+      minPrice = 15;
+      maxPrice = 20;
       break;      
-    case '200+':
-      minPrice = 200;
+    case '20+':
+      minPrice = 20;
       break;      
   }
 

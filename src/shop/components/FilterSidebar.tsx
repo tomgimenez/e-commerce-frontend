@@ -115,28 +115,28 @@ export const FilterSidebar = () => {
                     <Label htmlFor="priceAny" className="text-sm cursor-pointer">Any price</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="0-50" id="price1"
-                      onClick={() => handlePriceChange('0-50')}
+                    <RadioGroupItem value="0-10" id="price1"
+                      onClick={() => handlePriceChange('0-10')}
                     />
-                    <Label htmlFor="price1" className="text-sm cursor-pointer">$0 - $50</Label>
+                    <Label htmlFor="price1" className="text-sm cursor-pointer">$0 - $10</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="50-100" id="price2"
-                      onClick={() => handlePriceChange('50-100')}
+                    <RadioGroupItem value="10-15" id="price2"
+                      onClick={() => handlePriceChange('10-15')}
                     />
-                    <Label htmlFor="price2" className="text-sm cursor-pointer">$50 - $100</Label>
+                    <Label htmlFor="price2" className="text-sm cursor-pointer">$10 - $15</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="100-200" id="price3"
-                      onClick={() => handlePriceChange('100-200')}
+                    <RadioGroupItem value="15-20" id="price3"
+                      onClick={() => handlePriceChange('15-20')}
                     />
-                    <Label htmlFor="price3" className="text-sm cursor-pointer">$100 - $200</Label>
+                    <Label htmlFor="price3" className="text-sm cursor-pointer">$15 - $20</Label>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="200+" id="price4"
-                      onClick={() => handlePriceChange('200+')}
+                    <RadioGroupItem value="20+" id="price4"
+                      onClick={() => handlePriceChange('20+')}
                     />
-                    <Label htmlFor="price4" className="text-sm cursor-pointer">$200+</Label>
+                    <Label htmlFor="price4" className="text-sm cursor-pointer">$20+</Label>
                   </div>
                 </RadioGroup>
               </div>
