@@ -9,13 +9,14 @@ export const useProduct = (id: string) => {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const isNew = id === 'new';
 
   const query = useQuery({
     queryKey: ['product', {id}],
     queryFn: () => getProductByIdAction(id),
     retry: false,
     staleTime: 1000 * 60 * 5,
-    enabled: !!id
+    enabled: !isNew && !!id
   });
 
   const mutation = useMutation({
