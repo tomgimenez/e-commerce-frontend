@@ -43,11 +43,8 @@ password: Abc123
 
 ### Shop Experience
 
-![Shop Experience](./public/readme/shop.mp4)
 
 ### Admin Panel Experience
-
-![Admin Panel Experience](./public/readme/admin.mp4)
 
 ---
 
