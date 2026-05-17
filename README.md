@@ -174,6 +174,76 @@ npm run dev
 
 ---
 
+## Testing
+ 
+The project uses **Vitest** as the test runner and **React Testing Library** for component testing, fully integrated with the Vite build pipeline.
+ 
+### Setup
+ 
+Install testing dependencies:
+ 
+```bash
+npm install -D vitest @vitest/coverage-v8 jsdom @testing-library/react @testing-library/user-event @testing-library/jest-dom
+```
+ 
+Configure Vitest in `vite.config.ts`:
+ 
+```ts
+/// <reference types="vitest" />
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+ 
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+    },
+  },
+})
+```
+ 
+Create `src/test/setup.ts`:
+ 
+```ts
+import '@testing-library/jest-dom'
+```
+ 
+### Run Tests
+ 
+```bash
+# Run all tests
+npm run test
+ 
+# Watch mode
+npm run test -- --watch
+ 
+# Coverage report
+npm run test -- --coverage
+```
+
+### Adapters
+ 
+Adapters encapsulate all HTTP communication with the API. Tests mock `axios` to verify that requests are built correctly and that responses are mapped as expected — without making real network calls.
+
+### Hooks
+ 
+Custom hooks are tested in isolation using `renderHook` from React Testing Library. Adapter dependencies are mocked so tests focus purely on hook logic: state management, side effects, and return values.
+
+### Actions
+ 
+Actions (form submit handlers, thunks, or context reducers) are tested by invoking them directly and asserting on their side effects — including adapter calls, state updates, and error handling
+
+### Components
+ 
+Components are tested with React Testing Library, which queries the DOM the way a real user would. Network calls and context providers are mocked as needed.
+
+---
+
 ## Backend Repository
 
 🔗 [https://github.com/tomgimenez/e-commerce-backend](https://github.com/tomgimenez/e-commerce-backend)
