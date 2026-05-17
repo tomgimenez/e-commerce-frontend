@@ -1,35 +1,24 @@
+import { useState } from "react";
+import { Link, Navigate } from "react-router";
 import { Star, ShoppingCart, Heart, Minus, Plus, ArrowLeft, Truck, Shield, RotateCcw } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
-import { Link, Navigate, useParams } from "react-router";
-import { getProductByIdAction } from "@/actions/products/get-product-by-id.action";
-import { useQuery } from "@tanstack/react-query";
 import { CustomLoading } from "@/components/custom/CustomLoading";
-import type { Book } from "@/interfaces/book.interface";
+import { useBook } from "@/shop/hooks/useBook";
 
 export const ProductPage = () => {
 
-  const { id } = useParams();
- 
-  const { data: product, isLoading } = useQuery({
-    queryKey: ['product', {id}],
-    queryFn: () => getProductByIdAction(id ?? ''),
-    retry: false,
-    staleTime: 1000 * 60 * 5,
-    enabled: !!id
-  });
+  const { data: book, isLoading } = useBook();
 
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   if (isLoading) return <CustomLoading />;
   
-  if (!product) return <Navigate to={'/'} />;
+  if (!book) return <Navigate to={'/'} />;
 
-  const book = product as unknown as Book;
-  
   const originalPrice = book.price + 6; // Mock original price for discount calculation
 
   const discount = originalPrice
