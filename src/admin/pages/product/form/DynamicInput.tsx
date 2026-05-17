@@ -1,5 +1,5 @@
 import type { ProductSchema } from "@/interfaces/product.interface";
-import type { UseFormRegister, FieldErrors } from "react-hook-form";
+import type { UseFormRegister, FieldErrors, FieldError, Path } from "react-hook-form";
 import type { ProductUI } from "@/interfaces/product.interface";
 import { cn } from "@/lib/utils";
 
@@ -21,7 +21,8 @@ export const DynamicInput = ({
   errors 
 }: DynamicInputProps) => {
 
-  const fieldError = errors['attributes']?.[fieldKey];
+  const attributeErrors = errors.attributes as Record<string, FieldError | undefined> | undefined;
+  const fieldError = attributeErrors?.[fieldKey];
 
   switch (field.type) {
     case 'boolean':
@@ -30,7 +31,7 @@ export const DynamicInput = ({
           <label className="block text-sm font-medium mb-2">{field.label}</label>
           <input
             type="checkbox"
-            {...register(`attributes.${fieldKey}`, { required: !!field.required })}
+            {...register(`attributes.${fieldKey}` as Path<FormInputs>, { required: !!field.required })}
             className="w-4 h-4 rounded border-gray-300"
           />
           {fieldError && (
@@ -45,7 +46,7 @@ export const DynamicInput = ({
           <label className="block text-sm font-medium mb-2">{field.label}</label>
           <input
             type="number"
-            {...register(`attributes.${fieldKey}`, { required: !!field.required })}
+            {...register(`attributes.${fieldKey}` as Path<FormInputs>, { required: !!field.required })}
             className={cn(
               "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
               { 'border-red-500': fieldError }
@@ -65,7 +66,7 @@ export const DynamicInput = ({
           <input
             placeholder={field.label}
             type="text"
-            {...register(`attributes.${fieldKey}`, { required: !!field.required })}
+            {...register(`attributes.${fieldKey}` as Path<FormInputs>, { required: !!field.required })}
             className={cn(
               "w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200",
               { 'border-red-500': fieldError }
