@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { adaptProduct } from "@/adapters/product.adapter";
 import { backendApi } from "@/api/backendApi";
-import type { Product, ProductUI } from "@/interfaces/product.interface";
+import type { Product } from "@/interfaces/product.interface";
 
 export const createUpdateProductAction = async (
-  productLike: Partial<ProductUI> & { files?: File[] }
-): Promise<ProductUI> => {
+  productLike: Partial<Product> & { files?: File[] }
+): Promise<Product> => {
   const {
     id,
     user,
@@ -23,8 +22,7 @@ export const createUpdateProductAction = async (
   rest.stock = Number(rest.stock || 0);
   rest.price = Number(rest.price || 0);
 
-  // Preparar las imagenes
-  const imagesToSave = images.map(img => img.name);
+  const imagesToSave = [...images];
 
   if (files.length > 0) {
     const newImagesNames = await uploadFiles(files);
@@ -40,7 +38,7 @@ export const createUpdateProductAction = async (
     }
   });
 
-  return adaptProduct(data);
+  return data;
 }
 
 interface FileUploadResponse {
