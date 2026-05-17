@@ -1,11 +1,6 @@
 import type { ProductUI } from "./product.interface";
 
-export type Book = Omit<ProductUI, 'productType' | 'attributes'> & {
-  productType: {
-    slug: 'book';
-    name: 'Book';
-  };
-
+export type Book = Omit<ProductUI, 'attributes'> & {
   attributes: BookAttributes;
 }
 
