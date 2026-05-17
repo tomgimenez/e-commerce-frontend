@@ -1,8 +1,12 @@
-import { renderHook, waitFor } from '@testing-library/react';
-import { describe, expect, vi, beforeEach, test } from 'vitest';
-import { useAdminProducts } from './useAdminProducts';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { ReactNode } from 'react';
+import { describe, expect, vi, beforeEach, test } from 'vitest';
+import { useSearchParams } from 'react-router';
+import { renderHook, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { useAdminProducts } from './useAdminProducts';
+import { getProductsAction } from '@/shop/actions/get-products.action';
+import type { Product } from '@/interfaces/product.interface';
 
 // ── Mocks ──────────────────────────────────────────────────────────────────
 
@@ -14,16 +18,16 @@ vi.mock('react-router', () => ({
   useSearchParams: vi.fn(),
 }));
 
+vi.mock('@/adapters/product.adapter', () => ({
+  adaptProduct: vi.fn((product) => product)
+}));
+
 // ── Setup ──────────────────────────────────────────────────────────────────
 
-import { getProductsAction } from '@/shop/actions/get-products.action';
-import { useSearchParams } from 'react-router';
-import type { ProductUI } from '@/interfaces/product.interface';
-
-const mockProducts = [
-  { id: '1', name: 'Product 1', price: 100 } as unknown as ProductUI,
-  { id: '2', name: 'Product 2', price: 200 } as unknown as ProductUI,
-];
+  const mockProducts = [
+    { id: '1', name: 'Product 1', price: 100 } as unknown as Product,
+    { id: '2', name: 'Product 2', price: 200 } as unknown as Product,
+  ];
 
 const createQueryWrapper = () => {
   const queryClient = new QueryClient({
