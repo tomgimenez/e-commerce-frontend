@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { Outlet } from "react-router";
 
 import { AdminSidebar } from "../components/AdminSidebar";
@@ -7,16 +6,11 @@ import { AdminHeader } from "../components/AdminHeader";
 
 const AdminLayout = () => {
 
-  // const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  
   return (
     <div className="min-h-screen flex">
-      <AdminSidebar 
-        // isCollapsed={sidebarCollapsed} 
-        // onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
-      />
+      <AdminSidebar />
       
-      <div className="flex-1 flex flex-col lg:pl-64">
+      <div className="flex-1 flex flex-col">
         <AdminHeader />
         
         <main className="flex-1 p-6">
@@ -25,6 +19,7 @@ const AdminLayout = () => {
       </div>
     </div>
   )
+
 }
 
 export default AdminLayout;
