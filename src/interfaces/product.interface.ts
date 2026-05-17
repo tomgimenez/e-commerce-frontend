@@ -13,17 +13,18 @@ export interface Product {
   tags:        string[];
   images:      string[];
   user:        User;
-  productType?: ProductType;
-  attributes:  Record<string, unknown>;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
+  productType: ProductType;
+  attributes:  object;
+  isActive:    boolean;
+  createdAt:   Date;
+  updatedAt:   Date;
+  deletedAt:   Date;
 }
 
 export interface Category {
   id: string;
   name: string;
+  slug: string;
 }
 
 export interface ProductType {
@@ -33,14 +34,13 @@ export interface ProductType {
   schema: ProductSchema;
 }
 
+export type ProductSchema = Record<string, ProductSchemaField>;
+
 export interface ProductSchemaField {
   type: string;
   required: boolean;
   label: string;
-  options?: string[];
 }
-
-export type ProductSchema = Record<string, ProductSchemaField>;
 
 export type ProductUI = Omit<Product, 'images'> & {
   images: {
@@ -50,7 +50,3 @@ export type ProductUI = Omit<Product, 'images'> & {
 };
 
 export type ProductTypesResponse = ProductType[];
-
-export type Size = "L" | "M" | "S" | "XL" | "XS" | "XXL";
-
-export type Gender = 'kid' | 'men' | 'women' | 'unisex';
