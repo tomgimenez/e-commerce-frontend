@@ -91,7 +91,11 @@ export const AdminProductsPage = () => {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-14 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">
-                        <img src={book.images[0].url} alt={book.slug} />
+                        <img src={
+                          book.images.length > 0 ?
+                            book.images[0].url :
+                            '/product-image.png'
+                          } alt={book.slug} />
                       </div>
                       <div>
                         <Link to={`/admin/products/${book.id}`} className="hover:underline">
