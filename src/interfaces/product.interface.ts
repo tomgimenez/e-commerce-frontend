@@ -10,7 +10,6 @@ export interface Product {
   rating:      number;
   reviews:     number;
   categories:  Category[];
-  image:       string;
   tags:        string[];
   images:      string[];
   user:        User;
