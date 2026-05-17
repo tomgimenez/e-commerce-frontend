@@ -64,7 +64,7 @@ export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Pr
         className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200 ${
           dragActive
             ? 'border-blue-400 bg-blue-50'
-            : 'border-slate-300 hover:border-slate-400'
+            : 'border-foreground hover:border-muted-foreground'
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -79,59 +79,63 @@ export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Pr
           onChange={handleFileChange}
         />
         <div className="space-y-4">
-          <Upload className="mx-auto h-12 w-12 text-slate-400" />
+          <Upload className="mx-auto h-12 w-12" />
           <div>
-            <p className="text-lg font-medium text-slate-700">
+            <p className="text-lg font-medium">
               Drag images here
             </p>
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-muted-foreground">
               or click to upload
             </p>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             PNG, JPG, WebP up to 10MB each
           </p>
         </div>
       </div>
 
       {/* Current Images */}
-      <div className="mt-6 space-y-3">
-        <h3 className="text-sm font-medium">
-          Current Images
-        </h3>
-        <div className="grid grid-cols-2 gap-3">
-          {isEdit && existentImages?.map((image, index) => (
-            <div key={index} className="relative group">
-              <div className="aspect-square bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center">
-                <img
-                  src={image.url}
-                  alt="Product"
-                  className="w-full h-full object-cover rounded-lg"
-                />
-              </div>
-              <Button
-                type='button'
-                className="absolute px-1.5 top-2 right-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                onClick={() => {
-                  const current = getValues('images') || [];
-                  setValue('images', current.filter((_, i) => i !== index));
-                }}
-                >
-                <X className="h-3 w-3" />
-              </Button>
-              <p className="mt-1 text-xs text-slate-600 truncate">
-                {image.url}
-              </p>
+      {
+        existentImages.length > 0 && (
+          <div className="mt-6 space-y-3">
+            <h3 className="text-sm font-medium">
+              Current Images
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              {isEdit && existentImages?.map((image, index) => (
+                <div key={index} className="relative group">
+                  <div className="aspect-square bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center">
+                    <img
+                      src={image.url}
+                      alt="Product"
+                      className="w-full h-full object-cover rounded-lg"
+                    />
+                  </div>
+                  <Button
+                    type='button'
+                    className="absolute px-1.5 top-2 right-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    onClick={() => {
+                      const current = getValues('images') || [];
+                      setValue('images', current.filter((_, i) => i !== index));
+                    }}
+                    >
+                    <X className="h-3 w-3" />
+                  </Button>
+                  <p className="mt-1 text-xs text-slate-600 truncate">
+                    {image.url}
+                  </p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        )
+      }
 
       {/* Images to upLoad */}
       {
-        selectedFiles && (
+        selectedFiles.length > 0 && (
           <div className="mt-6 space-y-3">
-            <h3 className="text-sm font-medium text-slate-700">
+            <h3 className="text-sm font-medium">
               Images to upload
             </h3>
             <div className="grid grid-cols-2 gap-3">
