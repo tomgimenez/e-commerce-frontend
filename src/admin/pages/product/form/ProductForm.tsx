@@ -19,7 +19,6 @@ export interface FormInputs extends ProductUI {
   files?: File[];
 }
 
-
 export const ProductForm = (props: Props) => {
   
   const { mode, title, subtitle, isPending, onSubmit } = props;
@@ -68,19 +67,25 @@ export const ProductForm = (props: Props) => {
               {/* Basic Information */}
               <BasicInformationSection register={register} errors={errors} isEdit={isEdit} product={product} selectedSchema={selectedSchema} onSchemaChange={setSelectedSchema} />
 
-              {/* Categories */}
-              <CategoriesSection control={control} getValues={getValues} setValue={setValue} selectedSchema={selectedSchema} />
+              {selectedSchema && (
+                <>
+                  {/* Categories */}
+                  <CategoriesSection control={control} getValues={getValues} setValue={setValue} />
 
-              {/* Tags */}
-              <TagsSection control={control} setValue={setValue} getValues={getValues} selectedSchema={selectedSchema} />
+                  {/* Tags */}
+                  <TagsSection control={control} setValue={setValue} getValues={getValues} />
+                </>
+              )}
             </div>
 
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Product Images */}
-              <ImagesSection setValue={setValue} getValues={getValues} control={control} isEdit={isEdit} images={product?.images} selectedSchema={selectedSchema} />
-
+              {selectedSchema && (
+                <ImagesSection setValue={setValue} getValues={getValues} control={control} isEdit={isEdit} images={product?.images} />
+              )}
             </div>
+
           </div>
         </div>
       </form>
