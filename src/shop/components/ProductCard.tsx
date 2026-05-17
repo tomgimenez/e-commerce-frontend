@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router";
 
 interface ProductCardProps {
-  product: Book ;
+  product: Book;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {

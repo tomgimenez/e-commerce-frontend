@@ -6,16 +6,17 @@ import { Button } from "@/components/ui/button";
 import { FilterSidebar } from "@/shop/components/FilterSidebar";
 // import { CustomJumbotron } from "@/shop/components/CustomJumbotron"
 import { ProductsGrid } from "@/shop/components/ProductsGrid"
-import { useProducts } from "@/shop/hooks/useProducts"
+import { useBooks } from "@/shop/hooks/useBooks";
 
 export const HomePage = () => {
 
-  const { data } = useProducts();
+  const { data } = useBooks();
+
   const [showFilters, setShowFilters] = useState(false);
 
   return (
     <>
-      {/* <CustomJumbotron title="Todos los productos" /> */}
+      {/* <CustomJumbotron title="" /> */}
 
       <Button
         variant="outline"
@@ -49,7 +50,7 @@ export const HomePage = () => {
         {
           data?.pages && 
             <div className="mt-8">
-              <CustomPagination totalPages={data?.pages} />
+              <CustomPagination totalPages={data.pages} />
             </div>
         }
       </section>

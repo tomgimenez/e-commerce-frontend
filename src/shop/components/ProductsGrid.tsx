@@ -3,12 +3,11 @@ import { Grid, List } from "lucide-react"
 import { ProductCard } from "./ProductCard"
 import { useSearchParams } from "react-router"
 // import { useState } from "react"
-import type { ProductUI } from "@/interfaces/product.interface"
 // import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { Book } from "@/interfaces/book.interface"
 
 interface Props {
-  products: ProductUI[]
+  products: Book[]
 }
 
 export const ProductsGrid = ({ products }: Props) => {
@@ -82,7 +81,7 @@ export const ProductsGrid = ({ products }: Props) => {
           : "space-y-4"
       }>
         {products.map((product) => (
-          <ProductCard key={product.id} product={product as unknown as Book} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 

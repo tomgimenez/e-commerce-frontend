@@ -3,7 +3,6 @@ import { Link, useSearchParams } from "react-router";
 import { Eye, MoreHorizontal, Pencil, PlusIcon, Search, Trash2 } from "lucide-react"
 
 import { AdminTitle } from "@/admin/components/AdminTitle"
-import { useAdminProducts } from "@/admin/hooks/useAdminProducts"
 import { CustomLoading } from "@/components/custom/CustomLoading"
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Badge } from "@/components/ui/badge"
@@ -13,17 +12,15 @@ import { currencyFormatter } from "@/lib/currency-formatter"
 import { cn } from "@/lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import type { Book } from "@/interfaces/book.interface";
+import { useAdminBooks } from "@/admin/hooks/useAdminBooks";
 
 export const AdminProductsPage = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const { data, isLoading } = useAdminProducts() || [];
-
-  const books = data?.products as unknown as Book[];
-
+  const { data, isLoading } = useAdminBooks();
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const books = data?.products || [];
   const query = searchParams.get('query') || '';
 
   const handleSearch = (event: KeyboardEvent<HTMLInputElement>) => {
