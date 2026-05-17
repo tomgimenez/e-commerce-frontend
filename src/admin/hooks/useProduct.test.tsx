@@ -31,16 +31,15 @@ import { getProductByIdAction } from '@/actions/products/get-product-by-id.actio
 import { createUpdateProductAction } from '@/admin/actions/create-update-product.action';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router';
-import type { ProductUI } from '@/interfaces/product.interface';
+import type { Product } from '@/interfaces/product.interface';
 
 const mockProduct = {
   id: '1',
   title: 'Test Product',
   price: 99.99,
-  description: 'Test Description',
-  category: 'Fantasy',
-  inStock: true,
-} as unknown as ProductUI;
+  stock: 10,
+  description: 'Test Description'
+} as unknown as Product;
 
 const createQueryWrapper = () => {
   const queryClient = new QueryClient({
@@ -122,14 +121,15 @@ describe('useProduct', () => {
 
       await result.current.handleSubmit({
         title: 'New Product',
-        price: 50,
+        price: 50
       });
-
+      
       await waitFor(() => expect(result.current.isPending).toBe(false));
-
+      
       expect(createUpdateProductAction).toHaveBeenCalledWith({
         title: 'New Product',
         price: 50,
+        images: []
       }, {
         client: {},
         meta: undefined,
@@ -187,7 +187,8 @@ describe('useProduct', () => {
       expect(createUpdateProductAction).toHaveBeenCalledWith({
         title: 'Product with Image',
         price: 75,
-        files: [mockFile]
+        files: [mockFile],
+        images: []
       }, {
         client: {},
         meta: undefined,
