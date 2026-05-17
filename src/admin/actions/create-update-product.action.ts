@@ -11,7 +11,6 @@ export const createUpdateProductAction = async (
     user,
     images = [],
     files = [],
-    // TODO: need to check if this variables should be in the front at first place.
     productType,
     createdAt,
     updatedAt,
