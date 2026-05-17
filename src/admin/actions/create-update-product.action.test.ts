@@ -2,16 +2,8 @@ import { describe, expect, test } from "vitest";
 import AxiosMockAdapter from 'axios-mock-adapter';
 
 import { backendApi } from "@/api/backendApi";
-import type { ProductType } from "@/interfaces/product.interface";
+import type { Product } from "@/interfaces/product.interface";
 import { createUpdateProductAction } from "./create-update-product.action";
-
-const productMockToSave = {
-  title: 'product mock',
-  description: 'description of the product',
-  price: 10,
-  stock: 10,
-  images: [{name: 'image1.jpg', url: 'image.jpg'}],
-}
 
 const productMock = {
   title: 'product mock',
@@ -20,10 +12,10 @@ const productMock = {
   images: ['image1.jpg'],
   description: 'description of the product',
   categories: [],
-  productType: {name: 'Book'} as ProductType,
+  productType: {name: 'Book'},
   attributes: {},
   isActive: true
-};
+} as unknown as Product;
 
 describe('createUpdateProductAction', () => {
 
@@ -33,7 +25,7 @@ describe('createUpdateProductAction', () => {
 
     backendApiMock.onPost('/products').reply(200, productMock);
 
-    await createUpdateProductAction({id: 'new', ...productMockToSave});
+    await createUpdateProductAction({...productMock, id: 'new'});
 
     expect(backendApiMock.history.post).toHaveLength(1);
     expect(backendApiMock.history.post[0].url).toBe('/products');
@@ -43,7 +35,7 @@ describe('createUpdateProductAction', () => {
   test('should not upload files when no files are provided', async () => {
     backendApiMock.onPost('/products').reply(200, productMock);
 
-    await createUpdateProductAction({ id: 'new', files: [], ...productMockToSave });
+    await createUpdateProductAction({ files: [], ...productMock, id: 'new' });
 
     expect(backendApiMock.history.post.some(r => r.url === '/files/product')).toBe(false);
   });
@@ -52,7 +44,7 @@ describe('createUpdateProductAction', () => {
     const id = '123';
     backendApiMock.onPatch(`/products/${id}`).reply(200, productMock);
 
-    await createUpdateProductAction({id: id, ...productMockToSave});
+    await createUpdateProductAction({...productMock, id: id});
 
     expect(backendApiMock.history.patch).toHaveLength(1);
     expect(backendApiMock.history.patch[0].url).toBe(`/products/${id}`);
@@ -64,7 +56,7 @@ describe('createUpdateProductAction', () => {
     backendApiMock.onPost('/files/product').reply(200, { fileName: 'uploaded.jpg', secureUrl: 'http://...' });
     backendApiMock.onPost('/products').reply(200, productMock);
 
-    await createUpdateProductAction({ id: 'new', files: [file], ...productMockToSave });
+    await createUpdateProductAction({ ...productMock, files: [file], id: 'new' });
 
     expect(backendApiMock.history.post.some(r => r.url === '/files/product')).toBe(true);
   });
