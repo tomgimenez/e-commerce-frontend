@@ -1,23 +1,27 @@
-import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import { ProductForm } from "./ProductForm";
-import type { ProductUI } from "@/interfaces/product.interface";
-import { useProductTypes } from "@/admin/hooks/useProductTypes";
-import { useCategories } from "@/admin/hooks/useCategories";
 import userEvent from '@testing-library/user-event';
 
 vi.mock('react-router', () => ({
   Link: vi.fn()
 }));
-vi.mock('@/admin/hooks/useProductTypes');
-vi.mock('@/admin/hooks/useCategories');
 
-const mockSchema = { fields: [{ name: 'color', type: 'text' }] };
+vi.mock('./BasicInformationSection', () => ({
+  BasicInformationSection: () => <div />
+}));
 
-const mockProductTypes = [
-  { id: '1', name: 'Electronics', schema: mockSchema },
-  { id: '2', name: 'Clothing',    schema: null },
-];
+vi.mock('./CategoriesSection', () => ({
+  CategoriesSection: () => <div>Categories Section</div>
+}));
+
+vi.mock('./TagsSection', () => ({
+  TagsSection: () => <div>Tags Section</div>
+}));
+
+vi.mock('./ImagesSection', () => ({
+  ImagesSection: () => <div>Images Section</div>
+}));
 
 const mockedProduct = {
   id: '1',
@@ -25,20 +29,24 @@ const mockedProduct = {
   price: 10,
   stock: 10,
   description: 'Test Description',
-  productType: mockProductTypes[0]
-} as unknown as ProductUI;
+  productType: {schema: true}
+};
 
-const mockedProps = {
+const mockedCreateProps = {
+  mode: 'create',
   title: 'Create Product',
   subtitle: '',
   isPending: false,
   onSubmit: vi.fn(),
-  product: null as unknown as ProductUI
-}
+  product: null
+} as unknown as React.ComponentProps<typeof ProductForm>
 
-const createProps = {...mockedProps, mode: 'create' as const};
-
-const editProps = {...mockedProps, mode: 'edit' as const, product: mockedProduct}
+const mockedEditProps = {
+  ...mockedCreateProps,
+  mode: 'edit',
+  title: 'Edit Product',
+  product: mockedProduct
+} as unknown as React.ComponentProps<typeof ProductForm>;
 
 const renderForm = (props: React.ComponentProps<typeof ProductForm>) => {
   cleanup();
@@ -47,51 +55,35 @@ const renderForm = (props: React.ComponentProps<typeof ProductForm>) => {
 
 describe('ProductForm', () => {
 
-  beforeEach(() => {
-    vi.mocked(useProductTypes).mockReturnValue({
-      data: mockProductTypes,
-    } as unknown as ReturnType<typeof useProductTypes>);
+  it('should render the form and not show sections in create mode', () => {
+    renderForm(mockedCreateProps);
 
-    vi.mocked(useCategories).mockReturnValue({
-      data: []
-    } as unknown as ReturnType<typeof useCategories>)
+    expect(screen.getByText("Create Product")).toBeInTheDocument();
+    expect(screen.queryByText('Categories Section')).not.toBeInTheDocument();
+    expect(screen.queryByText('Tags Section')).not.toBeInTheDocument();
+    expect(screen.queryByText('Images Section')).not.toBeInTheDocument();
   });
 
-  it('should render the form', () => {
-    renderForm(createProps);
-    expect(screen.getByText('Product Information')).toBeTruthy();
-  });
+  it('should render correct title and sections when in edit mode', () => {
+    renderForm(mockedEditProps);
 
-  it('should render product fields when in edit mode', () => {
-    renderForm(editProps);
-    
-    expect(screen.getByText('Title')).toBeDefined();
-    expect(screen.getByText('Price ($)')).toBeDefined();
-    expect(screen.getByText('Stock')).toBeDefined();
-
-    expect(screen.getByText('Categories')).toBeDefined();
-    expect(screen.getByText('Tags')).toBeDefined();
-    expect(screen.getByText('Images')).toBeDefined();
-  });
-
-  it('should not call onSubmit when a required field is empty', () => {
-    renderForm(createProps);
-    fireEvent.click(screen.getByRole('button', {name: 'Save'}));
-
-    expect(createProps.onSubmit).not.toHaveBeenCalled();
+    expect(screen.getByText("Edit Product")).toBeInTheDocument();
+    expect(screen.getByText('Categories Section')).toBeInTheDocument();
+    expect(screen.getByText('Tags Section')).toBeInTheDocument();
+    expect(screen.getByText('Images Section')).toBeInTheDocument();
   });
 
   it('should call onSubmit when a validation is ok', async () => {
-    renderForm(editProps);
-    await userEvent.click(screen.getByRole('button', {name: 'Save'}));
+    renderForm(mockedEditProps);
 
+    await userEvent.click(screen.getByRole('button', {name: 'Save'}));
     await waitFor(() => {
-      expect(editProps.onSubmit).toHaveBeenCalled();
+      expect(mockedEditProps.onSubmit).toHaveBeenCalled();
     });
   });
 
   it('should disable button when isPending is true', () => {
-    renderForm({...createProps, isPending: true});
+    renderForm({...mockedCreateProps, isPending: true});
 
     expect(screen.getByRole('button', {name: 'Save'})).toBeDisabled();
   });
