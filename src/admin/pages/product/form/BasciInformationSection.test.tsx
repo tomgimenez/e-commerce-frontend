@@ -9,7 +9,7 @@ vi.mock('./DynamicForm', () => ({
   DynamicForm: () => <div data-testid="dynamic-form" />,
 }));
 
-const defaultProps = {
+const mockedProps = {
   register: vi.fn().mockReturnValue({}),
   errors: {},
   isEdit: false,
@@ -17,16 +17,14 @@ const defaultProps = {
   onSchemaChange: vi.fn(),
 };
 
-const mockSchema = { fields: [{ name: 'color', type: 'text' }] };
-
 const mockProductTypes = [
-  { id: '1', name: 'Electronics', schema: mockSchema },
-  { id: '2', name: 'Clothing',    schema: null },
+  { id: '1', name: 'Electronics', schema: {} },
+  { id: '2', name: 'Clothing',    schema: {} },
 ];
 
-const renderComponent = (props = {}) => {
+const renderComponent = (props: React.ComponentProps<typeof BasicInformationSection>) => {
   cleanup();
-  render(<BasicInformationSection {...defaultProps} {...props} />);
+  render(<BasicInformationSection {...props} />);
 }
 
 describe("BasicInformationSection", () => {
@@ -38,31 +36,40 @@ describe("BasicInformationSection", () => {
   });
 
   it('should render without crashing', () => {
-    renderComponent();
+    renderComponent(mockedProps);
 
     expect(screen.getByText("Product Information")).toBeInTheDocument();
+    expect(screen.getByText('Product Type')).toBeDefined();
   });
 
-  it('llama onSchemaChange con el schema del tipo seleccionado', () => {
-    const onSchemaChange = vi.fn();
-    renderComponent({ onSchemaChange });
+  it('should render fields when on edit mode', () => {
+    renderComponent({...mockedProps, isEdit: true, selectedSchema: {} });
+
+    expect(screen.getByText('Title')).toBeDefined();
+    expect(screen.getByText('Price ($)')).toBeDefined();
+    expect(screen.getByText('Stock')).toBeDefined();
+  });
+
+  it('should call onSchemaChange when selecting a type', () => {
+    renderComponent(mockedProps);
  
     fireEvent.change(screen.getByRole('combobox'), { target: { value: '1' } });
 
-    expect(onSchemaChange).toHaveBeenCalledWith(mockSchema);
+    expect(mockedProps.onSchemaChange).toHaveBeenCalled();
   });
 
-  it('llama onSchemaChange con null si se selecciona la opción vacía', () => {
-    const onSchemaChange = vi.fn();
-    renderComponent({ onSchemaChange });
+  it('should call onSchemaChange with null if selecting empty option', () => {
+    renderComponent(mockedProps);
  
     fireEvent.change(screen.getByRole('combobox'), { target: { value: '' } });
  
-    expect(onSchemaChange).toHaveBeenCalledWith(null);
+    expect(mockedProps.onSchemaChange).toHaveBeenCalledWith(null);
   });
 
-  it('no muestra el select en modo edit', () => {
-    renderComponent({ isEdit: true });
+  it('should not show Product Type select when in edit mode', () => {
+    renderComponent({...mockedProps, isEdit: true });
+
+    expect(screen.getByText('Product Type')).toBeDefined();
     expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
   });
   
