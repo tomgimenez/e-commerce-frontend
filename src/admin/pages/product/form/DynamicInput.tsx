@@ -1,11 +1,7 @@
 import type { ProductSchema } from "@/interfaces/product.interface";
 import type { UseFormRegister, FieldErrors, FieldError, Path } from "react-hook-form";
-import type { ProductUI } from "@/interfaces/product.interface";
 import { cn } from "@/lib/utils";
-
-interface FormInputs extends ProductUI {
-  files?: File[];
-}
+import type { FormInputs } from "./ProductForm";
 
 interface DynamicInputProps {
   fieldKey: string;
