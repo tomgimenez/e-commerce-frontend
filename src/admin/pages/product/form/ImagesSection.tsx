@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useWatch, type Control, type UseFormGetValues, type UseFormSetValue } from "react-hook-form";
+import { type Control, type UseFormGetValues, type UseFormSetValue } from "react-hook-form";
 import { Upload, X } from "lucide-react";
 
 import type { FormInputs } from "./ProductForm";
 import { Button } from "@/components/ui/button";
+import { useFileUpload } from "./useFileUpload";
 
 interface Props {
   control: Control<FormInputs>;
@@ -17,42 +17,16 @@ interface Props {
 }
 
 export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Props) => {
-  const [dragActive, setDragActive] = useState(false);
 
-  const selectedFiles = useWatch({control, name: 'files'}) ?? [];
-  const existentImages = useWatch({ control, name: 'images' }) ?? images ?? [];
+  const {
+    dragActive,
+    selectedFiles,
+    existentImages,
+    handleDrag,
+    handleDrop,
+    handleFileChange
+  } = useFileUpload({control, images, getValues, setValue})
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    const files = e.dataTransfer.files;
-    
-    if (!files) return;
-
-    const currentFiles = getValues('files') || [];
-    setValue('files', [...currentFiles, ...Array.from(files)]);
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (!files) return;
-
-    const currentFiles = getValues('files') || [];
-    setValue('files', [...currentFiles, ...Array.from(files)]);
-  };
-  
   return (
     <div className="rounded-xl shadow-lg border p-6">
       <h2 className="text-xl font-semibold mb-6">
