@@ -4,13 +4,13 @@ import { cn } from "@/lib/utils";
 import { DynamicForm } from "./DynamicForm";
 import type { FormInputs } from "./ProductForm";
 import { useProductTypes } from "@/admin/hooks/useProductTypes";
-import type { ProductSchema, ProductUI } from "@/interfaces/product.interface";
+import type { ProductSchema, Product } from "@/interfaces/product.interface";
 
 interface Props {
   register: UseFormRegister<FormInputs>;
   errors: FieldErrors<FormInputs>;
   isEdit?: boolean;
-  product?: ProductUI;
+  product?: Product;
   selectedSchema: ProductSchema | null;
   onSchemaChange: (schema: ProductSchema | null) => void;
 }

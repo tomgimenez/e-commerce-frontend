@@ -1,6 +1,6 @@
-import type { ProductUI } from "./product.interface";
+import type { Product } from "./product.interface";
 
-export type Book = Omit<ProductUI, 'attributes'> & {
+export type Book = Omit<Product, 'attributes'> & {
   attributes: BookAttributes;
 }
 

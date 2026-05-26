@@ -4,16 +4,14 @@ import { Upload, X } from "lucide-react";
 import type { FormInputs } from "./ProductForm";
 import { Button } from "@/components/ui/button";
 import { useFileUpload } from "./useFileUpload";
+import type { ProductImage } from "@/interfaces/product.interface";
 
 interface Props {
   control: Control<FormInputs>;
   getValues: UseFormGetValues<FormInputs>;
   setValue: UseFormSetValue<FormInputs>;
   isEdit: boolean;
-  images?: {
-    name: string;
-    url: string;
-  }[] | undefined
+  images?: ProductImage[] | undefined;
 }
 
 export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Props) => {
@@ -40,6 +38,7 @@ export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Pr
             ? 'border-blue-400 bg-blue-50'
             : 'border-foreground hover:border-muted-foreground'
         }`}
+        data-testid="dropzone"
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}

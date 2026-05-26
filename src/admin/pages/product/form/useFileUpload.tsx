@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useWatch, type Control, type UseFormGetValues, type UseFormSetValue } from "react-hook-form";
 import type { FormInputs } from "./ProductForm";
+import type { ProductImage } from "@/interfaces/product.interface";
 
 interface Props {
   control: Control<FormInputs>;
-  images?: {
-    name: string;
-    url: string;
-  }[] | undefined;
+  images?: ProductImage[] | undefined;
   getValues: UseFormGetValues<FormInputs>;
   setValue: UseFormSetValue<FormInputs>;
 }

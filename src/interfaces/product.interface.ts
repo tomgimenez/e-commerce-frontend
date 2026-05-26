@@ -11,7 +11,7 @@ export interface Product {
   reviews:     number;
   categories:  Category[];
   tags:        string[];
-  images:      string[];
+  images:      ProductImage[];
   user:        User;
   productType: ProductType;
   attributes:  object;
@@ -19,6 +19,11 @@ export interface Product {
   createdAt:   Date;
   updatedAt:   Date;
   deletedAt:   Date;
+}
+
+export interface ProductImage {
+  id: number;
+  url: string;
 }
 
 export interface Category {
@@ -41,12 +46,5 @@ export interface ProductSchemaField {
   required: boolean;
   label: string;
 }
-
-export type ProductUI = Omit<Product, 'images'> & {
-  images: {
-    name: string;
-    url: string;
-  }[];
-};
 
 export type ProductTypesResponse = ProductType[];

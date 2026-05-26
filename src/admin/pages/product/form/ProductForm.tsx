@@ -5,17 +5,17 @@ import { useForm } from 'react-hook-form';
 
 import { AdminTitle } from "@/admin/components/AdminTitle"
 import { Button } from "@/components/ui/button";
-import type { ProductSchema, ProductUI } from "@/interfaces/product.interface";
+import type { ProductSchema, Product } from "@/interfaces/product.interface";
 import { BasicInformationSection } from "./BasicInformationSection";
 import { CategoriesSection } from "./CategoriesSection";
 import { TagsSection } from "./TagsSection";
 import { ImagesSection } from "./ImagesSection";
 
 type Props =
-  | { mode: 'create'; title: string; subtitle: string; isPending: boolean; onSubmit: (data: Partial<ProductUI> & { files?: File[] }) => Promise<void> }
-  | { mode: 'edit'; title: string; subtitle: string; product: ProductUI; isPending: boolean; onSubmit: (data: Partial<ProductUI> & { files?: File[] }) => Promise<void> }
+  | { mode: 'create'; title: string; subtitle: string; isPending: boolean; onSubmit: (data: Partial<Product> & { files?: File[] }) => Promise<void> }
+  | { mode: 'edit'; title: string; subtitle: string; product: Product; isPending: boolean; onSubmit: (data: Partial<Product> & { files?: File[] }) => Promise<void> }
 
-export interface FormInputs extends ProductUI {
+export interface FormInputs extends Product {
   files?: File[];
 }
 
