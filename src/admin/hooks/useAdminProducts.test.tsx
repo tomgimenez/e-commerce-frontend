@@ -18,10 +18,6 @@ vi.mock('react-router', () => ({
   useSearchParams: vi.fn(),
 }));
 
-vi.mock('@/adapters/product.adapter', () => ({
-  adaptProduct: vi.fn((product) => product)
-}));
-
 // ── Setup ──────────────────────────────────────────────────────────────────
 
   const mockProducts = [

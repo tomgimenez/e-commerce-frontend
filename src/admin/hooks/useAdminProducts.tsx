@@ -1,4 +1,3 @@
-import { adaptProduct } from "@/adapters/product.adapter";
 import { getProductsAction } from "@/shop/actions/get-products.action";
 import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router"
@@ -18,10 +17,6 @@ export const useAdminProducts = () => {
       limit: isNaN(+limit) ? 9 : limit,
       offset: isNaN(offset) ? 0 : offset,
       q: q
-    }),
-    select: (data) => ({
-      ...data,
-      products: data.products.map(adaptProduct)
     })
   });
 }

@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { getProductsAction } from "../actions/get-products.action"
 import { useSearchParams } from "react-router";
-import { adaptProduct } from "@/adapters/product.adapter";
 
 export const useProducts = () => {
 
@@ -42,10 +41,6 @@ export const useProducts = () => {
       minPrice: minPrice,
       maxPrice: maxPrice,
       q: q
-    }),
-    select: (data) => ({
-      ...data,
-      products: data.products.map(adaptProduct)
     })
   });
   

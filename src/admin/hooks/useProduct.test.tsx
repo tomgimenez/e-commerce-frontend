@@ -14,10 +14,6 @@ vi.mock('@/admin/actions/create-update-product.action', () => ({
   createUpdateProductAction: vi.fn(),
 }));
 
-vi.mock('@/adapters/product.adapter', () => ({
-  adaptProduct: vi.fn((product) => product) // simplemente devuelve el producto tal cual
-}));
-
 vi.mock('sonner', () => ({
   toast: {
     success: vi.fn(),

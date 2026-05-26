@@ -1,5 +1,4 @@
 import { getProductByIdAction } from "@/actions/products/get-product-by-id.action";
-import { adaptProduct } from "@/adapters/product.adapter";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 
@@ -12,6 +11,5 @@ export const useProduct = () => {
     retry: false,
     staleTime: 1000 * 60 * 5,
     enabled: !!id,
-    select: (data) => adaptProduct(data) 
   });
 }
