@@ -6,7 +6,7 @@ interface Props {
   shouldShow?: boolean;
 }
 
-export const CustomLogo = ({ to = '/', subtitle = 'Market', shouldShow }: Props) => {
+export const CustomLogo = ({ to = '/', subtitle = 'Market', shouldShow = true }: Props) => {
   return (
     shouldShow && (
       <Link to={to} className="flex items-center gap-2 shrink-0">
