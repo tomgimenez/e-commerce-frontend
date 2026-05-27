@@ -22,7 +22,7 @@ export const createUpdateProductAction = async (
   rest.stock = Number(rest.stock || 0);
   rest.price = Number(rest.price || 0);
 
-  const imagesToSave = [...images];
+  const imagesToSave: string[] = images.map(img => img.key);
 
   if (files.length > 0) {
     const newImagesNames = await uploadFiles(files);

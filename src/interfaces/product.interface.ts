@@ -24,6 +24,7 @@ export interface Product {
 export interface ProductImage {
   id: number;
   url: string;
+  key: string;
 }
 
 export interface Category {
