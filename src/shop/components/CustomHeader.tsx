@@ -1,11 +1,13 @@
 import { useRef, useState, type KeyboardEvent } from "react";
 import { Link, useSearchParams } from "react-router";
-import { Gauge, LogOut, Search, ShoppingCart, User, X } from "lucide-react";
+import { ChevronDown, Gauge, LogOut, Search, ShoppingCart, User, X } from "lucide-react";
 
 import { useAuthStore } from "@/auth/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CustomLogo } from "@/components/custom/CustomLogo";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useCategories } from "@/hooks/useCategories";
 
 export const CustomHeader = () => {
 
@@ -14,6 +16,8 @@ export const CustomHeader = () => {
   const { authStatus, isAdmin, logout } = useAuthStore();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  const { data: categories } = useCategories();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const query = searchParams.get('query') || '';
@@ -160,6 +164,57 @@ export const CustomHeader = () => {
         </div>
 
       </div>
+
+      {/* Navigation Bar */}
+      <nav>
+        <div className="container mx-auto px-4">
+          <ul className="flex items-center gap-1 h-10 text-sm">
+            {/* Categories Dropdown */}
+            <li>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <button className="flex items-center gap-1 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
+                    Categories
+                    <ChevronDown className="h-4 w-4" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-56 bg-card border-border">
+                  {categories?.map((category) => (
+                    <DropdownMenuItem key={category.id}>
+                      <Link
+                        to='#'
+                        className="cursor-pointer text-secondary-foreground hover:text-foreground focus:text-foreground"
+                      >
+                        {category.name}
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </li>
+
+            {/* Offers */}
+            <li>
+              <Link
+                to="#"
+                className="flex items-center px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
+              >
+                Offers
+              </Link>
+            </li>
+
+            {/* Help */}
+            <li>
+              <Link
+                to="#"
+                className="flex items-center px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
+              >
+                Help
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 };
