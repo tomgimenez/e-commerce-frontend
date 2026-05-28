@@ -1,7 +1,7 @@
 import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CategoriesSection } from "./CategoriesSection";
-import { useCategories } from "@/admin/hooks/useCategories";
+import { useCategories } from "@/hooks/useCategories";
 import { useWatch } from "react-hook-form";
 
 vi.mock('@/admin/hooks/useCategories');
