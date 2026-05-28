@@ -71,7 +71,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <div className="flex flex-col flex-1 p-4">
         {/* Category */}
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">
-          {product.categories[0].name}
+          {product.categories[0]?.name}
         </span>
 
         {/* Title */}
