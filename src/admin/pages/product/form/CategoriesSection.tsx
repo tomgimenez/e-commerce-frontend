@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { X } from "lucide-react";
 
-import { useCategories } from "@/admin/hooks/useCategories";
+import { useCategories } from "@/hooks/useCategories";
 import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { useWatch, type Control, type UseFormGetValues, type UseFormSetValue } from "react-hook-form";
 import type { FormInputs } from "./ProductForm";
