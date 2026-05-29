@@ -5,7 +5,7 @@ import { checkStatusAction } from '../actions/check-status.action';
 
 type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking';
 
-type AuthState = {
+export type AuthState = {
   //  Properties
   user: User | null;
   token: string | null;
@@ -38,7 +38,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       localStorage.setItem('token', data.token);
 
       set({ user: data.user, token: data.token, authStatus: 'authenticated' });
-      console.log({email, password})
+      
       return true;
 
     } catch {
