@@ -1,9 +1,10 @@
+import { Link } from "react-router"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CustomLogo } from "@/components/custom/CustomLogo"
-import { Link } from "react-router"
 
 export function RegisterPage() {
   return (
@@ -18,8 +19,8 @@ export function RegisterPage() {
 
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="fullName">Nombre</Label>
-                <Input id="email" type="text" placeholder="Nombre" required />
+                <Label htmlFor="fullName">Name</Label>
+                <Input id="fullName" type="text" placeholder="Name" required />
               </div>              
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -29,11 +30,11 @@ export function RegisterPage() {
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" placeholder="password" required />
+                <Input id="password" type="password" placeholder="Password" required />
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Repite password</Label>
+                  <Label htmlFor="password">Repeat password</Label>
                 </div>
                 <Input id="password" type="password" placeholder="password" required />
               </div>
