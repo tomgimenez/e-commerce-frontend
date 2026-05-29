@@ -20,7 +20,6 @@ export const CustomPagination = ({ totalPages }: Props) => {
     setSearchParams(searchParams);
   }
 
-
   return (
     <nav className="flex items-center justify-center gap-1" aria-label="Pagination">
       <Button
