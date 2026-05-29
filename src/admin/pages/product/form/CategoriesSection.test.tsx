@@ -4,7 +4,7 @@ import { CategoriesSection } from "./CategoriesSection";
 import { useCategories } from "@/hooks/useCategories";
 import { useWatch } from "react-hook-form";
 
-vi.mock('@/admin/hooks/useCategories');
+vi.mock('@/hooks/useCategories');
 
 vi.mock('react-hook-form', () => ({
   useWatch: vi.fn()
@@ -31,7 +31,7 @@ describe('CategoriesSection', () => {
     mockedGetValues.mockClear();
 
     vi.mocked(useWatch).mockReturnValue([]);
-    vi.mocked(mockedGetValues).mockReturnValue([]);
+    mockedGetValues.mockReturnValue([]);
 
     vi.mocked(useCategories).mockReturnValue({
       data: [
