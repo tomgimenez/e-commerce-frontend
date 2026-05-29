@@ -128,8 +128,7 @@ describe('useProduct', () => {
       
       expect(createUpdateProductAction).toHaveBeenCalledWith({
         title: 'New Product',
-        price: 50,
-        images: []
+        price: 50
       }, {
         client: {},
         meta: undefined,
@@ -187,8 +186,7 @@ describe('useProduct', () => {
       expect(createUpdateProductAction).toHaveBeenCalledWith({
         title: 'Product with Image',
         price: 75,
-        files: [mockFile],
-        images: []
+        files: [mockFile]
       }, {
         client: {},
         meta: undefined,
