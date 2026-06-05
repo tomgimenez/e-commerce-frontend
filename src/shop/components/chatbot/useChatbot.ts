@@ -22,7 +22,7 @@ export const useChatbot = () => {
 
   useEffect(() => {
 
-    const socket = io(`${import.meta.env.VITE_CHATBOT_URL}/chatbot`, {
+    const socket = io(`${import.meta.env.VITE_WS_URL}/chatbot`, {
       extraHeaders: token ? { authentication: token } : {}
     });
 
