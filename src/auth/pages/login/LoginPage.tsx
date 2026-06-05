@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label"
 import { CustomLogo } from "@/components/custom/CustomLogo"
 import { useAuthStore } from "@/auth/store/auth.store"
 
-export function LoginPage() {
+export const LoginPage = () => {
 
   const navigate = useNavigate();
   const { login } = useAuthStore();
@@ -30,7 +30,7 @@ export function LoginPage() {
       return;
     }
     
-    toast.error('Usuario y/o contraseña inválidos');
+    toast.error('Invalid credentials. Please try again.');
     setIsPosting(false);
   }
 
@@ -58,9 +58,11 @@ export function LoginPage() {
                 </div>
                 <Input id="password" type="password" name="password" placeholder="password" required />
               </div>
+
               <Button type="submit" className="w-full" disabled={isPosting}>
                 Login
               </Button>
+
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
               </div>
