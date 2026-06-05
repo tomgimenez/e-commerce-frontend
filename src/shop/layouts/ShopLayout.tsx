@@ -1,5 +1,5 @@
 import { Outlet } from "react-router"
-import { CustomHeader } from "../components/CustomHeader"
+import { CustomHeader } from "../components/header/CustomHeader"
 import { CustomFooter } from "../components/CustomFooter"
 
 export const ShopLayout = () => {

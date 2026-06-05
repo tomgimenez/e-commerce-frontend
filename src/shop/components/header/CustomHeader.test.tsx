@@ -1,6 +1,6 @@
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { CustomHeader } from './CustomHeader';
+import { CustomHeader } from './header/CustomHeader';
 import { useAuthStore, type AuthState } from '@/auth/store/auth.store';
 import { useCategories } from '@/hooks/useCategories';
 import type { Category } from '@/interfaces/product.interface';

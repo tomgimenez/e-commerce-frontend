@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { CustomLogo } from "@/components/custom/CustomLogo";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useCategories } from "@/hooks/useCategories";
+import { Notifications } from "./Notifications";
 
 export const CustomHeader = () => {
 
@@ -121,15 +122,18 @@ export const CustomHeader = () => {
 
               </Link>
             ) : (
+              <>
+                <Button
+                    variant="outline"
+                    className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
+                    onClick={logout}
+                  >
+                    <LogOut className="h-5 w-5" />
+                    <span className="hidden md:inline">Logout</span>
+                  </Button>
 
-              <Button
-                  variant="outline"
-                  className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
-                  onClick={logout}
-                >
-                  <LogOut className="h-5 w-5" />
-                  <span className="hidden md:inline">Logout</span>
-                </Button>
+                  <Notifications />
+              </>
             )
           }
 
