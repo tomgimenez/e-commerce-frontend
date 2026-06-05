@@ -13,7 +13,9 @@ export const CustomHeader = () => {
 
   const [ searchParams, setSearchParams ] = useSearchParams();
 
-  const { authStatus, isAdmin, logout } = useAuthStore();
+  const authStatus = useAuthStore(state => state.authStatus);
+  const isAdmin = useAuthStore(state => state.isAdmin());
+  const logout = useAuthStore(state => state.logout);
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -132,8 +134,8 @@ export const CustomHeader = () => {
           }
 
           {/* Admin Button */}
-          {
-            isAdmin() && (
+          { 
+            isAdmin && 
               <Link to='/admin'>
                 <Button
                   variant='default'
@@ -143,7 +145,6 @@ export const CustomHeader = () => {
                   <span className="hidden md:inline">Admin</span>
                 </Button>
               </Link>
-            )
           }
 
           {/* Cart Button */}
