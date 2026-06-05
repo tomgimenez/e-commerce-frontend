@@ -9,7 +9,8 @@ vi.mock('../actions/check-status.action');
 
 const mockUser = {
   id: 'uuid-1',
-  fullName: 'John Doe',
+  name: 'John',
+  lastname: 'Doe',
   email: 'john@test.com',
   isActive: true,
   roles: [{ name: 'user' }],

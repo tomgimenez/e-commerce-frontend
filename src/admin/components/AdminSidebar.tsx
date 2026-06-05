@@ -1,4 +1,3 @@
-// import { useAuthStore } from '@/auth/store/auth.store';
 import { useAuthStore } from '@/auth/store/auth.store';
 import { CustomLogo } from '@/components/custom/CustomLogo';
 import { Button } from '@/components/ui/button';
@@ -147,14 +146,14 @@ export const AdminSidebar = () => {
                 {
                   !user
                     ? `JD`
-                    : user.fullName.substring(0, 2)
+                    : `${user.name.substring(0, 1)}${user.lastname.substring(0, 1)}`
                 }
               </div>
               <div className="flex-1 min-w-0 text-muted-foreground hover:text-foreground">
                 <p className="text-sm font-medium truncate">{
                   !user
                     ? `John Doe`
-                    : user.fullName
+                    : `${user.name} ${user.lastname}`
                   }</p>
                 <p className="text-xs truncate">{
                   !user

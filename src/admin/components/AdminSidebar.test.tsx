@@ -25,7 +25,7 @@ vi.mock('react-router', () => ({
 import { useAuthStore } from '@/auth/store/auth.store';
 import { useLocation } from 'react-router';
 
-const mockUser = { fullName: 'John Doe', email: 'john@company.com' };
+const mockUser = { name: 'John', lastname: 'Doe', email: 'john@company.com' };
 
 const renderSidebar = () => {
   cleanup();
