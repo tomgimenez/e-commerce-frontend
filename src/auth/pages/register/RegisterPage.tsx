@@ -1,17 +1,53 @@
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { CustomLogo } from "@/components/custom/CustomLogo"
+import { useAuthStore } from "@/auth/store/auth.store"
+import { toast } from "sonner"
+import { useForm } from "react-hook-form"
+
+type RegisterFormData = {
+  name: string;
+  lastname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export function RegisterPage() {
+
+  const navigate = useNavigate();
+  const { register: registerUser } = useAuthStore();
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors, isSubmitting }
+  } = useForm<RegisterFormData>();
+
+  const onSubmit = async (data: RegisterFormData) => {
+    console.log(data)
+
+    const hasRegistered = await registerUser(data.name, data.lastname, data.email, data.password);
+
+    if (hasRegistered) {
+      navigate('/announcement/registration-success')
+      return;
+    }
+
+    toast.error('There was an error on registration. Wait a moment and try again');
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+
+          <form className="p-6 md:p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
 
@@ -19,28 +55,70 @@ export function RegisterPage() {
 
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="fullName">Name</Label>
-                <Input id="fullName" type="text" placeholder="Name" required />
-              </div>              
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" type="text" placeholder="Name" {...register('name', { required: 'Name is required'})} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastname">Name</Label>
+                <Input id="lastname" type="text" placeholder="Last name" {...register('lastname', { required: 'Last name is required'})} />
+              </div>            
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="m@example.com" required />
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="m@example.com"
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: 'Enter a valid email addres'
+                    }
+                  })}
+                />
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                 </div>
-                <Input id="password" type="password" placeholder="Password" required />
+                <Input 
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  {...register('password', {
+                    required: 'Password is required',
+                    minLength: { value: 6, message: 'Minimum 6 characters'}
+                  })}
+                />
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Repeat password</Label>
                 </div>
-                <Input id="password" type="password" placeholder="password" required />
+                <Input
+                  id="confirmPassword" 
+                  type="password"
+                  placeholder="password"
+                  {...register('confirmPassword', {
+                    required: 'Please confirm your password',
+                    validate: (value) => value === getValues('password') || 'Passwords do not match'
+                  })}
+                />
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+                )}
               </div>
-              <Button type="submit" className="w-full">
+
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Register
               </Button>
+
               <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
                 <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
               </div>
@@ -81,6 +159,7 @@ export function RegisterPage() {
               </div>
             </div>
           </form>
+
           <div className="relative hidden bg-muted md:block">
             <img
               src="/register.jpg"
