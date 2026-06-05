@@ -13,6 +13,7 @@ import { AdminProductPage } from "./admin/pages/product/AdminProductPage";
 import { AdminRoute, NotAuthenticatedRoute } from "./components/routes/ProtectedRoutes";
 import { CategoriesPage } from "./admin/pages/categories/CategoriesPage";
 import { CheckoutPage } from "./admin/pages/checkout/CheckoutPage";
+import AnnouncementPage from "./shop/pages/announcement/AnnouncementPage";
 
 const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 const AdminLayout = lazy(() => import("./admin/layouts/AdminLayout"));
@@ -37,6 +38,12 @@ export const appRouter = createHashRouter([
         element: <CheckoutPage />
       }
     ]
+  },
+  
+  // Announcement Routes
+  {
+    path: '/announcement/:type',
+    element: <AnnouncementPage />
   },
 
   // Auth routes
