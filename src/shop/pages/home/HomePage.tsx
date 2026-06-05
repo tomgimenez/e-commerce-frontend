@@ -1,4 +1,5 @@
 import { CustomPagination } from "@/components/custom/CustomPagination"
+import { Chatbot } from "@/shop/components/chatbot/Chatbot";
 // import { Button } from "@/components/ui/button";
 // import { FilterSidebar } from "@/shop/components/FilterSidebar";
 // import { CustomJumbotron } from "@/shop/components/CustomJumbotron"
@@ -46,6 +47,8 @@ export const HomePage = () => {
               <CustomPagination totalPages={data.pages} />
             </div>
         }
+
+        <Chatbot />
       </section>
 
     </>
