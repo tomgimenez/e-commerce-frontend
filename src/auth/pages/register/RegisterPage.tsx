@@ -30,7 +30,6 @@ export function RegisterPage() {
   } = useForm<RegisterFormData>();
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log(data)
 
     const hasRegistered = await registerUser(data.name, data.lastname, data.email, data.password);
 

@@ -9,7 +9,6 @@ export const registerAction = async (
 ): Promise<AuthResponse> => {
   try {
 
-    console.log(name)
     const { data } = await backendApi.post<AuthResponse>('/auth/register', {
       name,
       lastname,
