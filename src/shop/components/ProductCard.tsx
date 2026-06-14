@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import type { Book } from "@/interfaces/book.interface";
-import { Heart, ShoppingCart, Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -115,12 +114,6 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               </span>
             )}
           </div>
-          <Button
-            size="sm"
-            className="bg-primary text-primary-foreground hover:bg-primary/90"
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </Button>
         </div>
       </div>
     </div>
