@@ -7,10 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomLoading } from "@/components/custom/CustomLoading";
 import { useBook } from "@/shop/hooks/useBook";
+import { useCart } from "@/shop/hooks/useCart";
+import { useCartStore } from "@/shop/store/cart.store";
 
 export const ProductPage = () => {
 
   const { data: book, isLoading } = useBook();
+  const { addItem } = useCart();
+  const { openDrawer } = useCartStore();
 
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -146,7 +150,13 @@ export const ProductPage = () => {
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
-              <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 h-12">
+              <Button
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 h-12"
+                onClick={() => addItem(
+                  {productId: book.id, unitPrice: book.price, quantity: quantity},
+                  () => openDrawer({ title: book.title })
+                )}
+                >
                 <ShoppingCart className="h-5 w-5 mr-2" />
                 Add to Cart
               </Button>
