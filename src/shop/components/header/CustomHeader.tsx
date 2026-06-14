@@ -9,6 +9,7 @@ import { CustomLogo } from "@/components/custom/CustomLogo";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useCategories } from "@/hooks/useCategories";
 import { Notifications } from "./Notifications";
+import { useCart } from "@/shop/hooks/useCart";
 
 export const CustomHeader = () => {
 
@@ -17,10 +18,11 @@ export const CustomHeader = () => {
   const authStatus = useAuthStore(state => state.authStatus);
   const isAdmin = useAuthStore(state => state.isAdmin());
   const logout = useAuthStore(state => state.logout);
+  const { data: categories } = useCategories();
+  const { cart } = useCart();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const { data: categories } = useCategories();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const query = searchParams.get('query') || '';
@@ -47,7 +49,7 @@ export const CustomHeader = () => {
     }
   };
 
-  const cartCount = 3; // Placeholder for cart item count
+  const cartCount = cart?.items.length || 0;
   
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -152,7 +154,7 @@ export const CustomHeader = () => {
           }
 
           {/* Cart Button */}
-          <Link to={'/checkout'}>
+          <Link to={'/cart'}>
             <Button
               variant="outline"
               className="relative border-border text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
