@@ -15,63 +15,33 @@ import {
   Lock
 } from "lucide-react";
 import { Link } from "react-router";
-
-// Mock cart items for demo
-const initialCartItems = [
-  {
-    id: 1,
-    title: "The Fellowship of the Ring",
-    author: "J.R.R. Tolkien",
-    price: 18.99,
-    originalPrice: 24.99,
-    image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=400&h=600&fit=crop",
-    quantity: 1,
-  },
-  {
-    id: 2,
-    title: "Harry Potter and the Sorcerer's Stone",
-    author: "J.K. Rowling",
-    price: 14.99,
-    image: "https://images.unsplash.com/photo-1626618012641-bfbca5a31239?w=400&h=600&fit=crop",
-    quantity: 2,
-  },
-  {
-    id: 4,
-    title: "The Name of the Wind",
-    author: "Patrick Rothfuss",
-    price: 16.99,
-    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=600&fit=crop",
-    quantity: 1,
-  },
-];
+import { useCart } from "@/shop/hooks/useCart";
+import type { CartItem } from "@/interfaces/cart.interface";
 
 export const CheckoutPage =() => {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+
+  const { cart, removeItem, updateItem } = useCart();
+  const cartItems = cart?.items || [];
+
   const [shippingMethod, setShippingMethod] = useState("standard");
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [step, setStep] = useState<"cart" | "shipping" | "payment">("cart");
 
-  const updateQuantity = (id: number, delta: number) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
-
   const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.unitPrice * item.quantity,
     0
-  );
+  ) || 0;
+
   const shippingCost = shippingMethod === "express" ? 9.99 : shippingMethod === "standard" ? 4.99 : 0;
   const tax = subtotal * 0.08;
   const total = subtotal + shippingCost + tax;
+
+  const handleUpdateQuantity = (item: CartItem, newQuantity: number) => {
+    if (newQuantity === 0)
+      removeItem(item.id);
+    else
+      updateItem({...item, quantity: newQuantity});
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -143,27 +113,27 @@ export const CheckoutPage =() => {
                       >
                         <Link to={`/product/${item.id}`}>
                           <img
-                            src={item.image}
-                            alt={item.title}
+                            src={item.product.images[0].url}
+                            alt={item.product.title}
                             className="w-20 h-28 object-cover rounded-lg"
                           />
                         </Link>
                         <div className="flex-1 min-w-0">
                           <Link to={`/product/${item.id}`}>
                             <h3 className="font-medium text-foreground hover:text-primary transition-colors line-clamp-1">
-                              {item.title}
+                              {item.product.title}
                             </h3>
                           </Link>
                           <p className="text-sm text-muted-foreground">
-                            {item.author}
+                            {item.product.title}
                           </p>
                           <div className="flex items-center gap-2 mt-2">
                             <span className="text-primary font-semibold">
-                              ${item.price.toFixed(2)}
+                              ${item.unitPrice}
                             </span>
-                            {item.originalPrice && (
+                            {item.unitPrice && (
                               <span className="text-sm text-muted-foreground line-through">
-                                ${item.originalPrice.toFixed(2)}
+                                ${item.unitPrice}
                               </span>
                             )}
                           </div>
@@ -173,7 +143,7 @@ export const CheckoutPage =() => {
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
-                                onClick={() => updateQuantity(item.id, -1)}
+                                onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
                               >
                                 <Minus className="h-3 w-3" />
                               </Button>
@@ -184,7 +154,7 @@ export const CheckoutPage =() => {
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
-                                onClick={() => updateQuantity(item.id, 1)}
+                                onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
                               >
                                 <Plus className="h-3 w-3" />
                               </Button>
@@ -202,7 +172,7 @@ export const CheckoutPage =() => {
                         </div>
                         <div className="text-right">
                           <p className="font-semibold text-foreground">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            ${(item.unitPrice * item.quantity)}
                           </p>
                         </div>
                       </div>
@@ -449,20 +419,20 @@ export const CheckoutPage =() => {
                 {cartItems.slice(0, 3).map((item) => (
                   <div key={item.id} className="flex gap-3">
                     <img
-                      src={item.image}
-                      alt={item.title}
+                      src={item.product.images[0].url}
+                      alt={item.product.title}
                       className="w-12 h-16 object-cover rounded"
                     />
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-foreground line-clamp-1">
-                        {item.title}
+                        {item.product.title}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Qty: {item.quantity}
                       </p>
                     </div>
                     <p className="text-sm font-medium text-foreground">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ${(item.unitPrice * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -498,7 +468,7 @@ export const CheckoutPage =() => {
                 </div>
               </div>
 
-              {/* Trust Badges */}
+              {/* Trust Badges */}  
               <div className="mt-6 pt-6 border-t border-border space-y-3">
                 <div className="flex items-center gap-3 text-sm text-muted-foreground">
                   <ShieldCheck className="h-5 w-5 text-primary" />
