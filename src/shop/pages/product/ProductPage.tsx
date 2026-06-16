@@ -153,7 +153,7 @@ export const ProductPage = () => {
               <Button
                 className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 h-12"
                 onClick={() => addItem(
-                  {productId: book.id, unitPrice: book.price, quantity: quantity},
+                  {product: book, unitPrice: book.price, quantity: quantity},
                   () => openDrawer({ title: book.title })
                 )}
                 >
