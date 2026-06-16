@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useCart } from "@/shop/hooks/useCart";
 import { isBook } from "@/interfaces/product.guards";
-import type { CartItem } from "@/interfaces/cart.interface";
 
 interface Props {
   isOpen: boolean;
@@ -23,13 +22,6 @@ export function CartDrawer({isOpen, onClose, lastAdded}: Props) {
 
   const { cart, removeItem, updateItem } = useCart();
   const totalCount = cart?.items.length || 0;
-
-  const handleUpdateQuantity = (item: CartItem, newQuantity: number) => {
-    if (newQuantity === 0)
-      removeItem(item.id);
-    else
-      updateItem({...item, quantity: newQuantity});
-  }
 
   return (
     <Drawer direction="right" open={isOpen} onClose={onClose}>
@@ -100,7 +92,8 @@ export function CartDrawer({isOpen, onClose, lastAdded}: Props) {
                     <div className="mt-auto flex items-center justify-between">
                       <div className="flex items-center gap-1 rounded-md border border-border">
                         <Button
-                          onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
+                          disabled={item.quantity <= 1}
+                          onClick={() => updateItem({...item, quantity: item.quantity - 1})}
                           className="flex h-7 w-7 items-center justify-center text-muted-foreground hover:text-foreground"
                           variant="ghost"
                         >
@@ -110,7 +103,7 @@ export function CartDrawer({isOpen, onClose, lastAdded}: Props) {
                           {item.quantity}
                         </span>
                         <Button
-                          onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
+                          onClick={() => updateItem({...item, quantity: item.quantity + 1})}
                           className="flex h-7 w-7 items-center justify-center text-muted-foreground hover:text-foreground"
                           variant="ghost"
                         >
@@ -123,7 +116,7 @@ export function CartDrawer({isOpen, onClose, lastAdded}: Props) {
                     </div>
                   </div>
                   <Button
-                    onClick={() => removeItem(item.id)}
+                    onClick={() => removeItem(item)}
                     className="self-start text-muted-foreground hover:text-destructive"
                     variant="ghost"
                   >

@@ -16,9 +16,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 import { useCart } from "@/shop/hooks/useCart";
-import type { CartItem } from "@/interfaces/cart.interface";
 
-export const CheckoutPage =() => {
+export const CheckoutPage = () => {
 
   const { cart, removeItem, updateItem } = useCart();
   const cartItems = cart?.items || [];
@@ -35,13 +34,6 @@ export const CheckoutPage =() => {
   const shippingCost = shippingMethod === "express" ? 9.99 : shippingMethod === "standard" ? 4.99 : 0;
   const tax = subtotal * 0.08;
   const total = subtotal + shippingCost + tax;
-
-  const handleUpdateQuantity = (item: CartItem, newQuantity: number) => {
-    if (newQuantity === 0)
-      removeItem(item.id);
-    else
-      updateItem({...item, quantity: newQuantity});
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -140,10 +132,11 @@ export const CheckoutPage =() => {
                           <div className="flex items-center gap-4 mt-3">
                             <div className="flex items-center gap-2">
                               <Button
+                                disabled={item.quantity <= 1}
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
-                                onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
+                                onClick={() => updateItem({...item, quantity: item.quantity - 1})}
                               >
                                 <Minus className="h-3 w-3" />
                               </Button>
@@ -154,7 +147,7 @@ export const CheckoutPage =() => {
                                 variant="outline"
                                 size="icon"
                                 className="h-8 w-8"
-                                onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
+                                onClick={() => updateItem({...item, quantity: item.quantity + 1})}
                               >
                                 <Plus className="h-3 w-3" />
                               </Button>
@@ -163,7 +156,7 @@ export const CheckoutPage =() => {
                               variant="ghost"
                               size="sm"
                               className="text-muted-foreground hover:text-destructive"
-                              onClick={() => removeItem(item.id)}
+                              onClick={() => removeItem(item)}
                             >
                               <Trash2 className="h-4 w-4 mr-1" />
                               Remove
