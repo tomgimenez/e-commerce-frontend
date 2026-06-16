@@ -128,10 +128,10 @@ export const AdminProductsPage = () => {
                   <TableCell className="text-muted-foreground hidden lg:table-cell">{/* {product.sales} */}</TableCell>
                   <TableCell>
                     <DropdownMenu>
-                      <DropdownMenuTrigger>
-                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <DropdownMenuTrigger className="hover:bg-muted hover:text-foreground size-8 rounded-md cursor-pointer">
+                        <span className="h-8 w-8 flex items-center justify-center">
                           <MoreHorizontal className="h-4 w-4" />
-                        </Button>
+                        </span>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>

@@ -180,10 +180,10 @@ export const CustomHeader = () => {
             <li>
               <DropdownMenu>
                 <DropdownMenuTrigger>
-                  <button className="flex items-center gap-1 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
+                  <span className="cursor-pointer flex items-center gap-1 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
                     Categories
                     <ChevronDown className="h-4 w-4" />
-                  </button>
+                  </span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56 bg-card border-border">
                   {categories?.map((category) => (
