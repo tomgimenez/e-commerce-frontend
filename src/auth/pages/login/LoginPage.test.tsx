@@ -89,7 +89,7 @@ describe('LoginPage', () => {
       fillAndSubmit();
 
       await waitFor(() => {
-        expect(toast.error).toHaveBeenCalledWith('Usuario y/o contraseña inválidos');
+        expect(toast.error).toHaveBeenCalledWith('Invalid credentials. Please try again.');
       });
     });
 
