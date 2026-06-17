@@ -2,8 +2,12 @@ import { render, screen, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { ProductPage } from './ProductPage';
 import { useBook } from '@/shop/hooks/useBook';
+import { useCart } from '@/shop/hooks/useCart';
+import { useCartStore } from '@/shop/store/cart.store';
 
 vi.mock('@/shop/hooks/useBook');
+vi.mock('@/shop/hooks/useCart');
+vi.mock('@/shop/store/cart.store');
 
 vi.mock('react-router', () => ({
   Link:     ({ to, children }: any) => <a href={to}>{children}</a>,
@@ -36,6 +40,26 @@ describe('ProductPage', () => {
   beforeEach(() => {
     cleanup();
     vi.clearAllMocks();
+    
+    // Mock useCart hook
+    vi.mocked(useCart).mockReturnValue({
+      cart: { items: [] },
+      addItem: vi.fn(),
+      updateItem: vi.fn(),
+      removeItem: vi.fn(),
+    } as any);
+
+    // Mock useCartStore hook
+    vi.mocked(useCartStore).mockReturnValue({
+      guestItems: [],
+      addGuestItem: vi.fn(),
+      updateGuestItem: vi.fn(),
+      removeGuestItem: vi.fn(),
+      lastAdded: null,
+      isDrawerOpen: false,
+      openDrawer: vi.fn(),
+      closeDrawer: vi.fn(),
+    } as any);
   });
 
   describe('when isLoading is true', () => {
