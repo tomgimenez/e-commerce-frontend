@@ -4,7 +4,7 @@ import { loginAction } from '../actions/login.action';
 import { checkStatusAction } from '../actions/check-status.action';
 import { registerAction } from '../actions/register.action';
 
-type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking';
+export type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking';
 
 export type AuthState = {
   //  Properties
