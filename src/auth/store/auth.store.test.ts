@@ -2,10 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useAuthStore } from './auth.store';
 import { loginAction } from '../actions/login.action';
 import { checkStatusAction } from '../actions/check-status.action';
+import { registerAction } from '../actions/register.action';
 import type { User } from '@/interfaces/user.interface';
 
 vi.mock('../actions/login.action');
 vi.mock('../actions/check-status.action');
+vi.mock('../actions/register.action');
 
 const mockUser = {
   id: 'uuid-1',
@@ -132,6 +134,68 @@ describe('useAuthStore', () => {
       useAuthStore.getState().logout();
 
       expect(localStorage.getItem('token')).toBeNull();
+    });
+  });
+
+  describe('register', () => {
+    it('should return true and set authenticated state on success', async () => {
+      vi.mocked(registerAction).mockResolvedValue({ user: mockUser, token: mockToken });
+
+      const result = await useAuthStore.getState().register('John', 'Doe', 'john@test.com', '123456');
+
+      expect(result).toBe(true);
+      expect(useAuthStore.getState().authStatus).toBe('authenticated');
+      expect(useAuthStore.getState().user).toEqual(mockUser);
+      expect(useAuthStore.getState().token).toBe(mockToken);
+    });
+
+    it('should call registerAction with correct parameters', async () => {
+      vi.mocked(registerAction).mockResolvedValue({ user: mockUser, token: mockToken });
+
+      await useAuthStore.getState().register('John', 'Doe', 'john@test.com', '123456');
+
+      expect(registerAction).toHaveBeenCalledWith('John', 'Doe', 'john@test.com', '123456');
+      expect(registerAction).toHaveBeenCalledTimes(1);
+    });
+
+    it('should return false and set not-authenticated state on failure', async () => {
+      vi.mocked(registerAction).mockRejectedValue(new Error('Email already exists'));
+
+      const result = await useAuthStore.getState().register('Jane', 'Smith', 'existing@test.com', '123456');
+
+      expect(result).toBe(false);
+      expect(useAuthStore.getState().authStatus).toBe('not-authenticated');
+      expect(useAuthStore.getState().user).toBeNull();
+      expect(useAuthStore.getState().token).toBeNull();
+    });
+
+    it('should remove token from localStorage on failure', async () => {
+      localStorage.setItem('token', 'old-token');
+      vi.mocked(registerAction).mockRejectedValue(new Error('Registration failed'));
+
+      await useAuthStore.getState().register('Jane', 'Smith', 'jane@test.com', '123456');
+
+      expect(localStorage.getItem('token')).toBeNull();
+    });
+
+    it('should clear previous state on successful registration', async () => {
+      // Set up existing state
+      useAuthStore.setState({ user: mockUser, token: 'old-token', authStatus: 'authenticated' });
+
+      const newUser = {
+        ...mockUser,
+        id: 'uuid-2',
+        name: 'Different',
+      } as unknown as User;
+
+      const newToken = 'new-token';
+      vi.mocked(registerAction).mockResolvedValue({ user: newUser, token: newToken });
+
+      await useAuthStore.getState().register('Different', 'User', 'different@test.com', '123456');
+
+      expect(useAuthStore.getState().user?.id).toBe('uuid-2');
+      expect(useAuthStore.getState().user?.name).toBe('Different');
+      expect(useAuthStore.getState().token).toBe(newToken);
     });
   });
 
