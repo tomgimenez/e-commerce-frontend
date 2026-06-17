@@ -12,7 +12,7 @@ import { AdminProductsPage } from "./admin/pages/products/AdminProductsPage";
 import { AdminProductPage } from "./admin/pages/product/AdminProductPage";
 import { AdminRoute, NotAuthenticatedRoute } from "./components/routes/ProtectedRoutes";
 import { CategoriesPage } from "./admin/pages/categories/CategoriesPage";
-import { CheckoutPage } from "./shop/pages/checkout/CheckoutPage";
+import { CartPage } from "./shop/pages/cart/CartPage";
 import AnnouncementPage from "./shop/pages/announcement/AnnouncementPage";
 
 const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
@@ -35,7 +35,7 @@ export const appRouter = createHashRouter([
       },
       {
         path: 'cart',
-        element: <CheckoutPage />
+        element: <CartPage />
       }
     ]
   },
