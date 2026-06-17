@@ -89,6 +89,7 @@ export const CartPage = () => {
                             size="icon"
                             className="h-8 w-8"
                             onClick={() => updateItem({...item, quantity: item.quantity - 1})}
+                            data-testid='minus-button'
                           >
                             <Minus className="h-3 w-3" />
                           </Button>
@@ -100,6 +101,7 @@ export const CartPage = () => {
                             size="icon"
                             className="h-8 w-8"
                             onClick={() => updateItem({...item, quantity: item.quantity + 1})}
+                            data-testid='plus-button'
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
