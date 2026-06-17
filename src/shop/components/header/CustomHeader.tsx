@@ -121,7 +121,6 @@ export const CustomHeader = () => {
                   <User className="h-5 w-5" />
                   <span className="hidden md:inline">Login</span>
                 </Button>
-
               </Link>
             ) : (
               <>
