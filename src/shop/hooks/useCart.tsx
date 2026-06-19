@@ -20,7 +20,7 @@ export const useCart = () => {
     staleTime: 1000 * 60 * 5
   });
 
-  const cart = isLoggedIn ? userCart : { items: guestItems };
+  const cart = isLoggedIn ? userCart : { id: null, items: guestItems, updatedAt: new Date() };
 
   const handleAddItem = (item: CartItem, onSuccess?: () => void) => {
     if (isLoggedIn) {
