@@ -14,11 +14,9 @@ export const ShopLayout = () => {
       <CustomHeader />
 
       <main className="container mx-auto px-4 py-8">
-        <div className="flex gap-4 md:gap-8 flex-col md:flex-row">
 
-          <Outlet />
+        <Outlet />
 
-        </div>
       </main>
 
       <CustomFooter />
