@@ -10,10 +10,11 @@ import { LoginPage } from "./auth/pages/login/LoginPage";
 import { DashboardPage } from "./admin/pages/dashboard/DashboardPage";
 import { AdminProductsPage } from "./admin/pages/products/AdminProductsPage";
 import { AdminProductPage } from "./admin/pages/product/AdminProductPage";
-import { AdminRoute, NotAuthenticatedRoute } from "./components/routes/ProtectedRoutes";
+import { AdminRoute, AuthenticatedRoute, NotAuthenticatedRoute } from "./components/routes/ProtectedRoutes";
 import { CategoriesPage } from "./admin/pages/categories/CategoriesPage";
 import { CartPage } from "./shop/pages/cart/CartPage";
 import AnnouncementPage from "./shop/pages/announcement/AnnouncementPage";
+import { ShippingPage } from "./shop/pages/shipping/ShippingPage";
 
 const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 const AdminLayout = lazy(() => import("./admin/layouts/AdminLayout"));
@@ -65,6 +66,22 @@ export const appRouter = createHashRouter([
       {
         path: 'register',
         element: <RegisterPage />
+      }
+    ]
+  },
+  
+  // Checkout Routes
+  {
+    path: '/checkout/shipping',
+    element:(
+      <AuthenticatedRoute>
+        <ShopLayout />
+      </AuthenticatedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <ShippingPage />
       }
     ]
   },
