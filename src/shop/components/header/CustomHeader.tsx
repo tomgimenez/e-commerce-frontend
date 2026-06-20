@@ -176,28 +176,30 @@ export const CustomHeader = () => {
         <div className="container mx-auto px-4">
           <ul className="flex items-center gap-1 h-10 text-sm">
             {/* Categories Dropdown */}
-            <li>
-              <DropdownMenu>
-                <DropdownMenuTrigger>
-                  <span className="cursor-pointer flex items-center gap-1 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
-                    Categories
-                    <ChevronDown className="h-4 w-4" />
-                  </span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-56 bg-card border-border">
-                  {categories?.map((category) => (
-                    <DropdownMenuItem key={category.id}>
-                      <Link
-                        to='#'
-                        className="cursor-pointer text-secondary-foreground hover:text-foreground focus:text-foreground"
-                      >
-                        {category.name}
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </li>
+            {categories && categories.length > 0 &&
+              <li>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <span className="cursor-pointer flex items-center gap-1 px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors">
+                      Categories
+                      <ChevronDown className="h-4 w-4" />
+                    </span>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start" className="w-56 bg-card border-border">
+                    {categories?.map((category) => (
+                      <DropdownMenuItem key={category.id}>
+                        <Link
+                          to='#'
+                          className="cursor-pointer text-secondary-foreground hover:text-foreground focus:text-foreground"
+                        >
+                          {category.name}
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </li>
+            }
 
             {/* Offers */}
             <li>
@@ -205,7 +207,7 @@ export const CustomHeader = () => {
                 to="#"
                 className="flex items-center px-3 py-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
               >
-                Offers
+                Special Offers
               </Link>
             </li>
 
