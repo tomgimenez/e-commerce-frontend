@@ -1,10 +1,8 @@
 import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Chatbot } from "@/shop/components/chatbot/Chatbot";
-// import { Button } from "@/components/ui/button";
-// import { FilterSidebar } from "@/shop/components/FilterSidebar";
-// import { CustomJumbotron } from "@/shop/components/CustomJumbotron"
 import { ProductsGrid } from "@/shop/components/ProductsGrid"
 import { useBooks } from "@/shop/hooks/useBooks";
+import ComingSoonPage from "../announcement/ComingSoonPage";
 
 export const HomePage = () => {
 
@@ -38,16 +36,20 @@ export const HomePage = () => {
 
         <FilterSidebar />
       </div> */}
-
       <section className="flex-1">
-        <ProductsGrid products={data?.products || []} />
-        {
-          data?.pages && 
-            <div className="mt-8">
-              <CustomPagination totalPages={data.pages} />
-            </div>
-        }
-
+        {data?.products && data?.products.length > 0 ? (
+          <>
+            <ProductsGrid products={data?.products || []} />
+            {
+              !!data?.pages && 
+                <div className="mt-8">
+                  <CustomPagination totalPages={data.pages} />
+                </div>
+            }
+          </>
+        ) : (
+          <ComingSoonPage />
+        )}
         <Chatbot />
       </section>
 
