@@ -17,7 +17,8 @@ export const useCart = () => {
     queryFn: () => getCart(),
     retry: false,
     enabled: isLoggedIn,
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 5,
+    select: (data) => data || { id: null, items: [], updatedAt: null }
   });
 
   const cart = isLoggedIn ? userCart : { id: null, items: guestItems, updatedAt: new Date() };
@@ -69,7 +70,7 @@ export const useCart = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cart'] });
     }, 
-  });  
+  });
 
   return { 
     cart,
