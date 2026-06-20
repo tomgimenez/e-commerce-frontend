@@ -15,9 +15,11 @@ export const ProductsGrid = ({ products }: Props) => {
           <h2 className="text-2xl font-semibold text-foreground">
             Enchanted Collection
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Showing {products.length} mystical tomes
-          </p>
+          {!!products.length && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Showing {products.length} mystical tomes
+            </p>
+          )}
         </div>
       </div>
 
