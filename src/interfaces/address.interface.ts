@@ -4,6 +4,10 @@ export interface Address {
   street: string;
   number: string;
   city: string;
+  floor: string;
+  apartment: string;
+  between_streets: string;
+  notes: string;
   state: string;
   zip_code: string;
   country: string;
