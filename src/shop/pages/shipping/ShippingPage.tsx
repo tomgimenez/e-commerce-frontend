@@ -11,33 +11,61 @@ import {
   ComboboxEmpty,
 } from "@/components/ui/combobox";
 import argentinaProvinces from "@/data/argentina-provinces.json";
-import type { Address } from "@/interfaces/address.interface";
 import { Breadcrumbs } from "@/shop/components/Breadcrumbs";
 import { OrderSummary } from "@/shop/components/order/OrderSummary";
 import { MapPin, PlusIcon, Star } from "lucide-react";
-import { useState } from "react";
-
-// Mock saved addresses for the current user. In a real app these would come
-// from the database scoped to the authenticated user.
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useAddress } from "@/shop/hooks/useAddress";
+import type { AddressPayload } from "@/shop/api/address.api";
+import { CustomLoading } from "@/components/custom/CustomLoading";
 
 export const ShippingPage = () => {
   
   const [shippingMethod, setShippingMethod] = useState("standard");
   const [stateSearchInput, setStateSearchInput] = useState("");
-  const savedAddresses: Address[] = [];
-  const selectedStates: Record<string, string>[] = [];
+  const { addresses, createAddress, isLoading } = useAddress();
+  
+  
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting }
+  } = useForm<AddressPayload>({
+    defaultValues: {
+      country: "Argentina",
+      state: ""
+    }
+  });
+
+  const selectedState = watch('state');
+
+  const onSubmit = async(data: AddressPayload) => {
+    createAddress(data, { onSuccess: () => reset() })
+  }
 
   const filteredStates = argentinaProvinces?.filter(cat => 
     cat.name.toLowerCase().includes(stateSearchInput.toLowerCase()) &&
-    !selectedStates.some(selected => selected.id === cat.id)
+    (!selectedState || selectedState !== cat.name)
   ) ?? [];
 
-  // Address selection: either one of the saved addresses or "new" to enter one.
-  const defaultAddress = savedAddresses.find((a) => a.is_default) ?? savedAddresses[0];
-  const [selectedAddressId, setSelectedAddressId] = useState<string>(
-    savedAddresses.length > 0 ? defaultAddress.id : "new"
-  );
-    
+  const defaultAddress = addresses.find((a) => a.is_default) ?? addresses[0];
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (addresses.length > 0) {
+        setSelectedAddressId(defaultAddress?.id ?? addresses[0].id);
+      } else {
+        setSelectedAddressId('new');
+      }
+    }
+  }, [isLoading, addresses, defaultAddress]);
+
+
   return (
     <>
       <Breadcrumbs
@@ -54,116 +82,212 @@ export const ShippingPage = () => {
               Shipping Address
             </h2>
 
-            {/* Saved addresses + add new option */}
-            <RadioGroup
-              value={selectedAddressId}
-              onValueChange={setSelectedAddressId}
-              className="space-y-3"
-            >
-              {savedAddresses.map((address) => (
+            {/* Saved addresses + add new option (wait until addresses are loaded to avoid UI jump) */}
+            {!isLoading && selectedAddressId !== null ? (
+              <RadioGroup
+                value={selectedAddressId}
+                onValueChange={setSelectedAddressId}
+                className="space-y-3"
+              >
+                {addresses.map((address) => (
+                  <label
+                    key={address.id}
+                    className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
+                      selectedAddressId === address.id
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <RadioGroupItem
+                      value={address.id}
+                      id={address.id}
+                      className="mt-1"
+                    />
+                    <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-medium text-foreground">
+                          {address.name}
+                        </p>
+                        {address.is_default && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                            <Star className="h-3 w-3" />
+                            Default
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-0.5">
+                        {address.street} {address.number}, {address.city}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {address.state}, {address.zip_code}, {address.country}
+                      </p>
+                    </div>
+                  </label>
+                ))}
+
+                {/* Add new address option */}
                 <label
-                  key={address.id}
-                  className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
-                    selectedAddressId === address.id
+                  className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
+                    selectedAddressId === "new"
                       ? "border-primary bg-primary/5"
                       : "border-border hover:border-primary/50"
                   }`}
                 >
-                  <RadioGroupItem
-                    value={address.id}
-                    id={address.id}
-                    className="mt-1"
-                  />
-                  <MapPin className="h-5 w-5 text-muted-foreground mt-0.5 shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <p className="font-medium text-foreground">
-                        {address.name}
-                      </p>
-                      {address.is_default && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-medium text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                          <Star className="h-3 w-3" />
-                          Default
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-0.5">
-                      {address.street} {address.number}, {address.city}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {address.state}, {address.zip_code}, {address.country}
-                    </p>
-                  </div>
+                  <RadioGroupItem value="new" id="new-address" />
+                  <PlusIcon className="h-5 w-5 text-muted-foreground" />
+                  <span className="font-medium text-foreground">
+                    Add a new address
+                  </span>
                 </label>
-              ))}
-
-              {/* Add new address option */}
-              <label
-                className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors ${
-                  selectedAddressId === "new"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <RadioGroupItem value="new" id="new-address" />
-                <PlusIcon className="h-5 w-5 text-muted-foreground" />
-                <span className="font-medium text-foreground">
-                  Add a new address
-                </span>
-              </label>
-            </RadioGroup>
+              </RadioGroup>
+            ) : (
+              <div className="py-4">
+                <CustomLoading />
+              </div>
+            )}
 
             {/* New address form, shown only when "Add a new address" is selected */}
             {selectedAddressId === "new" && (
-              <div className="grid sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-border">
-                <div className="space-y-2 sm:col-span-2">
-                  <Label htmlFor="addrName">Address Name</Label>
-                  <Input id="addrName" placeholder="Home, Work, etc." />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="street">Street</Label>
-                  <Input id="street" placeholder="Main Street" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="number">Number</Label>
-                  <Input id="number" placeholder="123" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="city">City</Label>
-                  <Input id="city" placeholder="Buenos Aires" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="zip">ZIP Code</Label>
-                  <Input id="zip" placeholder="C1424" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="state">State</Label>
-                  <Combobox value="" onValueChange={() => {}}>
-                    <ComboboxInput
-                      id="state"
-                      placeholder="Select a province..."
-                      onChange={(e) => setStateSearchInput(e.target.value)}
+              <form action="" onSubmit={handleSubmit(onSubmit)}>
+                <div className="grid sm:grid-cols-2 gap-4 mt-6 pt-6 border-t border-border">
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="name">Address Name</Label>
+                    <Input
+                      id="name"
+                      placeholder="Home, Work, etc."
+                      {...register('name', { required: 'Address name is required' })}
                     />
-                    <ComboboxContent>
-                      <ComboboxList>
-                        {filteredStates.map((province) => (
-                          <ComboboxItem key={province.id} value={province.id}>
-                            {province.name}
-                          </ComboboxItem>
-                        ))}
-                        <ComboboxEmpty>No province found.</ComboboxEmpty>
-                      </ComboboxList>
-                    </ComboboxContent>
-                  </Combobox>
+                    {errors.name && (
+                      <p className="text-sm text-destructive">{errors.name.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="street">Street</Label>
+                    <Input
+                      id="street"
+                      placeholder="Main Street"
+                      {...register('street', { required: 'Street is required' })}
+                    />
+                    {errors.street && (
+                      <p className="text-sm text-destructive">{errors.street.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="number">Number</Label>
+                    <Input
+                      id="number"
+                      placeholder="123"
+                      {...register('number', { required: 'Number is required' })}
+                    />
+                    {errors.number && (
+                      <p className="text-sm text-destructive">{errors.number.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City</Label>
+                    <Input
+                      id="city"
+                      placeholder="Buenos Aires"
+                      {...register('city', { required: 'City is required' })}
+                    />
+                    {errors.city && (
+                      <p className="text-sm text-destructive">{errors.city.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="zip">ZIP Code</Label>
+                    <Input
+                      id="zip_code"
+                      placeholder="C1424"
+                      {...register('zip_code', { required: 'ZIP code is required' })}
+                    />
+                    {errors.zip_code && (
+                      <p className="text-sm text-destructive">{errors.zip_code.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="floor">Floor (optional)</Label>
+                    <Input
+                      id="floor"
+                      placeholder="e.g. 3"
+                      {...register('floor')}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="apartment">Apartment (optional)</Label>
+                    <Input
+                      id="apartment"
+                      placeholder="e.g. A"
+                      {...register('apartment')}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="between_streets">Between streets (optional)</Label>
+                    <Input
+                      id="between_streets"
+                      placeholder="e.g. 1st Ave and 2nd St"
+                      {...register('between_streets')}
+                    />
+                  </div>
+
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="notes">Notes (optional)</Label>
+                    <Input
+                      id="notes"
+                      placeholder="Additional directions or notes"
+                      {...register('notes')}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="state">State</Label>
+                    <Combobox
+                      value={selectedState}
+                      onValueChange={(value) => {
+                        setValue('state', value || '');
+                        setStateSearchInput(value || '');
+                      }}
+                    >
+                      <ComboboxInput
+                        id="state"
+                        placeholder="Select a province..."
+                        {...register('state', { required: 'State is required' })}
+                        onChange={(e) => setStateSearchInput(e.target.value)}
+                      />
+                      <ComboboxContent>
+                        <ComboboxList>
+                          {filteredStates.map((province) => (
+                            <ComboboxItem key={province.id} value={province.name}>
+                              {province.name}
+                            </ComboboxItem>
+                          ))}
+                          <ComboboxEmpty>No province found.</ComboboxEmpty>
+                        </ComboboxList>
+                      </ComboboxContent>
+                    </Combobox>
+                    {errors.state && (
+                      <p className="text-sm text-destructive">{errors.state.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="country">Country</Label>
+                    <Input
+                      id="country"
+                      value="Argentina"
+                      disabled
+                      {...register('country', { required: 'Country is required' })}
+                    />
+                    {errors.country && (
+                      <p className="text-sm text-destructive">{errors.country.message}</p>
+                    )}
+                  </div>
+                  <div className="space-y-4 sm:col-span-2 flex justify-end">
+                    <Button type="submit" disabled={isSubmitting}>Save</Button>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="country">Country</Label>
-                  <Input id="country" value="Argentina" disabled />
-                </div>
-                <div className="space-y-4 sm:col-span-2 flex justify-end">
-                  <Button>Save</Button>
-                </div>
-              </div>
+              </form>
             )}
           </div>
 
@@ -178,6 +302,7 @@ export const ShippingPage = () => {
               className="space-y-3"
             >
               <label
+                htmlFor="free"
                 className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
                   shippingMethod === "free"
                     ? "border-primary bg-primary/5"
@@ -198,6 +323,7 @@ export const ShippingPage = () => {
                 <span className="font-medium text-foreground">Free</span>
               </label>
               <label
+              htmlFor="standard"
                 className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
                   shippingMethod === "standard"
                     ? "border-primary bg-primary/5"
@@ -218,6 +344,7 @@ export const ShippingPage = () => {
                 <span className="font-medium text-foreground">$4.99</span>
               </label>
               <label
+              htmlFor="express"
                 className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
                   shippingMethod === "express"
                     ? "border-primary bg-primary/5"
