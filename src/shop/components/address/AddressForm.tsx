@@ -10,7 +10,6 @@ import {
   ComboboxEmpty,
 } from "@/components/ui/combobox";
 import argentinaProvinces from "@/data/argentina-provinces.json";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import type { AddressPayload } from "@/shop/api/address.api";
 
@@ -27,13 +26,10 @@ export const AddressForm = ({
   initialValues,
   submitLabel = "Save",
 }: AddressFormProps) => {
-  const [stateSearchInput, setStateSearchInput] = useState("");
 
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<AddressPayload>({
@@ -43,15 +39,6 @@ export const AddressForm = ({
       ...initialValues,
     },
   });
-
-  const selectedState = watch("state");
-
-  const filteredStates =
-    argentinaProvinces?.filter(
-      (cat) =>
-        cat.name.toLowerCase().includes(stateSearchInput.toLowerCase()) &&
-        (!selectedState || selectedState !== cat.name)
-    ) ?? [];
 
   const handleSubmitInternal = (data: AddressPayload) => {
     onSubmit(data);
@@ -151,27 +138,20 @@ export const AddressForm = ({
 
         <div className="space-y-2">
           <Label htmlFor="state">State</Label>
-          <Combobox
-            value={selectedState}
-            onValueChange={(value) => {
-              setValue("state", value || "");
-              setStateSearchInput(value || "");
-            }}
-          >
+          <Combobox items={argentinaProvinces}>
             <ComboboxInput
               id="state"
               placeholder="Select a province..."
               {...register("state", { required: "State is required" })}
-              onChange={(e) => setStateSearchInput(e.target.value)}
             />
             <ComboboxContent>
+              <ComboboxEmpty>No province found.</ComboboxEmpty>
               <ComboboxList>
-                {filteredStates.map((province) => (
+                {(province) => (
                   <ComboboxItem key={province.id} value={province.name}>
                     {province.name}
                   </ComboboxItem>
-                ))}
-                <ComboboxEmpty>No province found.</ComboboxEmpty>
+                )}
               </ComboboxList>
             </ComboboxContent>
           </Combobox>
