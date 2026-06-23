@@ -12,4 +12,5 @@ export interface Address {
   zip_code: string;
   country: string;
   is_default: boolean;
+  userId: string;
 }
