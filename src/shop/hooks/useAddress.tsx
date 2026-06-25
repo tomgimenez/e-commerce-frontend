@@ -27,5 +27,9 @@ const createAddressMutation = useMutation({
     }
   });
 
-  return { addresses: addresses ?? [], isLoading, createAddress: createAddressMutation.mutate };
+  return {
+    addresses: addresses ?? [],
+    isLoading,
+    createAddress: createAddressMutation.mutate
+  };
 }
