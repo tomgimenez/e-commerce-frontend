@@ -1,5 +1,8 @@
 import { Separator } from "@/components/ui/separator"
+import { getShippingMethods } from "@/shop/api/shipping-methods.api";
 import { useCart } from "@/shop/hooks/useCart";
+import { useCheckoutStore } from "@/shop/store/checkout.store";
+import { useQuery } from "@tanstack/react-query";
 import { CreditCard, ShieldCheck, Truck } from "lucide-react"
 
 export const OrderSummary = () => {
@@ -11,6 +14,19 @@ export const OrderSummary = () => {
     (sum, item) => sum + item.unitPrice * item.quantity,
     0
   ) || 0;
+
+  const { data: shippingMethods } = useQuery({
+    queryKey: ['shipping-methods',],
+    queryFn: getShippingMethods,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { shippingMethodId } = useCheckoutStore();
+  const selectedShippingMethod = shippingMethods?.find(s => s.id === shippingMethodId);
+  const shippingCost = selectedShippingMethod?.price || 0;
+  const tax = Math.round(subtotal * 0.12 * 100) / 100;
+  const total = subtotal + shippingCost + tax;
 
   return (
     <div className="lg:col-span-1">
@@ -37,7 +53,7 @@ export const OrderSummary = () => {
                 </p>
               </div>
               <p className="text-sm font-medium text-foreground">
-                ${(item.unitPrice * item.quantity).toFixed(2)}
+                ${(item.unitPrice * item.quantity)}
               </p>
             </div>
           ))}
@@ -54,23 +70,23 @@ export const OrderSummary = () => {
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Subtotal</span>
-            <span className="text-foreground">${subtotal.toFixed(2)}</span>
+            <span className="text-foreground">$ {subtotal}</span>
           </div>
-          {/* <div className="flex justify-between">
+          <div className="flex justify-between">
             <span className="text-muted-foreground">Shipping</span>
             <span className="text-foreground">
-              {shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}
+              {shippingCost === 0 ? "Free" : `$ ${shippingCost}`}
             </span>
           </div> 
           <div className="flex justify-between">
             <span className="text-muted-foreground">Tax (8%)</span>
-            <span className="text-foreground">${tax.toFixed(2)}</span>
+            <span className="text-foreground">$ {tax}</span>
           </div>
           <Separator className="my-2" />
           <div className="flex justify-between text-base font-semibold">
           <span className="text-foreground">Total</span>
-            <span className="text-primary">${total.toFixed(2)}</span>
-            </div>*/}
+            <span className="text-primary">$ {total}</span>
+            </div>
         </div>
 
         {/* Trust Badges */}  
