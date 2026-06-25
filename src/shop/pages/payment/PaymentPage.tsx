@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { CreditCard, Lock } from "lucide-react";
 
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { CreditCard } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Lock } from 'lucide-react'
 import type { CartItem } from "@/interfaces/cart.interface";
 
 export const PaymentPage = () => {
