@@ -1,32 +1,10 @@
 import { Separator } from "@/components/ui/separator"
-import { getShippingMethods } from "@/shop/api/shipping-methods.api";
-import { useCart } from "@/shop/hooks/useCart";
-import { useCheckoutStore } from "@/shop/store/checkout.store";
-import { useQuery } from "@tanstack/react-query";
 import { CreditCard, ShieldCheck, Truck } from "lucide-react"
+import { useOrderSummary } from "./useOrderSummary";
 
 export const OrderSummary = () => {
 
-  const { cart } = useCart();
-  const cartItems = cart?.items || [];
-
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.unitPrice * item.quantity,
-    0
-  ) || 0;
-
-  const { data: shippingMethods } = useQuery({
-    queryKey: ['shipping-methods',],
-    queryFn: getShippingMethods,
-    retry: false,
-    staleTime: 1000 * 60 * 5,
-  });
-
-  const { shippingMethodId } = useCheckoutStore();
-  const selectedShippingMethod = shippingMethods?.find(s => s.id === shippingMethodId);
-  const shippingCost = selectedShippingMethod?.price || 0;
-  const tax = Math.round(subtotal * 0.12 * 100) / 100;
-  const total = subtotal + shippingCost + tax;
+  const { cartItems, shippingCost, subtotal, taxes, total } = useOrderSummary();
 
   return (
     <div className="lg:col-span-1">
@@ -78,14 +56,16 @@ export const OrderSummary = () => {
               {shippingCost === 0 ? "Free" : `$ ${shippingCost}`}
             </span>
           </div> 
-          <div className="flex justify-between">
-            <span className="text-muted-foreground">Tax (8%)</span>
-            <span className="text-foreground">$ {tax}</span>
+          {taxes?.map(tax => (
+            <div className="flex justify-between" key={tax.id}>
+              <span className="text-muted-foreground">{tax.name} ({tax.rate * 100}%)</span>
+            <span className="text-foreground">$ {Math.round(subtotal * tax.rate * 100) / 100}</span>
           </div>
+          ))}
           <Separator className="my-2" />
           <div className="flex justify-between text-base font-semibold">
           <span className="text-foreground">Total</span>
-            <span className="text-primary">$ {total}</span>
+            <span className="text-primary">$ {total.toFixed(2)}</span>
             </div>
         </div>
 
