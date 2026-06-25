@@ -8,13 +8,13 @@ import { useAddress } from "@/shop/hooks/useAddress";
 import type { AddressPayload } from "@/shop/api/address.api";
 import { CustomLoading } from "@/components/custom/CustomLoading";
 import { AddressForm } from "@/shop/components/address/AddressForm";
+import { ShippingMethod } from "@/shop/components/shipping-method/ShippingMethod";
 
 export const ShippingPage = () => {
   
-  const [shippingMethod, setShippingMethod] = useState("standard");
   const { addresses, createAddress, isLoading } = useAddress();
 
-  const defaultAddress = addresses.find((a) => a.is_default) ?? addresses[0];
+  const defaultAddress = addresses.find((a) => a.is_default);
   
   const defaultAddressId = isLoading
   ? null
@@ -117,80 +117,7 @@ export const ShippingPage = () => {
           </div>
 
           {/* Shipping Method */}
-          <div className="bg-card border border-border rounded-xl p-6 mb-4">
-            <h2 className="text-xl font-semibold text-foreground mb-6">
-              Shipping Method
-            </h2>
-            <RadioGroup
-              value={shippingMethod}
-              onValueChange={setShippingMethod}
-              className="space-y-3"
-            >
-              <label
-                htmlFor="free"
-                className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
-                  shippingMethod === "free"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="free" id="free" />
-                  <div>
-                    <p className="font-medium text-foreground">
-                      Free Shipping
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      7-10 business days
-                    </p>
-                  </div>
-                </div>
-                <span className="font-medium text-foreground">Free</span>
-              </label>
-              <label
-              htmlFor="standard"
-                className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
-                  shippingMethod === "standard"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="standard" id="standard" />
-                  <div>
-                    <p className="font-medium text-foreground">
-                      Standard Shipping
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      3-5 business days
-                    </p>
-                  </div>
-                </div>
-                <span className="font-medium text-foreground">$4.99</span>
-              </label>
-              <label
-              htmlFor="express"
-                className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-colors ${
-                  shippingMethod === "express"
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-primary/50"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <RadioGroupItem value="express" id="express" />
-                  <div>
-                    <p className="font-medium text-foreground">
-                      Express Shipping
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      1-2 business days
-                    </p>
-                  </div>
-                </div>
-                <span className="font-medium text-foreground">$9.99</span>
-              </label>
-            </RadioGroup>
-          </div>
+          <ShippingMethod />
 
           <div className="flex gap-4 justify-between">
             <Button variant="outline" >
