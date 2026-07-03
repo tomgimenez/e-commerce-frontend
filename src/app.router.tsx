@@ -15,6 +15,7 @@ import { CategoriesPage } from "./admin/pages/categories/CategoriesPage";
 import { CartPage } from "./shop/pages/cart/CartPage";
 import AnnouncementPage from "./shop/pages/announcement/AnnouncementPage";
 import { ShippingPage } from "./shop/pages/shipping/ShippingPage";
+import { PaymentPage } from "./shop/pages/payment/PaymentPage";
 
 const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 const AdminLayout = lazy(() => import("./admin/layouts/AdminLayout"));
@@ -72,7 +73,7 @@ export const appRouter = createHashRouter([
   
   // Checkout Routes
   {
-    path: '/checkout/shipping',
+    path: '/checkout',
     element:(
       <AuthenticatedRoute>
         <ShopLayout />
@@ -80,8 +81,12 @@ export const appRouter = createHashRouter([
     ),
     children: [
       {
-        index: true,
+        path: 'shipping',
         element: <ShippingPage />
+      },
+      {
+        path: 'payment',
+        element: <PaymentPage />
       }
     ]
   },
