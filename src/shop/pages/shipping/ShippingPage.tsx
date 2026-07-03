@@ -9,6 +9,7 @@ import type { AddressPayload } from "@/shop/api/address.api";
 import { CustomLoading } from "@/components/custom/CustomLoading";
 import { AddressForm } from "@/shop/components/address/AddressForm";
 import { ShippingMethod } from "@/shop/components/shipping-method/ShippingMethod";
+import { Link } from "react-router";
 
 export const ShippingPage = () => {
   
@@ -120,12 +121,17 @@ export const ShippingPage = () => {
           <ShippingMethod />
 
           <div className="flex gap-4 justify-between">
-            <Button variant="outline" >
-              Back to Cart
-            </Button>
-            <Button >
-              Continue to Payment
-            </Button>
+            <Link to="/cart">
+              <Button variant="outline" >
+                Back to Cart
+              </Button>
+            </Link>
+
+            <Link to={`/checkout/payment`}>
+              <Button >
+                Continue to Payment
+              </Button>
+            </Link>
           </div>
         </div>
 
