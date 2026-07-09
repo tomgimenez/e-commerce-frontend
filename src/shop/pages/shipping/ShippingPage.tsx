@@ -1,19 +1,22 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router";
+import { MapPin, PlusIcon, Star } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Breadcrumbs } from "@/shop/components/Breadcrumbs";
 import { OrderSummary } from "@/shop/components/order/OrderSummary";
-import { MapPin, PlusIcon, Star } from "lucide-react";
-import { useState } from "react";
 import { useAddress } from "@/shop/hooks/useAddress";
 import type { AddressPayload } from "@/shop/api/address.api";
 import { CustomLoading } from "@/components/custom/CustomLoading";
 import { AddressForm } from "@/shop/components/address/AddressForm";
 import { ShippingMethod } from "@/shop/components/shipping-method/ShippingMethod";
-import { Link } from "react-router";
+import { useCheckoutStore } from "@/shop/store/checkout.store";
 
 export const ShippingPage = () => {
   
   const { addresses, createAddress, isLoading } = useAddress();
+  const { setAddressId } = useCheckoutStore();
 
   const defaultAddress = addresses.find((a) => a.is_default);
   
@@ -23,6 +26,12 @@ export const ShippingPage = () => {
 
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const resolvedAddressId = selectedAddressId ?? defaultAddressId;
+
+  useEffect(() => {
+    if (resolvedAddressId && resolvedAddressId !== 'new') {
+      setAddressId(resolvedAddressId);
+    }
+  }, [resolvedAddressId, setAddressId]);
 
   const handleNewAddress = (data: AddressPayload) => {
     createAddress(data, {
@@ -34,6 +43,7 @@ export const ShippingPage = () => {
     <>
       <Breadcrumbs
         items={[
+          { label: 'Your Cart', to: '/cart' },
           { label: 'Shipping' }
         ]} />
 
@@ -50,7 +60,9 @@ export const ShippingPage = () => {
             {!isLoading && resolvedAddressId !== null ? (
               <RadioGroup
                 value={resolvedAddressId}
-                onValueChange={setSelectedAddressId}
+                onValueChange={(value) => {
+                  setSelectedAddressId(value);
+                  setAddressId(value);}}
                 className="space-y-3"
               >
                 {addresses.map((address) => (
