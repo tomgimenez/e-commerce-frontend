@@ -197,7 +197,7 @@ export const ProductPage = () => {
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="details" className="mb-16">
+      <Tabs defaultValue="details" className="mb-16 flex-col">
         <TabsList className="bg-secondary border border-border">
           <TabsTrigger value="details">Book Details</TabsTrigger>
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
