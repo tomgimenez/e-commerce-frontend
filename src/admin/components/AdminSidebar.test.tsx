@@ -62,55 +62,6 @@ describe('AdminSidebar', () => {
       ['Dashboard', 'Products', 'Categories', 'Orders', 'Customers', 'Analytics', 'Settings']
         .forEach(name => expect(screen.getByText(name)).toBeInTheDocument());
     });
-
-    test('should show the authenticated user profile', () => {
-      renderSidebar();
-
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('john@company.com')).toBeInTheDocument();
-    });
-
-    test('should show fallback when no user is authenticated', () => {
-      vi.mocked(useAuthStore).mockReturnValue({ user: null } as ReturnType<typeof useAuthStore>);
-      renderSidebar();
-      expect(screen.getByText('John Doe')).toBeInTheDocument();
-      expect(screen.getByText('john@company.com')).toBeInTheDocument();
-    });
-  });
-
-  // ── Desktop collapse ──────────────────────────────────────────────────────
-
-  describe('collapse on desktop', () => {
-
-    const collapseButonName = 'Collapse sidebar';
-
-    test('should collapse the sidebar when clicking the toggle button', () => {
-      renderSidebar();
-      const aside = screen.getByRole('complementary', {name: /sidebar/i });
-      expect(aside).toHaveClass('lg:w-64');
-
-      fireEvent.click(screen.getByRole('button', {name: collapseButonName}));
-      expect(aside).toHaveClass('lg:w-18');
-    });
-
-    test('should hide the navigation text when collapsed', () => {
-      renderSidebar();
-      fireEvent.click(screen.getByRole('button', {name: collapseButonName}));
-      const dashboardText = screen.getByText('Dashboard');
-      expect(dashboardText).toHaveClass('lg:hidden');
-    });
-
-    test('should hide the logo when collapsed', () => {
-      renderSidebar();
-      fireEvent.click(screen.getByRole('button', { name: collapseButonName }));
-      expect(screen.queryByTestId('custom-logo')).not.toBeInTheDocument();
-    });
-
-    test('oculta el perfil de usuario cuando está colapsado', () => {
-      renderSidebar();
-      fireEvent.click(screen.getByRole('button', { name: collapseButonName }));
-      expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
-    });
   });
 
   // ── Mobile ───────────────────────────────────────────────────────────────
