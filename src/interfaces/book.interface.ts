@@ -6,8 +6,6 @@ export type Book = Omit<Product, 'attributes'> & {
 
 interface BookAttributes {
   author: string;
-  rating: number;
-  reviews: number;
   isBestseller: boolean;
   pages: string;
   publisher: string;
