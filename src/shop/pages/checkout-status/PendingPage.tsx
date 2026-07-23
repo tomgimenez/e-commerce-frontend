@@ -1,9 +1,9 @@
 import { Clock, Package, Home } from "lucide-react";
-import { CheckoutStatus } from "./Layout";
+import { CheckoutLayout } from "./CheckoutLayout";
 
-export default function CheckoutPendingPage() {
+export const CheckoutPendingPage = () => {
   return (
-    <CheckoutStatus
+    <CheckoutLayout
       icon={Clock}
       iconColor="text-amber-500"
       iconBg="bg-amber-500/10"

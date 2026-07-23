@@ -1,9 +1,9 @@
 import { XCircle, RefreshCw, ShoppingCart } from "lucide-react";
-import { CheckoutStatus } from "./Layout";
+import { CheckoutLayout } from "./CheckoutLayout";
 
-export default function CheckoutFailurePage() {
+export const CheckoutFailurePage = () => {
   return (
-    <CheckoutStatus
+    <CheckoutLayout
       icon={XCircle}
       iconColor="text-destructive"
       iconBg="bg-destructive/10"

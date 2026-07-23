@@ -21,7 +21,7 @@ interface CheckoutStatusProps {
   details?: { label: string; value: string }[];
 }
 
-export function CheckoutStatus({
+export function CheckoutLayout({
   icon: Icon,
   iconColor,
   iconBg,

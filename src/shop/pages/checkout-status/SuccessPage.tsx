@@ -1,9 +1,37 @@
 import { CheckCircle, Package, ShoppingCart } from "lucide-react";
-import { CheckoutStatus } from "./Layout";
+import { CheckoutLayout } from "./CheckoutLayout";
+import { CustomLoading } from "@/components/custom/CustomLoading";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getOrder } from "@/shop/api/order.api";
 
-export default function CheckoutSuccessPage() {
+export const CheckoutSuccessPage = () => {
+  const [searchParams] = useSearchParams();
+  const queryClient = useQueryClient();
+  // const navigate = useNavigate();
+
+  const orderId = searchParams.get('external_reference');
+
+  const { data: order, isLoading } = useQuery({
+    queryKey: ['order', orderId],
+    queryFn: () => getOrder(Number(orderId)),
+    enabled: !!orderId,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (order?.status === 'paid') {
+      queryClient.invalidateQueries({ queryKey: ['cart'] });
+    }
+  }, [order, queryClient]);
+
+  // if (!orderId) return navigate('/');
+  if (isLoading) return <CustomLoading />;
+  // if (order?.status !== 'paid') return navigate('/checkout/failure');
+  
   return (
-    <CheckoutStatus
+    <CheckoutLayout
       icon={CheckCircle}
       iconColor="text-green-500"
       iconBg="bg-green-500/10"
