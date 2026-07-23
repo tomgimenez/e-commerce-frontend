@@ -15,3 +15,8 @@ export const createOrder = async (payload: CreateOrderPayload): Promise<CreateOr
   const { data } = await backendApi.post<CreateOrderResponse>('/order', payload);
   return data;
 }
+
+export const getOrder = async (id: number) => {
+  const { data } = await backendApi.get(`/orders/${id}`);
+  return data;
+}
