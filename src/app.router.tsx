@@ -16,6 +16,22 @@ import { CartPage } from "./shop/pages/cart/CartPage";
 import AnnouncementPage from "./shop/pages/announcement/AnnouncementPage";
 import { ShippingPage } from "./shop/pages/shipping/ShippingPage";
 import { PaymentPage } from "./shop/pages/payment/PaymentPage";
+import { CheckoutSuccessPage } from "./shop/pages/checkout-status/SuccessPage";
+import { CheckoutFailurePage } from "./shop/pages/checkout-status/FailurePage";
+import { CheckoutPendingPage } from "./shop/pages/checkout-status/PendingPage";
+import ProfilePage from "./shop/pages/user/profile/ProfilePage";
+import { AddressPage } from "./shop/pages/user/address/AddressPage";
+import FavoritesPage from "./shop/pages/user/favorites/FavoritesPage";
+import AdminOrdersPage from "./admin/pages/orders/AdminOrdersPage";
+import OrdersPage from "./shop/pages/user/orders/OrdersPage";
+import AdminCustomersPage from "./admin/pages/customers/AdminCustomersPage";
+import AnalyticsPage from "./admin/pages/analytics/AnalyticsPage";
+import AdminSettingsPage from "./admin/pages/settings/AdminSettingsPage";
+import AdminSubscriptionPage from "./admin/pages/subscription/AdminSubscriptionPage";
+import { SearchPage } from "./shop/pages/search/SearchPage";
+import ProductTypesPage from "./admin/pages/product-types/ProductTypesPage";
+import ProductTypesFormPage from "./admin/pages/product-types/ProductTypeFormPage";
+import CategoryFormPage from "./admin/pages/categories/CategoryFormPage";
 
 const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 const AdminLayout = lazy(() => import("./admin/layouts/AdminLayout"));
@@ -30,6 +46,10 @@ export const appRouter = createHashRouter([
       {
         index: true,
         element: <HomePage />
+      },
+      {
+        path: 'search',
+        element: <SearchPage />
       },
       {
         path: 'product/:id',
@@ -70,6 +90,34 @@ export const appRouter = createHashRouter([
       }
     ]
   },
+
+  // User routes
+  {
+    path: '/user',
+    element: (
+      <AuthenticatedRoute>
+        <ShopLayout />
+      </AuthenticatedRoute>
+    ),
+    children: [
+      {
+        path: 'profile',
+        element: <ProfilePage />
+      },
+      {
+        path: 'address',
+        element: <AddressPage />
+      },
+      {
+        path: 'orders',
+        element: <OrdersPage />
+      },
+      {
+        path: 'favorites',
+        element: <FavoritesPage />
+      }
+    ]
+  },
   
   // Checkout Routes
   {
@@ -87,6 +135,18 @@ export const appRouter = createHashRouter([
       {
         path: 'payment',
         element: <PaymentPage />
+      },
+      {
+        path: 'success',
+        element: <CheckoutSuccessPage />
+      },
+      {
+        path: 'failure',
+        element: <CheckoutFailurePage />
+      },
+      {
+        path: 'pending',
+        element: <CheckoutPendingPage />
       }
     ]
   },
@@ -112,8 +172,40 @@ export const appRouter = createHashRouter([
         element: <AdminProductPage />
       },
       {
+        path: 'product-types',
+        element: <ProductTypesPage />
+      },
+      {
+        path: 'product-types/:id',
+        element: <ProductTypesFormPage />
+      },
+      {
         path: 'categories',
         element: <CategoriesPage />
+      },
+      {
+        path: 'categories/:id',
+        element: <CategoryFormPage />
+      },
+      {
+        path: 'orders',
+        element: <AdminOrdersPage />
+      },
+      {
+        path: 'customers',
+        element: <AdminCustomersPage />
+      },
+      {
+        path: 'analytics',
+        element: <AnalyticsPage />
+      },
+      {
+        path: 'subscription',
+        element: <AdminSubscriptionPage />
+      },
+      {
+        path: 'settings',
+        element: <AdminSettingsPage />
       }
     ]
   },
