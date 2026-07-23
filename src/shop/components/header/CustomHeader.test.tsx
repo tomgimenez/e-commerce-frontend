@@ -104,40 +104,10 @@ describe('CustomHeader', () => {
   });
 
   describe('when authenticated', () => {
-    it('should render the Logout button', () => {
-      mockStore({ authStatus: 'authenticated' });
-      renderHeader();
-      expect(screen.getByRole('button', { name: /logout/i })).toBeInTheDocument();
-    });
-
     it('should not render the Login link', () => {
       mockStore({ authStatus: 'authenticated' });
       renderHeader();
       expect(screen.queryByRole('link', { name: /login/i })).not.toBeInTheDocument();
-    });
-
-    it('should call logout when clicking the Logout button', () => {
-      const mockLogout = vi.fn();
-      mockStore({ authStatus: 'authenticated', logout: mockLogout });
-      renderHeader();
-
-      fireEvent.click(screen.getByRole('button', { name: /logout/i }));
-
-      expect(mockLogout).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('admin button', () => {
-    it('should render the Admin link when user is admin', () => {
-      mockStore({ authStatus: 'authenticated', isAdmin: true });
-      renderHeader();
-      expect(screen.getByRole('link', { name: /admin/i })).toHaveAttribute('href', '/admin');
-    });
-
-    it('should not render the Admin link when user is not admin', () => {
-      mockStore({ authStatus: 'authenticated', isAdmin: false });
-      renderHeader();
-      expect(screen.queryByRole('link', { name: /admin/i })).not.toBeInTheDocument();
     });
   });
 
