@@ -1,6 +1,6 @@
 import { useRef, useState, type KeyboardEvent } from "react";
 import { Link, useSearchParams } from "react-router";
-import { ChevronDown, Gauge, LogOut, Search, ShoppingCart, User, X } from "lucide-react";
+import { ChevronDown, Search, ShoppingCart, User, X } from "lucide-react";
 
 import { useAuthStore } from "@/auth/store/auth.store";
 import { Button } from "@/components/ui/button";
@@ -10,14 +10,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useCategories } from "@/hooks/useCategories";
 import { Notifications } from "./Notifications";
 import { useCart } from "@/shop/hooks/useCart";
+import { UserMenu } from "../../../components/custom/UserMenu";
 
 export const CustomHeader = () => {
 
   const [ searchParams, setSearchParams ] = useSearchParams();
 
   const authStatus = useAuthStore(state => state.authStatus);
-  const isAdmin = useAuthStore(state => state.isAdmin());
-  const logout = useAuthStore(state => state.logout);
   const { data: categories } = useCategories();
   const { cart } = useCart();
 
@@ -110,12 +109,29 @@ export const CustomHeader = () => {
             <span className="sr-only">Search</span>
           </Button>
 
+          {/* Cart Button */}
+          <Link to={'/cart'}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative text-foreground hover:bg-secondary hover:text-primary"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              <span className="sr-only">Cart</span>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+          </Link>
+
           {/* Login Button */}
           {
             authStatus === 'not-authenticated' ? (
               <Link to='/auth/login'>
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
                 >
                   <User className="h-5 w-5" />
@@ -124,49 +140,13 @@ export const CustomHeader = () => {
               </Link>
             ) : (
               <>
-                <Button
-                    variant="outline"
-                    className="text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
-                    onClick={logout}
-                  >
-                    <LogOut className="h-5 w-5" />
-                    <span className="hidden md:inline">Logout</span>
-                  </Button>
-
                   <Notifications />
+
+                  <UserMenu />
               </>
             )
           }
 
-          {/* Admin Button */}
-          { 
-            isAdmin && 
-              <Link to='/admin'>
-                <Button
-                  variant='default'
-                  className='md:h-8 md:w-auto md:px-3'
-                >
-                  <Gauge className="h-5 w-5" />
-                  <span className="hidden md:inline">Admin</span>
-                </Button>
-              </Link>
-          }
-
-          {/* Cart Button */}
-          <Link to={'/cart'}>
-            <Button
-              variant="outline"
-              className="relative border-border text-foreground hover:bg-secondary hover:text-primary md:h-8 md:w-auto md:px-3"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="hidden md:inline">Cart</span>
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-                  {cartCount}
-                </span>
-              )}
-            </Button>
-          </Link>
         </div>
 
       </div>
