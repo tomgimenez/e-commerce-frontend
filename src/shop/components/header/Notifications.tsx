@@ -3,6 +3,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { Bell, Package, Sparkles, Tag } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "./useNotifications";
+import { Button } from "@/components/ui/button";
 
 const getIcon = (type: string) => {
   switch (type) {
@@ -20,9 +21,11 @@ export const Notifications = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <span
-          className="relative text-foreground rounded-lg hover:bg-secondary hover:text-primary size-8 flex items-center justify-center cursor-pointer"
-        >
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative text-foreground hover:bg-secondary hover:text-primary"
+          >
           <Bell className="h-5 w-5" />
           <span className="sr-only">Notifications</span>
           {unreadCount > 0 && (
@@ -30,7 +33,7 @@ export const Notifications = () => {
               {unreadCount}
             </span>
           )}
-        </span>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-80 bg-card border-border p-0">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
