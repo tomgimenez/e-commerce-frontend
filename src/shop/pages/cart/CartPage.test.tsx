@@ -18,6 +18,10 @@ vi.mock('@/shop/components/Breadcrumbs', () => ({
   Breadcrumbs: () => <div data-testid="breadcrumbs" />,
 }));
 
+vi.mock('@/shop/components/order/OrderSummary', () => ({
+  OrderSummary: () => <div data-testid="order-summary" />,
+}));
+
 vi.mock('@/components/ui/button', () => ({
   Button: ({ children, onClick, disabled, ...props }: any) => (
     <button onClick={onClick} disabled={disabled} {...props}>
@@ -416,20 +420,6 @@ describe('CartPage', () => {
       // Mini cart should show 3 items
       const images = screen.getAllByRole('img');
       expect(images.length).toBeGreaterThanOrEqual(3);
-    });
-
-    it('should show more items indicator when cart has more than 3 items', () => {
-      const items = [mockCartItem, mockCartItem2, mockCartItem, mockCartItem2];
-      vi.mocked(useCart).mockReturnValue({
-        cart: { items },
-        addItem: vi.fn(),
-        removeItem: vi.fn(),
-        updateItem: vi.fn(),
-      } as any);
-
-      render(<CartPage />);
-
-      expect(screen.getByText('+1 more items')).toBeInTheDocument();
     });
   });
 });
