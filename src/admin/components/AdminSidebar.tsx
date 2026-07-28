@@ -76,7 +76,7 @@ export const AdminSidebar = () => {
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-4 border-b flex items-center justify-between">
+          <div className="p-4 flex items-center justify-between">
             {/* Mobile: siempre mostrar | Desktop: solo si no está colapsado */}
             <CustomLogo 
               subtitle='Admin Panel' 
