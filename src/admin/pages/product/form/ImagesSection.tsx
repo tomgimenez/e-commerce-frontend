@@ -11,7 +11,7 @@ interface Props {
   getValues: UseFormGetValues<FormInputs>;
   setValue: UseFormSetValue<FormInputs>;
   isEdit: boolean;
-  images?: ProductImage[] | undefined;
+  images: ProductImage[] | undefined;
 }
 
 export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Props) => {
@@ -76,7 +76,7 @@ export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Pr
             </h3>
             <div className="grid grid-cols-2 gap-3">
               {isEdit && existentImages?.map((image, index) => (
-                <div key={index} className="relative group">
+                <div key={image.id} className="relative group">
                   <div className="aspect-square bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center">
                     <img
                       src={image.url}
@@ -114,7 +114,7 @@ export const ImagesSection = ({control, getValues, setValue, isEdit, images}: Pr
             <div className="grid grid-cols-2 gap-3">
               {
                 selectedFiles.map((file, index) => (
-                <div key={index} className="relative group">
+                <div key={file.name} className="relative group">
                   <div className="aspect-square bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center">
                     <img
                       src={URL.createObjectURL(file)}

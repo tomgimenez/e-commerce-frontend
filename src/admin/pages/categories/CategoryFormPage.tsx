@@ -45,8 +45,8 @@ export default function CategoryFormPage() {
   const [name, setName] = useState("")
   const [slug, setSlug] = useState("")
   const [slugEdited, setSlugEdited] = useState(false)
-  const [parentId, setParentId] = useState<string>(NO_PARENT)
-  const [productType, setProductType] = useState<string>("")
+  const [parentId] = useState<string>(NO_PARENT)
+  const [productType] = useState<string>("")
 
   const isRoot = parentId === NO_PARENT
 
@@ -120,7 +120,7 @@ export default function CategoryFormPage() {
             </div>
             <div className="space-y-2">
               <Label htmlFor="parent">Parent Category</Label>
-              <Select value={parentId} onValueChange={setParentId}>
+              <Select value={parentId} /* onValueChange={setParentId} */>
                 <SelectTrigger id="parent">
                   <SelectValue />
                 </SelectTrigger>
@@ -150,7 +150,7 @@ export default function CategoryFormPage() {
               <Label htmlFor="productType">
                 Associated product type <span className="text-destructive">*</span>
               </Label>
-              <Select value={productType} onValueChange={setProductType}>
+              <Select value={productType} /* onValueChange={setProductType} */>
                 <SelectTrigger id="productType">
                   <SelectValue placeholder="Select a product type" />
                 </SelectTrigger>

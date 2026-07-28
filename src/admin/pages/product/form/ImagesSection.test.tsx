@@ -18,7 +18,7 @@ globalThis.URL.createObjectURL = vi.fn((file: File) => `blob:mock/${file.name}`)
 
 interface WrapperProps {
   isEdit?: boolean;
-  images?: { name: string; url: string }[];
+  images?: any[];
 }
 
 /**

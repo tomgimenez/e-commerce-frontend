@@ -2,7 +2,7 @@ import { CheckCircle, Package, ShoppingCart } from "lucide-react";
 import { CheckoutLayout } from "./CheckoutLayout";
 import { CustomLoading } from "@/components/custom/CustomLoading";
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { /* useNavigate, */ useSearchParams } from "react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getOrder } from "@/shop/api/order.api";
 

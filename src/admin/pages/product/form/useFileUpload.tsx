@@ -5,7 +5,7 @@ import type { ProductImage } from "@/interfaces/product.interface";
 
 interface Props {
   control: Control<FormInputs>;
-  images?: ProductImage[] | undefined;
+  images: ProductImage[] | undefined;
   getValues: UseFormGetValues<FormInputs>;
   setValue: UseFormSetValue<FormInputs>;
 }

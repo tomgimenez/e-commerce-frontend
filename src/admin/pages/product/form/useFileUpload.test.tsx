@@ -5,7 +5,7 @@ import type { FormInputs } from "./ProductForm";
 import { describe, expect, it, vi } from "vitest";
 
 // Helper: renders the hook wired to a real react-hook-form instance
-const setup = (defaultImages?: { name: string; url: string }[]) => {
+const setup = (defaultImages?: any[]) => {
   const { result: formResult } = renderHook(() =>
     useForm<FormInputs>({
       defaultValues: { files: [], images: defaultImages ?? [] },
