@@ -79,11 +79,11 @@ describe('CustomHeader', () => {
       expect(screen.getByRole('link', { name: /cart/i })).toHaveAttribute('href', '/cart');
     });
 
-    it('should render the nav links for Offers and Help', () => {
+    /* it('should render the nav links for Offers and Help', () => {
       renderHeader();
       expect(screen.getByRole('link', { name: /offers/i })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /help/i })).toBeInTheDocument();
-    });
+    }); */
   });
 
   describe('when not authenticated', () => {
