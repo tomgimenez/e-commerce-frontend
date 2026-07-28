@@ -1,13 +1,13 @@
 import { useRef, useState, type KeyboardEvent } from "react";
-import { Link, useSearchParams } from "react-router";
-import { ChevronDown, Search, ShoppingCart, User, X } from "lucide-react";
+import { Link, useSearchParams, useNavigate } from "react-router";
+import { Search, ShoppingCart, User, X } from "lucide-react";
 
 import { useAuthStore } from "@/auth/store/auth.store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CustomLogo } from "@/components/custom/CustomLogo";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useCategories } from "@/hooks/useCategories";
+// import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+// import { useCategories } from "@/hooks/useCategories";
 import { Notifications } from "./Notifications";
 import { useCart } from "@/shop/hooks/useCart";
 import { UserMenu } from "../../../components/custom/UserMenu";
@@ -17,7 +17,7 @@ export const CustomHeader = () => {
   const [ searchParams, setSearchParams ] = useSearchParams();
 
   const authStatus = useAuthStore(state => state.authStatus);
-  const { data: categories } = useCategories();
+  // const { data: categories } = useCategories();
   const { cart } = useCart();
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -25,6 +25,8 @@ export const CustomHeader = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const query = searchParams.get('query') || '';
+
+  const navigate = useNavigate();
 
   const handleSearch = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key !== 'Enter') return;
@@ -36,6 +38,7 @@ export const CustomHeader = () => {
       newSearchParams.delete('query');
     } else {
       newSearchParams.set('query', query);
+      navigate(`/search?${newSearchParams.toString()}`);
     }
 
     setSearchParams(newSearchParams);
@@ -152,10 +155,10 @@ export const CustomHeader = () => {
       </div>
 
       {/* Navigation Bar */}
-      <nav>
+      {/* <nav>
         <div className="container mx-auto px-4">
           <ul className="flex items-center gap-1 h-10 text-sm">
-            {/* Categories Dropdown */}
+            // Categories Dropdown
             {categories && categories.length > 0 &&
               <li>
                 <DropdownMenu>
@@ -181,7 +184,7 @@ export const CustomHeader = () => {
               </li>
             }
 
-            {/* Offers */}
+            // Offers
             <li>
               <Link
                 to="#"
@@ -191,7 +194,7 @@ export const CustomHeader = () => {
               </Link>
             </li>
 
-            {/* Help */}
+            // Help
             <li>
               <Link
                 to="#"
@@ -202,7 +205,7 @@ export const CustomHeader = () => {
             </li>
           </ul>
         </div>
-      </nav>
+      </nav> */}
     </header>
   );
 };
