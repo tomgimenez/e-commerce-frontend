@@ -2,7 +2,8 @@ import { CustomPagination } from "@/components/custom/CustomPagination"
 import { Chatbot } from "@/shop/components/chatbot/Chatbot";
 import { ProductsGrid } from "@/shop/components/ProductsGrid"
 import { useBooks } from "@/shop/hooks/useBooks";
-import ComingSoonPage from "../announcement/ComingSoonPage";
+// import ComingSoonPage from "../announcement/ComingSoonPage";
+import { NoResults } from "./NoResults";
 
 export const SearchPage = () => {
 
@@ -47,7 +48,8 @@ export const SearchPage = () => {
             }
           </>
         ) : (
-          <ComingSoonPage />
+          // <ComingSoonPage />
+          <NoResults />
         )}
         <Chatbot />
       </section>
