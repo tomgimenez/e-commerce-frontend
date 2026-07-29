@@ -10,6 +10,8 @@ import { useBook } from "@/shop/hooks/useBook";
 import { useCart } from "@/shop/hooks/useCart";
 import { useCartStore } from "@/shop/store/cart.store";
 import { Breadcrumbs } from "@/shop/components/Breadcrumbs";
+import { ProductCard } from "@/shop/components/ProductCard";
+import type { Book } from "@/interfaces/book.interface";
 
 export const ProductPage = () => {
 
@@ -29,6 +31,151 @@ export const ProductPage = () => {
   const discount = originalPrice
     ? Math.round(((originalPrice - book.price) / originalPrice) * 100)
     : 0;
+
+  const relatedProducts: Book[] = [
+    {
+      id: '1',
+      title: "The Fellowship of the Ring",
+      price: 18.99,
+      images: [
+        {
+          id: 1,
+          url: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?w=400&h=600&fit=crop",
+          key: 'key'
+        }
+      ],
+      categories: [{ id: "c1", name: "Epic Fantasy", slug: "epic-fantasy" }],
+      description: "In ancient times the Rings of Power were crafted by the Elven-smiths, and Sauron, the Dark Lord, forged the One Ring, filling it with his own power so that he could rule all others. But the One Ring was taken from him, and though he sought it throughout Middle-earth, it remained lost to him. After many ages it fell by chance into the hands of the hobbit Bilbo Baggins.",
+      rating: 5,
+      reviews: 2847,
+      tags: ["fantasy", "classic", "adventure"],
+      slug: "the-fellowship-of-the-ring",
+      stock: 32,
+      user: {
+        id: "u1",
+        email: "seller1@example.com",
+        name: "Seller",
+        lastname: "One",
+        isActive: true,
+        roles: [{ id: "r1", name: "Admin", description: "Administrator role" }]
+      },
+      productType: {
+        id: "pt1",
+        name: "Book",
+        slug: "book",
+        schema: {
+          author: { type: "string", required: true, label: "Author" },
+          publisher: { type: "string", required: true, label: "Publisher" },
+          pages: { type: "string", required: true, label: "Pages" }
+        }
+      },
+      isActive: true,
+      createdAt: new Date("2025-01-01T00:00:00Z"),
+      updatedAt: new Date("2025-05-01T00:00:00Z"),
+      deletedAt: new Date("1970-01-01T00:00:00Z"),
+      attributes: {
+        author: "J.R.R. Tolkien",
+        publisher: "Houghton Mifflin",
+        isBestseller: true,
+        pages: '423',
+      }
+    },
+    {
+      id: '2',
+      title: "Harry Potter and the Sorcerer's Stone",
+      price: 14.99,
+      images: [
+        {
+          id: 1,
+          url: "https://images.unsplash.com/photo-1626618012641-bfbca5a31239?w=400&h=600&fit=crop",
+          key: 'key'
+        }
+      ],
+      categories: [{ id: "c2", name: "Young Adult Fantasy", slug: "young-adult-fantasy" }],
+      description: "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. Addressed in green ink on yellowish parchment with a purple seal, they are swiftly confiscated by his grisly aunt and uncle. Then, on Harry's eleventh birthday, a great beetle-eyed giant of a man called Rubeus Hagrid bursts in with some astonishing news.",
+      rating: 5,
+      reviews: 5621,
+      tags: ["fantasy", "young-adult", "magic"],
+      slug: "harry-potter-and-the-sorcerers-stone",
+      stock: 45,
+      user: {
+        id: "u1",
+        email: "seller1@example.com",
+        name: "Seller",
+        lastname: "One",
+        isActive: true,
+        roles: [{ id: "r1", name: "Admin", description: "Administrator role" }]
+      },
+      productType: {
+        id: "pt1",
+        name: "Book",
+        slug: "book",
+        schema: {
+          author: { type: "string", required: true, label: "Author" },
+          publisher: { type: "string", required: true, label: "Publisher" },
+          pages: { type: "string", required: true, label: "Pages" }
+        }
+      },
+      isActive: true,
+      createdAt: new Date("2025-01-02T00:00:00Z"),
+      updatedAt: new Date("2025-05-02T00:00:00Z"),
+      deletedAt: new Date("1970-01-01T00:00:00Z"),
+      attributes: {
+        publisher: "Scholastic",
+        pages: '309',
+        isBestseller: true,
+        author: "J.K. Rowling",
+        
+      }
+    },
+    {
+      id: '3',
+      title: "A Game of Thrones",
+      price: 22.99,
+      images: [
+        {
+          id: 1,
+          url: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=600&fit=crop",
+          key: 'key'
+        }
+      ],
+      categories: [{ id: "c3", name: "Dark Fantasy", slug: "dark-fantasy" }],
+      description: "Long ago, in a time forgotten, a preternatural event threw the seasons out of balance. In a land where summers can last decades and winters a lifetime, trouble is brewing. The cold is returning, and in the frozen wastes to the north of Winterfell, sinister and supernatural forces are massing beyond the kingdom's protective Wall.",
+      rating: 4,
+      reviews: 3156,
+      tags: ["fantasy", "epic", "political"],
+      slug: "a-game-of-thrones",
+      stock: 28,
+      user: {
+        id: "u1",
+        email: "seller1@example.com",
+        name: "Seller",
+        lastname: "One",
+        isActive: true,
+        roles: [{ id: "r1", name: "Admin", description: "Administrator role" }]
+      },
+      productType: {
+        id: "pt1",
+        name: "Book",
+        slug: "book",
+        schema: {
+          author: { type: "string", required: true, label: "Author" },
+          publisher: { type: "string", required: true, label: "Publisher" },
+          pages: { type: "string", required: true, label: "Pages" }
+        }
+      },
+      isActive: true,
+      createdAt: new Date("2025-01-03T00:00:00Z"),
+      updatedAt: new Date("2025-05-03T00:00:00Z"),
+      deletedAt: new Date("1970-01-01T00:00:00Z"),
+      attributes: {
+        author: "George R.R. Martin",
+        pages: '694',
+        publisher: "Bantam",
+        isBestseller: true
+      }
+    }
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,7 +200,7 @@ export const ProductPage = () => {
       {/* Product Detail */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
         {/* Image */}
-        <div className="relative">
+        <div className="relative mx-auto w-4/5">
           <div className="aspect-3/4 rounded-lg overflow-hidden bg-secondary">
             <img
               src={book.images[0].url}
@@ -116,7 +263,7 @@ export const ProductPage = () => {
             <span className="text-3xl font-bold text-primary">
               ${book.price.toFixed(2)}
             </span>
-            {originalPrice && (
+            {!!originalPrice && (
               <span className="text-xl text-muted-foreground line-through">
                 ${originalPrice.toFixed(2)}
               </span>
@@ -203,24 +350,43 @@ export const ProductPage = () => {
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent value="details" className="mt-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
+          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
             <div>
               <p className="text-sm text-muted-foreground mb-1">Pages</p>
               <p className="font-medium text-foreground">{book.attributes.pages}</p>
             </div>
-            {/* <div>
+            <div>
               <p className="text-sm text-muted-foreground mb-1">Language</p>
               <p className="font-medium text-foreground">{book.language}</p>
-            </div> */}
+            </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Publisher</p>
               <p className="font-medium text-foreground">{book.attributes.publisher}</p>
             </div>
-            {/* <div>
+            <div>
               <p className="text-sm text-muted-foreground mb-1">ISBN</p>
               <p className="font-medium text-foreground">{product.isbn}</p>
-            </div> */}
-          </div>
+            </div>
+          </div> */}
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Pages</p>
+                <p className="font-medium text-foreground">309</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Language</p>
+                <p className="font-medium text-foreground">English</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Publisher</p>
+                <p className="font-medium text-foreground">Scholastic</p>
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">ISBN</p>
+                <p className="font-medium text-foreground">978-0590353427</p>
+              </div>
+            </div>
         </TabsContent>
         <TabsContent value="reviews" className="mt-6">
           <div className="p-6 bg-card rounded-lg border border-border text-center">
@@ -230,18 +396,18 @@ export const ProductPage = () => {
       </Tabs>
 
       {/* Related Products */}
-      {/* {relatedProducts.length > 0 && (
+      {relatedProducts.length > 0 && (
         <section>
           <h2 className="text-2xl font-serif font-bold text-foreground mb-6">
-            More from {product.category}
+            More from {book.categories[0].name}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((relatedProduct) => (
-              <ProductCard key={relatedProduct.id} {...relatedProduct} />
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
             ))}
           </div>
         </section>
-      )} */}
+      )}
     </div>
   );
 }
