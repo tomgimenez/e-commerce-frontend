@@ -4,8 +4,17 @@ import { Link } from "react-router";
 import { Chatbot } from "@/shop/components/chatbot/Chatbot";
 import { HeroSlider } from "@/shop/components/home/HeroSlider";
 import { FeaturedProducts } from "@/shop/components/home/FeaturedProducts";
+import { getBestsellers } from "@/shop/api/products.api";
+import { useQuery } from "@tanstack/react-query";
+import { isBook } from "@/interfaces/product.guards";
 
 export const HomePage = () => {
+
+  const { data: bestsellers } = useQuery({
+    queryKey: ['bestesellers'],
+    queryFn: () => getBestsellers()
+  });
+
   return (
     <>
 
@@ -15,7 +24,7 @@ export const HomePage = () => {
           <FeaturedProducts
             title="Bestsellers"
             subtitle="The most beloved tales in the vault"
-            filterKey="bestseller"
+            products={bestsellers?.filter(isBook)}
           />
         </div>
 
@@ -42,7 +51,7 @@ export const HomePage = () => {
         <FeaturedProducts
           title="New Arrivals"
           subtitle="Freshly stocked on our shelves"
-          filterKey="new"
+          products={bestsellers?.filter(isBook)}
         />
 
       <Chatbot />
