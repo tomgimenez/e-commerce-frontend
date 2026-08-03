@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator"
 import { CreditCard, ShieldCheck, Truck } from "lucide-react"
 import { useOrderSummary } from "./useOrderSummary";
+import { currencyFormatter } from "@/lib/currency-formatter";
 
 export const OrderSummary = () => {
 
@@ -31,7 +32,7 @@ export const OrderSummary = () => {
                 </p>
               </div>
               <p className="text-sm font-medium text-foreground">
-                ${(item.unitPrice * item.quantity)}
+                {(currencyFormatter(item.unitPrice * item.quantity))}
               </p>
             </div>
           ))}
@@ -48,24 +49,24 @@ export const OrderSummary = () => {
         <div className="space-y-3 text-sm">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Subtotal</span>
-            <span className="text-foreground">$ {subtotal}</span>
+            <span className="text-foreground">{currencyFormatter(subtotal)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Shipping</span>
             <span className="text-foreground">
-              {shippingCost === 0 ? "Free" : `$ ${shippingCost}`}
+              {shippingCost === 0 ? "Free" : `${currencyFormatter(shippingCost)}`}
             </span>
           </div> 
           {taxes?.map(tax => (
             <div className="flex justify-between" key={tax.id}>
               <span className="text-muted-foreground">{tax.name} ({tax.rate * 100}%)</span>
-            <span className="text-foreground">$ {Math.round(subtotal * tax.rate * 100) / 100}</span>
+            <span className="text-foreground">{currencyFormatter(Math.round(subtotal * tax.rate * 100) / 100)}</span>
           </div>
           ))}
           <Separator className="my-2" />
           <div className="flex justify-between text-base font-semibold">
           <span className="text-foreground">Total</span>
-            <span className="text-primary">$ {total.toFixed(2)}</span>
+            <span className="text-primary">{currencyFormatter(total)}</span>
             </div>
         </div>
 

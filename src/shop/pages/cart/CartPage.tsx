@@ -8,6 +8,8 @@ import { Link } from "react-router";
 import { useCart } from "@/shop/hooks/useCart";
 import { Breadcrumbs } from "@/shop/components/Breadcrumbs";
 import { OrderSummary } from "@/shop/components/order/OrderSummary";
+import type { Book } from "@/interfaces/book.interface";
+import { currencyFormatter } from "@/lib/currency-formatter";
 
 export const CartPage = () => {
 
@@ -65,15 +67,15 @@ export const CartPage = () => {
                         </h3>
                       </Link>
                       <p className="text-sm text-muted-foreground">
-                        {item.product.title}
+                        {(item.product as Book).attributes.author}
                       </p>
                       <div className="flex items-center gap-2 mt-2">
                         <span className="text-primary font-semibold">
-                          ${item.unitPrice}
+                          ${currencyFormatter(item.unitPrice)}
                         </span>
                         {item.unitPrice && (
                           <span className="text-sm text-muted-foreground line-through">
-                            ${item.unitPrice}
+                            ${currencyFormatter(item.unitPrice)}
                           </span>
                         )}
                       </div>
@@ -115,7 +117,7 @@ export const CartPage = () => {
                     </div>
                     <div className="text-right">
                       <p className="font-semibold text-foreground">
-                        ${(item.unitPrice * item.quantity)}
+                        {currencyFormatter(item.unitPrice * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -124,7 +126,7 @@ export const CartPage = () => {
 
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-end text-lg text-foreground">
-                    <span>Subtotal: ${subtotal.toFixed(2)}</span>
+                    <span>Subtotal: {currencyFormatter(subtotal)}</span>
                   </div>
                 </div>
                 <div className="flex justify-end pt-4">
