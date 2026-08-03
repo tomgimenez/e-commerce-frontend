@@ -11,9 +11,11 @@ interface CartStore {
 
   // guest cart
   guestItems: CartItem[];
+  isMergingGuestItems: boolean;
   addGuestItem: (item: CartItem) => void;
   updateGuestItem: (productId: string, quantity: number) => void;
   removeGuestItem: (productId: string) => void;
+  mergeGuestItems: (syncItem: (item: CartItem) => Promise<unknown> | unknown) => Promise<void>;
 }
 
 export const useCartStore = create<CartStore>()(
@@ -26,6 +28,7 @@ export const useCartStore = create<CartStore>()(
 
       // Guest Cart
       guestItems: [],
+      isMergingGuestItems: false,
       addGuestItem: (item) => {
         const existing = get().guestItems.find(i => i.product.id === item.product.id);
         if (existing) {
@@ -42,7 +45,22 @@ export const useCartStore = create<CartStore>()(
         set({ guestItems: get().guestItems.map( i =>
           i.product.id === productId ? { ...i, quantity } : i
         )}),
-      removeGuestItem: (productId: string) => set({ guestItems: get().guestItems.filter(i => i.product.id !== productId) })
+      removeGuestItem: (productId: string) => set({ guestItems: get().guestItems.filter(i => i.product.id !== productId) }),
+      mergeGuestItems: async (syncItem) => {
+        const items = get().guestItems;
+
+        if (!items.length || get().isMergingGuestItems) return;
+
+        set({ isMergingGuestItems: true });
+
+        try {
+          await Promise.all(items.map((item) => Promise.resolve(syncItem(item))));
+          set({ guestItems: [], isMergingGuestItems: false });
+        } catch (error) {
+          set({ isMergingGuestItems: false });
+          throw error;
+        }
+      }
     }),
   {
     name: "guest-cart",

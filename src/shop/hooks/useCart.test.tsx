@@ -81,6 +81,7 @@ const setupCartStore = (items: CartItem[] = []) => {
     addGuestItem: vi.fn(),
     updateGuestItem: vi.fn(),
     removeGuestItem: vi.fn(),
+    mergeGuestItems: vi.fn().mockResolvedValue(undefined),
     lastAdded: null,
     isDrawerOpen: false,
     openDrawer: vi.fn(),
@@ -125,6 +126,52 @@ describe('useCart', () => {
       });
 
       expect(result.current.cart?.items).toEqual(mockUserCart.items);
+    });
+
+    it('should merge guest cart items into the authenticated cart on login', async () => {
+      setupAuthenticatedUser();
+      const mergeGuestItems = vi.fn().mockImplementation(async (syncItem?: (item: CartItem) => Promise<unknown> | unknown) => {
+        if (syncItem) {
+          await syncItem(guestItem);
+        }
+      });
+      const guestItem = {
+        ...mockCartItem,
+        quantity: 1,
+        product: {
+          ...mockCartItem.product,
+          id: 'product-2',
+          title: 'Guest Product',
+        },
+      } as CartItem;
+
+      vi.mocked(useCartStore).mockReturnValue({
+        guestItems: [guestItem],
+        addGuestItem: vi.fn(),
+        updateGuestItem: vi.fn(),
+        removeGuestItem: vi.fn(),
+        mergeGuestItems,
+        lastAdded: null,
+        isDrawerOpen: false,
+        openDrawer: vi.fn(),
+        closeDrawer: vi.fn(),
+      } as any);
+
+      vi.mocked(cartApi.addItem).mockResolvedValue({ data: mockUserCart } as any);
+
+      renderHook(() => useCart(), {
+        wrapper: createQueryClientWrapper(),
+      });
+
+      await waitFor(() => {
+        expect(cartApi.addItem).toHaveBeenCalledWith({
+          productId: guestItem.product.id,
+          unitPrice: guestItem.unitPrice,
+          quantity: guestItem.quantity,
+        });
+      });
+
+      expect(mergeGuestItems).toHaveBeenCalled();
     });
 
     it('should add item via API when authenticated', async () => {
@@ -258,6 +305,7 @@ describe('useCart', () => {
         addGuestItem,
         updateGuestItem: vi.fn(),
         removeGuestItem: vi.fn(),
+        mergeGuestItems: vi.fn().mockResolvedValue(undefined),
         lastAdded: null,
         isDrawerOpen: false,
         openDrawer: vi.fn(),
@@ -286,6 +334,7 @@ describe('useCart', () => {
         addGuestItem: vi.fn(),
         updateGuestItem,
         removeGuestItem: vi.fn(),
+        mergeGuestItems: vi.fn().mockResolvedValue(undefined),
         lastAdded: null,
         isDrawerOpen: false,
         openDrawer: vi.fn(),
@@ -312,6 +361,7 @@ describe('useCart', () => {
         addGuestItem: vi.fn(),
         updateGuestItem: vi.fn(),
         removeGuestItem,
+        mergeGuestItems: vi.fn().mockResolvedValue(undefined),
         lastAdded: null,
         isDrawerOpen: false,
         openDrawer: vi.fn(),
