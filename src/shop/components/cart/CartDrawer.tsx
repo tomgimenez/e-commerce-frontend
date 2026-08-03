@@ -137,11 +137,13 @@ export function CartDrawer({isOpen, onClose, lastAdded}: Props) {
                 {/* ${subtotal.toFixed(2)} */}
               </span>
             </div>
-            <Link to="/checkout">
-              <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                Proceed to Checkout
-              </Button>
-            </Link>
+            <DrawerClose asChild>
+              <Link to="/cart">
+                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  Proceed to Checkout
+                </Button>
+              </Link>
+            </DrawerClose>
             <DrawerClose asChild>
               <Button
                 variant="outline"
