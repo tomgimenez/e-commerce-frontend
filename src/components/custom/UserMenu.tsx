@@ -71,7 +71,7 @@ export const UserMenu = () => {
           <DropdownMenuItem>
             <Button
               variant="ghost"
-              className="cursor-pointer text-destructive hover:bg-transparent hover:text-destructive focus:text-destructive w-full h-full"
+              className="cursor-pointer text-destructive hover:bg-transparent hover:text-destructive focus:text-destructive w-full h-full px-0 flex justify-start gap-0"
               onClick={logout}
             >
               <LogOut className="h-4 w-4 mr-2" />
