@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "react-router";
+import { getPaginationRange } from "@/lib/pagination.util";
 
 interface Props {
   totalPages: number;
@@ -20,6 +21,8 @@ export const CustomPagination = ({ totalPages }: Props) => {
     setSearchParams(searchParams);
   }
 
+  const paginationRange = getPaginationRange(currentPage, totalPages)
+
   return (
     <nav className="flex items-center justify-center gap-1" aria-label="Pagination">
       <Button
@@ -34,7 +37,7 @@ export const CustomPagination = ({ totalPages }: Props) => {
         <ChevronLeft className="h-4 w-4" />
       </Button>
 
-      {
+      {/* {
         Array.from({ length: totalPages }).map((_, index) => (
         <Button
           key={index}
@@ -52,6 +55,40 @@ export const CustomPagination = ({ totalPages }: Props) => {
             {index + 1}
           </Button>
         ))
+      } */}
+
+      {
+        paginationRange.map((page, index) => {
+          if (page === '...') {
+            return (
+              <span
+                key={`dots-${index}`}
+                className="flex h-9 w-9 items-center justify-center text-muted-foreground select-none"
+                aria-hidden="true"
+              >
+                &#8230;
+              </span>
+            );
+          }
+
+          return (
+            <Button
+              key={page}
+              variant={currentPage === page ? 'default' : 'outline'}
+              size="icon"
+              className={
+                currentPage === page
+                ? "bg-primary font-bold text-primary-foreground hover:bg-primary/90 font-cinzel"
+                : "border-border text-muted-foreground hover:border-primary hover:text-primary font-cinzel"
+              }
+              aria-label={"Page " + page}
+              aria-current={currentPage === page ? "page" : undefined}
+              onClick={() => handlePageChange(page as number)}
+            >
+              {page}
+            </Button>
+          );
+        })
       }
 
       <Button
