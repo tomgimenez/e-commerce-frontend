@@ -19,14 +19,14 @@ export const UserMenu = () => {
   
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger render={
         <Button
           type="button"
           className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-muted hover:text-primary"
-        >
-          <User className="h-5 w-5" />
-          <span className="sr-only">Account menu</span>
-        </Button>
+        />
+      }>
+        <User className="h-5 w-5" />
+        <span className="sr-only">Account menu</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 bg-card border-border">
         <DropdownMenuGroup>
