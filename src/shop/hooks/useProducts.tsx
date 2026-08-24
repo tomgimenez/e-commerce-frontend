@@ -6,7 +6,7 @@ export const useProducts = () => {
 
   const [ searchParams ] = useSearchParams();
 
-  const limit = searchParams.get('limit') || 8;
+  const limit = searchParams.get('limit') || 16;
   const page = searchParams.get('page') || 1;
   const filterPrices = searchParams.get('price') || 'any';
   const q = searchParams.get('query') || '';
