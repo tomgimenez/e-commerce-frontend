@@ -1,7 +1,7 @@
 import { ChevronRight } from "lucide-react"
 import { Link } from "react-router"
 
-interface BreadcrumbItem {
+export interface BreadcrumbItem {
   label: string;
   to?: string; // si no tiene `to`, se renderiza como texto (último nivel)
 }
