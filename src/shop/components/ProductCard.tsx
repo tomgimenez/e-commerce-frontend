@@ -43,6 +43,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
 
       {/* Wishlist Button */}
       <button
+        type="button"
         onClick={() => setIsWishlisted(!isWishlisted)}
         className="absolute top-3 right-3 z-10 p-2 rounded-full bg-background/80 backdrop-blur-sm border border-border opacity-0 group-hover:opacity-100 transition-all hover:bg-secondary"
       >
@@ -58,11 +59,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       {/* Image */}
       <div className="relative aspect-3/4 bg-secondary overflow-hidden">
       <Link to={`/product/${product.id}`}>
-        <img
-          src={product.images[0].url}
-          alt={product.title}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {!!product.images.length && (
+          <img
+            src={product.images[0].url}
+            alt={product.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
       </Link>
       </div>
 
@@ -86,9 +89,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         {/* Rating */}
         <div className="flex items-center gap-1 mb-3">
           <div className="flex">
-            {[...Array(5)].map((_, i) => (
+            {[new Array(5)].map((_, i) => (
               <Star
-                key={i}
+                key={product.rating}
                 className={`h-3 w-3 ${
                   i < Math.floor(product.rating)
                     ? "fill-primary text-primary"
@@ -108,7 +111,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             <span className="text-lg font-semibold text-primary">
               ${product.price.toFixed(2)}
             </span>
-            {originalPrice && (
+            {!!originalPrice && (
               <span className="text-sm text-muted-foreground line-through">
                 ${originalPrice.toFixed(2)}
               </span>
