@@ -9,7 +9,7 @@ import { CustomLoading } from "@/components/custom/CustomLoading";
 import { useBook } from "@/shop/hooks/useBook";
 import { useCart } from "@/shop/hooks/useCart";
 import { useCartStore } from "@/shop/store/cart.store";
-import { Breadcrumbs } from "@/shop/components/Breadcrumbs";
+import { Breadcrumbs, type BreadcrumbItem } from "@/shop/components/Breadcrumbs";
 import { ProductCard } from "@/shop/components/ProductCard";
 import type { Book } from "@/interfaces/book.interface";
 
@@ -78,6 +78,9 @@ export const ProductPage = () => {
         publisher: "Houghton Mifflin",
         isBestseller: true,
         pages: '423',
+        language: 'eng',
+        isbn: '123',
+        publishYear: '1998'
       }
     },
     {
@@ -125,7 +128,9 @@ export const ProductPage = () => {
         pages: '309',
         isBestseller: true,
         author: "J.K. Rowling",
-        
+        language: 'eng',
+        isbn: '123',
+        publishYear: '1998'
       }
     },
     {
@@ -172,20 +177,25 @@ export const ProductPage = () => {
         author: "George R.R. Martin",
         pages: '694',
         publisher: "Bantam",
-        isBestseller: true
+        isBestseller: true,
+        language: 'eng',
+        isbn: '123',
+        publishYear: '1998'
       }
     }
   ]
+
+  const breadcrumbItems: BreadcrumbItem[] = [{ label: book.title }];
+
+  if (book.categories.length)
+    breadcrumbItems.unshift({ label: book.categories[0].name, to: '/' })
 
   return (
     <div className="min-h-screen bg-background">
       
       {/* Breadcrumb */}
       <Breadcrumbs
-        items={[
-          { label: book.categories[0].name, to: '/' },
-          { label: book.title }
-        ]}
+        items={breadcrumbItems}
       />
 
       {/* Back button */}
@@ -227,9 +237,11 @@ export const ProductPage = () => {
         {/* Info */}
         <div className="flex flex-col">
           {/* Category */}
-          <span className="text-sm uppercase tracking-wider text-muted-foreground mb-2">
-            {book.categories[0].name}
-          </span>
+          {!!book.categories.length && (
+            <span className="text-sm uppercase tracking-wider text-muted-foreground mb-2">
+              {book.categories[0].name}
+            </span>
+          )}
 
           {/* Title */}
           <h1 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-2">
@@ -350,43 +362,30 @@ export const ProductPage = () => {
           <TabsTrigger value="reviews">Reviews</TabsTrigger>
         </TabsList>
         <TabsContent value="details" className="mt-6">
-          {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
             <div>
               <p className="text-sm text-muted-foreground mb-1">Pages</p>
               <p className="font-medium text-foreground">{book.attributes.pages}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-1">Language</p>
-              <p className="font-medium text-foreground">{book.language}</p>
+              <p className="font-medium text-foreground">{book.attributes.language}</p>
             </div>
-            <div>
+            {/* <div>
               <p className="text-sm text-muted-foreground mb-1">Publisher</p>
               <p className="font-medium text-foreground">{book.attributes.publisher}</p>
-            </div>
+            </div> */}
             <div>
               <p className="text-sm text-muted-foreground mb-1">ISBN</p>
-              <p className="font-medium text-foreground">{product.isbn}</p>
+              <p className="font-medium text-foreground">{book.attributes.isbn}</p>
             </div>
-          </div> */}
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">Year</p>
+              <p className="font-medium text-foreground">{book.attributes.publishYear}</p>
+            </div>
+          </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 p-6 bg-card rounded-lg border border-border">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Pages</p>
-                <p className="font-medium text-foreground">309</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Language</p>
-                <p className="font-medium text-foreground">English</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Publisher</p>
-                <p className="font-medium text-foreground">Scholastic</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">ISBN</p>
-                <p className="font-medium text-foreground">978-0590353427</p>
-              </div>
-            </div>
         </TabsContent>
         <TabsContent value="reviews" className="mt-6">
           <div className="p-6 bg-card rounded-lg border border-border text-center">
@@ -399,7 +398,7 @@ export const ProductPage = () => {
       {relatedProducts.length > 0 && (
         <section>
           <h2 className="text-2xl font-serif font-bold text-foreground mb-6">
-            More from {book.categories[0].name}
+            {book.categories.length > 0 ? `More from ${book.categories[0].name}` : 'More related products'}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((relatedProduct) => (
