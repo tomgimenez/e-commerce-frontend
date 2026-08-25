@@ -9,4 +9,7 @@ interface BookAttributes {
   isBestseller: boolean;
   pages: string;
   publisher: string;
+  language: string;
+  isbn: string;
+  publishYear: string;
 }
